@@ -1,0 +1,57 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=Edge"><meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"><meta name="format-detection" content="telephone=no"><meta name="format-detection" content="email=no"><meta name="description" content="study life"><meta name="keywords" content="Hexo, Gruntjs, Nodejs, Reactjs, Vuejs"><title>java反射机制 - alonealice</title><link rel="stylesheet" href="/css/main_style.min.css"><link rel="icon" href="/favicon.ico"></head><body><input id="navi" type="checkbox"><ul class="main-navication"><li><a href="/"><span>Home</span></a></li><li><a href="https://github.com/earthWo"><span>Github</span></a></li></ul><div class="wrapper" id="wrap"><div class="post-header"><label class="navi-button light" for="navi">MENU</label><img class="background" src="https://img.zcool.cn/community/014177554b6ae7000001bf729a3698.jpg@1280w_1l_0o_100sh.jpg"><div class="post-title"><h1 class="title">java反射机制</h1><ul class="meta"><li><i class="icon icon-author"></i>alonealice</li><li><i class="icon icon-clock"></i>3 Minutes</li><li><i class="icon icon-calendar"></i>2016年10月23日</li></ul></div></div><div class="article-content" style="max-width:800px"><p>JAVA反射机，简单的说就是在程序运行过程中，对于任意一个类、方法和对象，我们都能知道它的信息并且调用；这种动态获取信息以及动态调用对象方法的功能称为java语言的反射机制。<br>反射机制的优点就是可以实现动态创建对象和编译，体现出很大的灵活性。同时，我们可可以通过它来实现对原先无法调用的方法和对象的调用。因此在开发过程中有很重要的作用。那么我们要怎样来使用它呢？</p>
+<h3 id="获取类"><a href="#获取类" class="headerlink" title="获取类"></a>获取类</h3><p>获取累的对象几乎是所有操作的起始，获取类的方法主要有三种：</p>
+<ol>
+<li>通过Class类获取<br><code>Class personClass=Class.forName(&quot;module.Person&quot;);//获得class</code></li>
+<li>直接获取<br><code>Class personClass=Person.class;</code></li>
+<li>通过对象获取<br><code>Person person=new Person();
+Class personClass=person.getClass();</code></li>
+</ol>
+<h3 id="获取构造方法"><a href="#获取构造方法" class="headerlink" title="获取构造方法"></a>获取构造方法</h3><p>获取类对象后，我们可以通过它获取它的构造方法</p>
+<ol>
+<li><p>获取构造方法数量</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">personClass.getDeclaredConstructors();// 获取所有的申明构造方法</span><br><span class="line">personClass.getConstructors();// 获取公开的构造方法</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>获取指定参数的构造方法<br><code>personClass.getConstructor(new Class[]{int.class});//获取int参数的构造方法</code></p>
+</li>
+<li>获取构造方法的参数类型<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Constructor constructor=personClass.getConstructors()[i];//获取第i个构造方法</span><br><span class="line">constructor.getParameterTypes();//获取该构造方法的全部参数类型</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="获取属性"><a href="#获取属性" class="headerlink" title="获取属性"></a>获取属性</h3><p>在获取了类之后，我们就可以通过这个类获取它里面的属性。</p>
+<ol>
+<li>获取属性的数量<br><code>personClass.getFields();//获取所有的公开参数</code><br><code>personClass.getDeclaredFields();//获取所有的声明参数</code><br>这两个方法的区别是getDeclaredFields()返回Class中所有的字段，包括私有字段，而getFields  只返回公共字段，同时包括父类继承的公开字段。类似的在获取方法、获取注解等。</li>
+<li>获取指定属性<br><code>personClass.getField(&quot;gender&quot;);</code></li>
+<li>修改属性<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Person person=new Person();</span><br><span class="line">field.set(person,4);//设置参数</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>同时如果修改的属性是私有的，我们需要设置field可修改<br><code>field.setAccessible(true);</code></p>
+<h3 id="获取方法"><a href="#获取方法" class="headerlink" title="获取方法"></a>获取方法</h3><ol>
+<li><p>获取方法数量</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">personClass.getDeclaredMethods();//获取所有申明的方法</span><br><span class="line">personClass.getMethods();//获取公开的方法</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>获取指定到方法<br><code>personClass.getDeclaredMethod(&quot;setName&quot;,String.class);//如果没参数就设置null</code></p>
+</li>
+<li>调用方法<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">method.setAccessible(true);//设置私有参数和方法可修改</span><br><span class="line">Person o= (Person) personClass.getConstructor().newInstance();</span><br><span class="line">method.invoke(o,&quot;hello&quot;);//person设置name为hello</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="获取注解"><a href="#获取注解" class="headerlink" title="获取注解"></a>获取注解</h3><p>可以获取注解信息</p>
+<ol>
+<li><p>获取类、方法、属性、方法参数的注解</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">personClass.getAnnotation(DefaultName.class);</span><br><span class="line">method.getAnnotation(DefaultName.class);</span><br><span class="line">field.getAnnotation(DefaultName.class);</span><br><span class="line">method.getParameterAnnotations()//获取方法参数注解;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>获取注解值<br><code>((DefaultName)annotation).name();// name为注解方法</code></p>
+</li>
+</ol>
+<p>java反射的内容还有很多，这里就不再介绍了。</p>
+</div><div class="article-meta" style="max-width:800px"><div class="tags"><i class="icon icon-tag"></i><ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/java反射/">java反射</a><span class="tag-list-count">1</span></li></ul></div><div class="categories"><i class="icon icon-category"></i><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/java反射/">java反射</a><span class="category-list-count">1</span></li></ul></div></div><div class="article-comment" style="max-width:800px"><div class="ds-thread" id="ds-thread" data-thread-key="ck85q6tot0020tfo1431di1j6" data-title="java反射机制" data-url="https://earthwo.github.io/2016/10/23/java反射机制/" site-name="ueibo"></div><script>var siteName = document.getElementById('ds-thread').getAttribute('site-name');
+var duoshuoQuery = {short_name: siteName};
+(function() {
+  var ds = document.createElement('script');
+  ds.type = 'text/javascript';ds.async = true;
+  ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+  ds.charset = 'UTF-8';
+  (document.getElementsByTagName('head')[0] 
+  || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();</script></div><ul class="navication"><li class="home"><a href="/"><i class="icon icon-home"></i></a></li><li><a href="/2016/10/23/java注解的使用/"><i class="icon icon-arror-left"></i></a></li><li><a href="/2016/10/10/matrix pre 、post和set的区别/"><i class="icon icon-arror-right"></i></a></li></ul><div class="page-footer"><div class="top"><ul class="social"><li><a href="https://github.com/earthWo" title="Github" target="_blank"><i class="icon icon-github"></i></a></li></ul></div><div class="bottom"><p class="copyright">© 2020 alonealice<br><small><a href="http://www.miitbeian.gov.cn" target="_blank">浙ICP备17033688号</a></small><small>, THEME BY <a href="https://github.com/BoizZ/hexo-theme-laughing" target="_blank">LAUGHING</a></small></p></div></div></div><script>var wrap = document.getElementById('wrap');
+window.onload = function () {
+  wrap.className += ' done';
+}</script></body></html>

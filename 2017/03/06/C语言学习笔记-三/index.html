@@ -1,0 +1,68 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=Edge"><meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"><meta name="format-detection" content="telephone=no"><meta name="format-detection" content="email=no"><meta name="description" content="study life"><meta name="keywords" content="Hexo, Gruntjs, Nodejs, Reactjs, Vuejs"><title>C语言学习笔记(三) - alonealice</title><link rel="stylesheet" href="/css/main_style.min.css"><link rel="icon" href="/favicon.ico"></head><body><input id="navi" type="checkbox"><ul class="main-navication"><li><a href="/"><span>Home</span></a></li><li><a href="https://github.com/earthWo"><span>Github</span></a></li></ul><div class="wrapper" id="wrap"><div class="post-header"><label class="navi-button light" for="navi">MENU</label><img class="background" src="https://img.zcool.cn/community/014177554b6ae7000001bf729a3698.jpg@1280w_1l_0o_100sh.jpg"><div class="post-title"><h1 class="title">C语言学习笔记(三)</h1><ul class="meta"><li><i class="icon icon-author"></i>alonealice</li><li><i class="icon icon-clock"></i>9 Minutes</li><li><i class="icon icon-calendar"></i>2017年3月6日</li></ul></div></div><div class="article-content" style="max-width:800px"><h3 id="结构体和共同体"><a href="#结构体和共同体" class="headerlink" title="结构体和共同体"></a>结构体和共同体</h3><ol>
+<li><p>结构体，有点像java的类：struct 结构体名{成员列表}</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">struct Man&#123;</span><br><span class="line">	int age;</span><br><span class="line">	int sex;</span><br><span class="line">&#125;;</span><br><span class="line">或者：</span><br><span class="line">struct Man&#123;</span><br><span class="line">	int age;</span><br><span class="line">	int sex;</span><br><span class="line">&#125;man;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用结构体的成员变量时使用结构体名.成员名</p>
+</li>
+<li><p>初始化结构体时可以直接加括号；也可以直接定义结构体数组初始化结构体数组:;</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">man[]=&#123;&#123;…&#125;,&#123;…&#125;&#125;</span><br><span class="line">struct Man&#123;</span><br><span class="line">	int age;</span><br><span class="line">	int sex;</span><br><span class="line">&#125;man=&#123;2,4&#125;;</span><br><span class="line"></span><br><span class="line">或者是:</span><br><span class="line">struct Man&#123;</span><br><span class="line">	int age;</span><br><span class="line">	int sex;</span><br><span class="line">&#125;</span><br><span class="line">函数中:</span><br><span class="line">struct Man man=&#123;2,4&#125;;</span><br><span class="line"></span><br><span class="line">或者是:</span><br><span class="line">structMan&#123;</span><br><span class="line">	int age;</span><br><span class="line">	int sex;</span><br><span class="line">&#125;man[3];</span><br><span class="line">struct Man man[3];</span><br><span class="line">man=&#123;&#123;&#125;,&#123;&#125;,&#123;&#125;&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>结构体指针：结构体类型 <em>指针名，使用其成员时：(\</em>pMan).age（一定要括起来），还有一种方法是pMan-&gt;成员名，同时结构体指针不能直接初始化</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">struct Man&#123;</span><br><span class="line">    int age;</span><br><span class="line">    int name;</span><br><span class="line">&#125;m=&#123;10,89&#125;;</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">struct Man *man;</span><br><span class="line">man=&amp;m;</span><br><span class="line">printf(&quot;%d\n&quot;,(*man).age</span><br><span class="line">//或者是</span><br><span class="line">printf(&quot;%d&quot;,man-&gt;age);</span><br><span class="line"></span><br><span class="line">结果是：</span><br><span class="line">10</span><br><span class="line">10</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>结构体作为函数参数时，要使用关键字struct：void a(struct Man man)。传递结构体时需要传递的数据较大，所以可以传递结构体的指针代替void a(struct Man *man)</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">int printMan(struct Man *m)&#123;</span><br><span class="line">  printf(&quot;%d&quot;,m-&gt;name);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">调用：</span><br><span class="line">printMan(&amp;m);</span><br><span class="line">结果：89</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>*malloc(unsigned int size)，在内存中动态分配一块size大小的内存空间，会返回一个指针，错误时返回NULL；*calloc(unsigned n,unsigned size)，该函数是在内存中动态分配n个长度为size的连续内存数组；free(void*ptr)该函数由指针指向内存去，使部分内存区能被其他变量使用</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">struct Man* man;</span><br><span class="line">man=(struct Man*)malloc(sizeof(struct Man)); //申请Man大小的空间，再将该空间的指针强行转为												 //struct Man*指针</span><br><span class="line"></span><br><span class="line">free(man); //将man内存空间回收掉</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>共同体和结构体很像：union 共同体名{成员变量列表}变量列表；区别是结构体定义了多个数据组成的特殊类型，共同体是所有数据成员的共享的内存，所有共同体在同一时刻只能有一个值，属于某一个数据成员。所以共同体的内存大小为其成员中最大的内存大小</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">union Page&#123;</span><br><span class="line">    int p;</span><br><span class="line">    char *t[1];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">printf(&quot;%d&quot;, sizeof(union Page));</span><br><span class="line"></span><br><span class="line">结果：8</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>union Man{int age;char name};union Man man;man.age=12;那么man.name也是12（12的ascii码）（测试多种情况，如字符串）；其初始化为：man={12};</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">union Page&#123;</span><br><span class="line">    int p;</span><br><span class="line">    char t[10];</span><br><span class="line">    char* m[10];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">union Page page=&#123;13,19&#125;;</span><br><span class="line">printf(&quot;%d，%d&quot;,*page.m,*page.t);</span><br><span class="line">结果：13,13</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>枚举enum 例子如下：如果Red为1，Green就自动会加1。使用枚举直接使用Red</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">enum Color(</span><br><span class="line">	Rad,</span><br><span class="line">	Green</span><br><span class="line">)；</span><br><span class="line">enum Color(</span><br><span class="line">	Rad=1,</span><br><span class="line">	Green</span><br><span class="line">)</span><br><span class="line"> printf(&quot;%d，%d&quot;,Rad,Green);</span><br><span class="line"> 结果：1，2</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="位运算和宏定义"><a href="#位运算和宏定义" class="headerlink" title="位运算和宏定义"></a>位运算和宏定义</h3><ol>
+<li><p>位运算：&amp;与，|或，~取反，^按位异或（两个位相同为0，不同为1），&lt;&lt;左移，&gt;&gt;右移</p>
+</li>
+<li><p>循环位移，将数据左移，左边移除部分重新添加到右边(a&gt;&gt;(32-T))|(a&lt;T)</p>
+</li>
+<li><p>位段是特殊的结构类型，其所有的成员的长度均已二进制位为单位定义的，结构中的成员称为位段：结构机构名{类型变量名:长度; 类型变量名2:长度;}。如下：位段必须是int、unsigned和signed中的一种</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">struct status&#123;</span><br><span class="line">	unsigned sign:1;</span><br><span class="line">	unsigned zero:2;</span><br><span class="line">&#125;flags;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>位段可以加入无名位段，使后面位段从后面空位置开始存储：unsigned :0;可以使用%d等输出位段</p>
+</li>
+<li><p>宏定义 #define 宏名数据（不需要分号）;使用#undef TEST终止宏定义（测试终止后继续使用，停止后再次使用，编译会出问题，比如在另一个方法中停止，经过测试稍微复杂一点程序就不能直接识别可以运行）;宏定义用于预处理，只做符号替换，不分配内存</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">printf(&quot;%d&quot;,TAG);</span><br><span class="line">#undef TAG;</span><br><span class="line">printf(&quot;%d&quot;,TAG); //编译不通过</span><br><span class="line"></span><br><span class="line">printf(&quot;%d\n&quot;,TAG);</span><br><span class="line">undef();</span><br><span class="line">printf(&quot;%d&quot;,TAG);</span><br><span class="line">结果为1 1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>带参数的宏定义：#define 名(参数表)字符串，使用时参数最好带括号，不然可能会错。如#define MIX(a,b)(a*b+b)，使用时如果是MIX(1,2),则正确，如实MIX(1,1+2),则会这样算1<em>1+2+1+2，结果错误，所以最好是((a)</em>(b)+(b)),同时调用时最好也加括号，如5<em>MIX(1,2)，会成为5</em>1*2+2，所以最好在最外面加括号</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#define MIX(a,b)(a*b+b)</span><br><span class="line"></span><br><span class="line">printf(&quot;%d，%d&quot;,MIX(2,3),MIX(2+1,3));</span><br><span class="line"></span><br><span class="line">结果为：</span><br><span class="line">8，9</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>#include&lt;&gt;和#include””一样，引入的头文件一般是.h，一般会在该文件中放置宏定义、结构、联合、枚举、typedef声明、外部函数声明，全局变量声明</p>
+</li>
+<li><p>#if命令，含义是如果#if后面的表达式为真，则编译#if和#endif之间的代码，否则不编译：#if 表达式语句段 #endif，这个与if很像，#elif效果和else if一样，#else和else一样，最后都要#endif结尾</p>
+</li>
+<li><p>#ifdef，判断宏定义常量是否被定义，@ifdef 宏名语句段 #endif，其他用法与#if一样；#ifndef作用与#ifdef相反，用法一样</p>
+</li>
+<li><p>预宏定义名：__LINE__ 当前被编译的代码的行号；__FILE__当前源文件的名称；__DATA__当前源文件的创建日期； __TIME__ 当前源文件的创建时间；__STDC__判断当前编译器是否是标准C，若是1则是，否则不是</p>
+</li>
+<li><p>#line：改变行号和文件名 #line行号/文件名，该文件中输出行号和文件名会改变；#pragma：指定编译器状态 @pragma 参数，有一下几个参数：message：在输出窗口中输出信息；code_seg：设置程序中函数代码存放的代码段；once：保证头文件被编译一次</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#line 12 &quot;main.c&quot;;  //代表该行下面那行行号是12</span><br></pre></td></tr></table></figure></li>
+</ol>
+</div><div class="article-meta" style="max-width:800px"><div class="tags"><i class="icon icon-tag"></i><ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C语言/">C语言</a><span class="tag-list-count">4</span></li></ul></div><div class="categories"><i class="icon icon-category"></i><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C语言/">C语言</a><span class="category-list-count">4</span></li></ul></div></div><div class="article-comment" style="max-width:800px"><div class="ds-thread" id="ds-thread" data-thread-key="ck85q6tnz000ctfo1y4saf1p7" data-title="C语言学习笔记(三)" data-url="https://earthwo.github.io/2017/03/06/C语言学习笔记-三/" site-name="ueibo"></div><script>var siteName = document.getElementById('ds-thread').getAttribute('site-name');
+var duoshuoQuery = {short_name: siteName};
+(function() {
+  var ds = document.createElement('script');
+  ds.type = 'text/javascript';ds.async = true;
+  ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+  ds.charset = 'UTF-8';
+  (document.getElementsByTagName('head')[0] 
+  || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();</script></div><ul class="navication"><li class="home"><a href="/"><i class="icon icon-home"></i></a></li><li><a href="/2017/03/06/C语言学习笔记-四/"><i class="icon icon-arror-left"></i></a></li><li><a href="/2017/03/06/C语言学习笔记-二/"><i class="icon icon-arror-right"></i></a></li></ul><div class="page-footer"><div class="top"><ul class="social"><li><a href="https://github.com/earthWo" title="Github" target="_blank"><i class="icon icon-github"></i></a></li></ul></div><div class="bottom"><p class="copyright">© 2020 alonealice<br><small><a href="http://www.miitbeian.gov.cn" target="_blank">浙ICP备17033688号</a></small><small>, THEME BY <a href="https://github.com/BoizZ/hexo-theme-laughing" target="_blank">LAUGHING</a></small></p></div></div></div><script>var wrap = document.getElementById('wrap');
+window.onload = function () {
+  wrap.className += ' done';
+}</script></body></html>

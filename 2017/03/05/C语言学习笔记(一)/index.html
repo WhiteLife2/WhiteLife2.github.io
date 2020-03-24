@@ -1,0 +1,63 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=Edge"><meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"><meta name="format-detection" content="telephone=no"><meta name="format-detection" content="email=no"><meta name="description" content="study life"><meta name="keywords" content="Hexo, Gruntjs, Nodejs, Reactjs, Vuejs"><title>C语言学习笔记(一) - alonealice</title><link rel="stylesheet" href="/css/main_style.min.css"><link rel="icon" href="/favicon.ico"></head><body><input id="navi" type="checkbox"><ul class="main-navication"><li><a href="/"><span>Home</span></a></li><li><a href="https://github.com/earthWo"><span>Github</span></a></li></ul><div class="wrapper" id="wrap"><div class="post-header"><label class="navi-button light" for="navi">MENU</label><img class="background" src="https://img.zcool.cn/community/014177554b6ae7000001bf729a3698.jpg@1280w_1l_0o_100sh.jpg"><div class="post-title"><h1 class="title">C语言学习笔记(一)</h1><ul class="meta"><li><i class="icon icon-author"></i>alonealice</li><li><i class="icon icon-clock"></i>4 Minutes</li><li><i class="icon icon-calendar"></i>2017年3月5日</li></ul></div></div><div class="article-content" style="max-width:800px"><p>大学时期学过C语言，但是各种原因学的不是很完整，同时由于时间久远，很多内容也有点忘记了。所以找了点时间看了一本C语言的入门书籍，快速的把遗忘的和之前没学到的C语言的基础知识简单学习一下，写个笔记以便后面查询。</p>
+<h3 id="编程规范"><a href="#编程规范" class="headerlink" title="编程规范"></a>编程规范</h3><ol>
+<li>代码缩进统一为4个字符，使用tab</li>
+<li>常量名全部使用大写，成员变量用m_开始，普通变量，要在前面添加类型的首字母，且名称的首字母要大写如iAge，指针要加p，且首字母大写，如char* pName</li>
+<li>函数名首字母大写，后面大小写混合#</li>
+</ol>
+<h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><ol>
+<li><p>指针类型的值表示是某个内存地址</p>
+</li>
+<li><p>无符号短整型范围为0~65535，有符号时范围为-32768~32767，1000L表示长整型，1000U表示短整型（不分大小写）</p>
+</li>
+<li><p>在常数前加0表示8进制（数字0，如012）（8进制数据不能出现9）,0x表示16进制</p>
+</li>
+<li><p>Double类型的数据表示也为L，如100.89L</p>
+</li>
+<li><p>putchar方法可以打印出char字符，printf方法可以打印出有格式的输出，包含整型、浮点、字符、字符串等</p>
+</li>
+<li><p>系统会在字符串结尾添加“\0”，所以”H”的长度为2，字符串为定义一般为char*，需测试。如果定义char a[2]=”12345”,那么a的size就是2</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">char mm[]=&quot;a&quot;;</span><br><span class="line">char mn=&apos;a&apos;;</span><br><span class="line">printf(&quot;%d\n&quot;, sizeof(mm));</span><br><span class="line">printf(&quot;%d&quot;, sizeof(mn));</span><br><span class="line"></span><br><span class="line">输出：</span><br><span class="line">2</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>浮点类型除了float和double外，还有长双精度类型long double</p>
+</li>
+<li><p>输出时用%f代替浮点型数据，%d代替整型，%c代替字符，%s代替字符串</p>
+</li>
+<li><p>输出是字符和int可以相互代替，如%c，输出int，会输出该int值的char值，同理%d</p>
+</li>
+<li><p>C程序中可以选择变量的不同存储形式，有自动auto，静态static，寄存器register和外部extern，默认情况下就是auto 。如auto inta=3就是int a=3；Register能让程序员把某个局部变量存放在计算机的某个硬件寄存器中而不是内存中。这些不是很理解，据书上说作用不大；Extern声明了程序中将要用到但尚未定义的外部变量。如在a文件中声明extern int a;在b文件中赋值：int a=100；那么在a文件中输出a就是100。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">main.c文件：</span><br><span class="line"></span><br><span class="line">extern int e;</span><br><span class="line">int main()&#123;</span><br><span class="line">   printf(&quot;%d&quot;,e);</span><br><span class="line">&#125;</span><br><span class="line">a文件：</span><br><span class="line">int e=100;</span><br><span class="line"></span><br><span class="line">最后输出：100</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="运算符合表达式，输入输出"><a href="#运算符合表达式，输入输出" class="headerlink" title="运算符合表达式，输入输出"></a>运算符合表达式，输入输出</h3><ol>
+<li><p>不同类型之间可以进行混合运算，int和char相加就是int和char的ASCII码相加</p>
+</li>
+<li><p>逗号表达式，多个表达式分别计算，用逗号隔开，值为第一个表达式，如果用括号括了起来，就是做后的值，逗号表达式不能在初始化时使用</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">int a=1+0,2+2;  /*  编译器报错 */</span><br><span class="line"></span><br><span class="line">正确使用：</span><br><span class="line">int a;</span><br><span class="line">int b;</span><br><span class="line">a=1+0,2+2;</span><br><span class="line">b=(1+0,2+2);</span><br><span class="line">printf(&quot;a值%d,b值%d&quot;,a,b)</span><br><span class="line"></span><br><span class="line">结果：</span><br><span class="line">a值1,b值4</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>字符输出putchar，需要stdio库，只能输出单个字符，字符输入用getchar</p>
+</li>
+<li><p>字符串输出用puts，打印时如果字符串里面有\0，会被截断，后面部分不会打印,输入用gets,char[]和字符串可以相互通用如:char a[10];gets(a);</p>
+</li>
+<li><p>格式输出printf(“格式”,内容)常用的可是有%d，%o（8进制），%x/%X(16进制，大写时输出也为大写)，%c，%s，%f，如果要输出%，则%%</p>
+</li>
+<li><p>输出时可以添加附加符号：比如%ld，表示输出长整型，%10s，表示输出10位字符串，如果超过则超过，不超过则前面不空格，%-10s，不足10位时右边补空格，%10.3s，不足10位前面补空格，取字符串的3位,如果是int之类的数据，%10.3d表示输出的除了前面补空格外，输出3位数，如4就输出004，%-10.3s，不足10位后面补空格，取3位。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">int a=3;</span><br><span class="line">printf(&quot;a的值%10.3d&quot;,tt);</span><br><span class="line"></span><br><span class="line">结果：</span><br><span class="line">a的值       003</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>输入格式数据scanf(“%d%d”,&amp;a,&amp;b)，同样可以添加相应的附加符号如%ld，%hd（短类型）%3s，表示输入的取3位，(%d<em>%d,a,b)表示输入不赋值。b的值不会变.%s表示输入的字符数组，如a[]，不能是地址\</em>p</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">char a[10];</span><br><span class="line">scanf(&quot;%s&quot;,&amp;a);</span><br><span class="line">printf(&quot;输入的值为%s&quot;,a);</span><br><span class="line"></span><br><span class="line">结果为：</span><br><span class="line">12q</span><br><span class="line">输入的值为12q</span><br></pre></td></tr></table></figure>
+<p>​</p>
+</li>
+</ol>
+</div><div class="article-meta" style="max-width:800px"><div class="tags"><i class="icon icon-tag"></i><ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C语言/">C语言</a><span class="tag-list-count">4</span></li></ul></div><div class="categories"><i class="icon icon-category"></i><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C语言/">C语言</a><span class="category-list-count">4</span></li></ul></div></div><div class="article-comment" style="max-width:800px"><div class="ds-thread" id="ds-thread" data-thread-key="ck85q6tnx0008tfo197934inp" data-title="C语言学习笔记(一)" data-url="https://earthwo.github.io/2017/03/05/C语言学习笔记(一)/" site-name="ueibo"></div><script>var siteName = document.getElementById('ds-thread').getAttribute('site-name');
+var duoshuoQuery = {short_name: siteName};
+(function() {
+  var ds = document.createElement('script');
+  ds.type = 'text/javascript';ds.async = true;
+  ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+  ds.charset = 'UTF-8';
+  (document.getElementsByTagName('head')[0] 
+  || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();</script></div><ul class="navication"><li class="home"><a href="/"><i class="icon icon-home"></i></a></li><li><a href="/2017/03/06/C语言学习笔记-二/"><i class="icon icon-arror-left"></i></a></li><li><a href="/2017/03/04/android自定义键盘/"><i class="icon icon-arror-right"></i></a></li></ul><div class="page-footer"><div class="top"><ul class="social"><li><a href="https://github.com/earthWo" title="Github" target="_blank"><i class="icon icon-github"></i></a></li></ul></div><div class="bottom"><p class="copyright">© 2020 alonealice<br><small><a href="http://www.miitbeian.gov.cn" target="_blank">浙ICP备17033688号</a></small><small>, THEME BY <a href="https://github.com/BoizZ/hexo-theme-laughing" target="_blank">LAUGHING</a></small></p></div></div></div><script>var wrap = document.getElementById('wrap');
+window.onload = function () {
+  wrap.className += ' done';
+}</script></body></html>
