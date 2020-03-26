@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="不懂要会问，打脸要立正">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Rxjava常用操作符 - alonealice | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://alonealice.com/Rxjava/Rxjava常用操作符/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/article_bg.jpeg')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Rxjava" title="Rxjava">Rxjava</a>
+                            
+                        </div>
+                        <h1>Rxjava常用操作符</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by alonealice on
+                            2017-07-27
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">alonealice</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h2 id="创建操作符">创建操作符</h2>
+<h3 id="just操作符">just操作符</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Observable observable=Observable.just(10,2);</span><br></pre></td></tr></table></figure>
+<p>依次会调用onNext(10)和onNext(2)；</p>
+<h3 id="interval操作符">interval操作符</h3>
+<p>按照固定时间间隔发送整数序列的Observable(从0开始)。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Observable observable=Observable.interval(10,TimeUnit.SECONDS);</span><br></pre></td></tr></table></figure>
+<h3 id="range操作符">range操作符</h3>
+<p>创建发送指定范围的整数序列的Observable</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Observable observable=Observable.range(2,3);</span><br></pre></td></tr></table></figure>
+<p>从2开始3个整数</p>
+<h3 id="repeat操作符">repeat操作符</h3>
+<p>创建重复N次的发送数据的Onservable</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Observable observable=Observable.range(2,2).repeat(4);</span><br></pre></td></tr></table></figure>
+<p>从2开始2个整数,再重复4次</p>
+<h3 id="defer操作符">defer操作符</h3>
+<p>直到有订阅者订阅时，才通过Observable的工厂方法创建Observable并执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">i=9;</span><br><span class="line">        Observable observable=Observable.just(i);</span><br><span class="line">        Observable deferObservable = Observable.defer(new Callable&lt;ObservableSource&lt;Integer&gt;&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public ObservableSource call() throws Exception &#123;</span><br><span class="line">                return Observable.just(i);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        i=10;</span><br><span class="line">        deferObservable.subscribe(new Consumer() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void accept(@io.reactivex.annotations.NonNull Object o) throws Exception &#123;</span><br><span class="line">                Log.d(&quot;延迟显示&quot;,o.toString());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        observable.subscribe(new Consumer() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void accept(@io.reactivex.annotations.NonNull Object o) throws Exception &#123;</span><br><span class="line">                Log.d(&quot;显示&quot;,o.toString());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+<p>结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">延迟显示: 10</span><br><span class="line">显示: 9</span><br></pre></td></tr></table></figure>
+<h3 id="timer操作符">timer操作符</h3>
+<p>指定时间后发射一个数字0的Onservable</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Observable observable = Observable.timer(2,TimeUnit.SECONDS);</span><br></pre></td></tr></table></figure>
+<h2 id="变换操作符">变换操作符</h2>
+<h3 id="map操作符">map操作符</h3>
+<p>将Observable转换为新的Observable并发送</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">i=9;</span><br><span class="line">        Observable observable = Observable.just(i).map(new Function() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public Object apply(@io.reactivex.annotations.NonNull Object o) throws Exception &#123;</span><br><span class="line">                return Integer.parseInt(o.toString())+20;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="flatmap操作符">flatMap操作符</h3>
+<p>将Observalbes的数据变化为Observable。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">i=9;</span><br><span class="line">      Observable observable = Observable.just(i).flatMap(new Function&lt;Integer, ObservableSource&lt;?&gt;&gt;() &#123;</span><br><span class="line">          @Override</span><br><span class="line">          public ObservableSource&lt;?&gt; apply(@io.reactivex.annotations.NonNull Integer integer) throws Exception &#123;</span><br><span class="line">              return Observable.range(integer,3);</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;);</span><br></pre></td></tr></table></figure>
+<p>它与map的区别是它返回一个Observable，所以你可以在返回时再次进行操作。</p>
+<h3 id="cast操作符">cast操作符</h3>
+<p>可以将发射的数据转换为指定类型(比如子类转化为父类)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Observable observable = Observable.just(i).flatMap(new Function&lt;Integer, ObservableSource&lt;?&gt;&gt;() &#123;</span><br><span class="line">          @Override</span><br><span class="line">          public ObservableSource&lt;?&gt; apply(@io.reactivex.annotations.NonNull Integer integer) throws Exception &#123;</span><br><span class="line">              return Observable.range(integer,3);</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;).cast(Integer.class);</span><br></pre></td></tr></table></figure>
+<h3 id="concatmap操作符">concatMap操作符</h3>
+<p>与flatMap的使用方法基本一样，但是flatMap变换后的输出顺序可能是交错的，concatMap不会交错。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Observable observable = Observable.just(1,2,3,4,5).concatMap(new Function&lt;Integer, ObservableSource&lt;Integer&gt;&gt;() &#123;</span><br><span class="line">         @Override</span><br><span class="line">         public ObservableSource apply(@io.reactivex.annotations.NonNull Integer integer) throws Exception &#123;</span><br><span class="line">             return Observable.just(integer*10).delay(10-integer,TimeUnit.SECONDS);</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;);</span><br></pre></td></tr></table></figure>
+<p>在上面这种情况下，输入依旧是：10，20，30，40，50；而如果是flatMap，则输出是50，40，30，20，10</p>
+<h3 id="flatmapiterable操作符">flatMapIterable操作符</h3>
+<p>可以将数据打包成Iterable</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Observable observable = Observable.just(1,2,3,4,5).flatMapIterable(new Function&lt;Integer, Iterable&lt;Integer&gt;&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public Iterable apply(@io.reactivex.annotations.NonNull Integer integer) throws Exception &#123;</span><br><span class="line">                List&lt;Integer&gt;list=new ArrayList&lt;&gt;()</span><br><span class="line">                list.add(integer);</span><br><span class="line">                return list;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="buffer操作符">buffer操作符</h3>
+<p>将传入的数据变成列表传输</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Observable observable = Observable.just(1,2,3,4,5).buffer(3);</span><br></pre></td></tr></table></figure>
+<p>以3个数据为一组。<br>
+输出:[1,2,3],[4,5]</p>
+<h3 id="groupby操作符">groupBy操作符</h3>
+<p>将传入的数据分组后传出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">Person p1=new Person(1);</span><br><span class="line">       Person p2=new Person(1);</span><br><span class="line">       Person p3=new Person(3);</span><br><span class="line">       Person p4=new Person(4);</span><br><span class="line">       Person p5=new Person(3);</span><br><span class="line">       Person p6=new Person(2);</span><br><span class="line"></span><br><span class="line">       Observable observable = Observable.just(p1,p2,p3,p4,p5,p6).groupBy(new Function&lt;Person, Integer&gt;() &#123;</span><br><span class="line">           @Override</span><br><span class="line">           public Integer apply(@io.reactivex.annotations.NonNull Person person) throws Exception &#123;</span><br><span class="line">               return person.getAge();</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">       Observable.concat(observable).subscribe(new Consumer&lt;Person&gt;() &#123;</span><br><span class="line">           @Override</span><br><span class="line">           public void accept(@io.reactivex.annotations.NonNull Person o) throws Exception &#123;</span><br><span class="line">               Log.d(&quot;显示&quot;,o.getAge()+&quot;&quot;);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>结果：1,1,3,3,4,2</p>
+<h2 id="过滤操作符">过滤操作符</h2>
+<h3 id="filter操作符">filter操作符</h3>
+<p>对源数据进行过滤</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Observable observable = Observable.just(1,3,3,45,67,78).filter(new Predicate&lt;Integer&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public boolean test(@io.reactivex.annotations.NonNull Integer integer) throws Exception &#123;</span><br><span class="line">                return integer&gt;50;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="elementat操作符">elementAt操作符</h3>
+<p>返回指定位置的数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Observable observable = Observable.just(1,3,3,45,67,78).elementAt(3).toObservable();</span><br></pre></td></tr></table></figure>
+<p>只取45</p>
+<h3 id="dustinct操作符">dustinct操作符</h3>
+<p>去重</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Observable observable=Observable.just(1,2,3,5,6,7,8,1,2).distinct();</span><br></pre></td></tr></table></figure>
+<p>输出：1，2，3，5，6，7，8</p>
+<h3 id="skip操作符">skip操作符</h3>
+<p>过滤掉n个数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Observable observable=Observable.just(1,2,3,5,6,7,8,1,2).skip(3);</span><br></pre></td></tr></table></figure>
+<p>输出：5,6,7,8,1,2</p>
+<h3 id="take操作符">take操作符</h3>
+<p>取前N个数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Observable observable=Observable.just(1,2,3,5,6,7,8,1,2).take(3);</span><br></pre></td></tr></table></figure>
+<p>输出：1，2，3<br>
+还有takeLast，取后n个</p>
+<h3 id="ignoreelements操作符">ignoreElements操作符</h3>
+<p>将源数据全部忽略掉</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Observable bservable=Observable.just(1,2,3,5,6,7,8,1,2).ignoreElements().toObservable();</span><br></pre></td></tr></table></figure>
+<p>直接执行onCompleted()</p>
+<h3 id="throttlefirst操作符">throttleFirst操作符</h3>
+<p>定时发射时间段里收到的第一个数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Observable observable=Observable.interval(1,TimeUnit.SECONDS).throttleFirst(3,TimeUnit.SECONDS);</span><br></pre></td></tr></table></figure>
+<p>结果：0，4，8…</p>
+<h3 id="throttlewithtimeout操作符">throttleWithTimeout操作符</h3>
+<p>在限定时间内如果有值传出来，就重新及时，超时就传出值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Observable observable=Observable.interval(2,TimeUnit.SECONDS).throttleWithTimeout(1,TimeUnit.SECONDS);</span><br></pre></td></tr></table></figure>
+<p>结果：0，1，2，3…</p>
+<h2 id="组合操作符">组合操作符</h2>
+<h3 id="startwith在数据源前插入数据">startWith在数据源前插入数据</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt;li=new ArrayList&lt;&gt;();</span><br><span class="line">        li.add(1);li.add(2);li.add(1);li.add(1);</span><br><span class="line">        Observable observable=Observable.just(1,2,3).startWith(li);</span><br></pre></td></tr></table></figure>
+<p>结果：1，2，1，1，1，2，3</p>
+<h3 id="merge操作符">merge操作符</h3>
+<p>将多个Observable合并到一个发送，数据可能会交错</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Observable observable1=Observable.just(1,2,3);</span><br><span class="line">        Observable observable2=Observable.just(3,4,5);</span><br><span class="line">        Observable observable= Observable.merge(observable1,observable2);</span><br></pre></td></tr></table></figure>
+<p>结果：1，2，3，3，4，5</p>
+<h3 id="concat操作符">concat操作符</h3>
+<p>将多个数据合并发送，数据会严格按照顺序排列</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Observable observable1=Observable.just(1,2,3);</span><br><span class="line">       Observable observable2=Observable.just(3,4,5);</span><br><span class="line">       Observable observable= Observable.concat(observable1,observable2);</span><br></pre></td></tr></table></figure>
+<p>结果：1，2，3，3，4，5</p>
+<h3 id="zip操作符">zip操作符</h3>
+<p>合并数据，并根据指定的函数变换</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Observable observable1=Observable.just(1,2,3);</span><br><span class="line">       Observable observable2=Observable.just(3,4,5);</span><br><span class="line">       Observable observable= Observable.zip(observable1, observable2, new BiFunction&lt;Integer,Integer,String&gt;() &#123;</span><br><span class="line">           @Override</span><br><span class="line">           public String apply(@io.reactivex.annotations.NonNull Integer o, @io.reactivex.annotations.NonNull Integer o2) throws Exception &#123;</span><br><span class="line">               return o+&quot;***&quot;+o2;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;);</span><br></pre></td></tr></table></figure>
+<p>结果：1<strong><em>3，2</em></strong>4，3***5<br>
+当数量不对等时，按最少的那个合并。</p>
+<h3 id="combinelastest操作符">combineLastest操作符</h3>
+<p>将最近发射的数据项合并</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Observable observable1=Observable.just(1,2);</span><br><span class="line">        Observable observable2=Observable.just(3,4,5);</span><br><span class="line">        Observable observable= Observable.combineLatest(observable1, observable2, new BiFunction&lt;Integer,Integer,String&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public String apply(@io.reactivex.annotations.NonNull Integer o, @io.reactivex.annotations.NonNull Integer o2) throws Exception &#123;</span><br><span class="line">                return o+&quot;***&quot;+o2;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+<p>当observable2发射数据时，observable1已经发射完，所有其最近数据项是2，所以结果是：2<strong><em>3，2</em></strong>4，2***5</p>
+<h2 id="辅助操作符">辅助操作符</h2>
+<h3 id="delay操作符">delay操作符</h3>
+<p>延迟操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Observable observable1=Observable.just(1,2).delay(2,TimeUnit.SECONDS);</span><br></pre></td></tr></table></figure>
+<h3 id="do操作符">Do操作符</h3>
+<p>Do系列操作符相当于在Observable生命周期时注册回调，比如：<br>
+doOnEach:每次发送数据时执行<br>
+doOnNext:执行onNext时调用<br>
+doOnSubscribe:观察者订阅时执行<br>
+doOnUnsubscribe:取消订阅时执行<br>
+doOnCompleted:完成时执行<br>
+doOnError:报错时执行<br>
+doOnTerminate:终止前（结束或异常）执行<br>
+finallyDo:终止后（结束或异常）执行</p>
+<h3 id="subscribeon-observeon操作符">subscribeOn、observeOn操作符</h3>
+<p>subscribeOn指定Observable在哪个线程上运行，observeOn指定Observer在哪个线程运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())</span><br></pre></td></tr></table></figure>
+<p>Observable在io线程，Observer在主线程</p>
+<h3 id="timeout操作符">timeout操作符</h3>
+<p>当指定时间没有数据时，会执行onError</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Observable observable=Observable.interval(2000,TimeUnit.SECONDS).timeout(100,TimeUnit.MILLISECONDS);</span><br></pre></td></tr></table></figure>
+<h2 id="错误处理操作符">错误处理操作符</h2>
+<h3 id="catch操作符">catch操作符</h3>
+<p>catch将拦截onError，将他替换成其他数据。实现有3个操作符：onErrorReturn、onErrorResumeNext、onExceptionResumeNext。<br>
+onErrorReturn:错误时返回原来Observable的备用Observable</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt;li=new ArrayList&lt;&gt;();</span><br><span class="line">        li.add(1);li.add(2);li.add(1);li.add(1);</span><br><span class="line">        Observable observable=Observable.just(li).map(new Function&lt;List&lt;Integer&gt;,Integer&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public Integer apply(@io.reactivex.annotations.NonNull List&lt;Integer&gt; o) throws Exception &#123;</span><br><span class="line">                return o.get(33);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).onErrorReturn(new Function&lt;Throwable, Integer&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public Integer apply(@io.reactivex.annotations.NonNull Throwable throwable) throws Exception &#123;</span><br><span class="line">                return 1231321;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+<p>结果为：1231321</p>
+<p>onErrorResumeNext:与onErrorReturn基本一样，但是它返回的是ObservableSource数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt;li=new ArrayList&lt;&gt;();</span><br><span class="line">        li.add(1);li.add(2);li.add(1);li.add(1);</span><br><span class="line">        Observable observable=Observable.just(li).map(new Function&lt;List&lt;Integer&gt;,Integer&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public Integer apply(@io.reactivex.annotations.NonNull List&lt;Integer&gt; o) throws Exception &#123;</span><br><span class="line">                return o.get(33);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).onErrorResumeNext(new Function&lt;Throwable, ObservableSource&lt;? extends Integer&gt;&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public ObservableSource&lt;? extends Integer&gt; apply(@io.reactivex.annotations.NonNull Throwable throwable) throws Exception &#123;</span><br><span class="line">                return Observable.just(11,3);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+<p>结果:11,3</p>
+<p>onExceptionResumeNext:它收到后，需要自己重新调用onNext和onCompleted方法逻辑，不会返回Observable。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt;li=new ArrayList&lt;&gt;();</span><br><span class="line">        li.add(1);li.add(2);li.add(1);li.add(1);</span><br><span class="line">        Observable observable=Observable.just(li).map(new Function&lt;List&lt;Integer&gt;,Integer&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public Integer apply(@io.reactivex.annotations.NonNull List&lt;Integer&gt; o) throws Exception &#123;</span><br><span class="line">                return o.get(33);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).onExceptionResumeNext(new ObservableSource&lt;Integer&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void subscribe(@io.reactivex.annotations.NonNull Observer&lt;? super Integer&gt; observer) &#123;</span><br><span class="line">                observer.onNext(333);</span><br><span class="line">                observer.onComplete();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="retry操作符">retry操作符</h3>
+<p>出错时，它会重新订阅相应的次数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt;li=new ArrayList&lt;&gt;();</span><br><span class="line">        li.add(1);li.add(2);li.add(1);li.add(1);</span><br><span class="line">        Observable observable=Observable.just(li).map(new Function&lt;List&lt;Integer&gt;,Integer&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public Integer apply(@io.reactivex.annotations.NonNull List&lt;Integer&gt; o) throws Exception &#123;</span><br><span class="line">                Log.d(&quot;显示&quot;,&quot;错误了&quot;);</span><br><span class="line">                return o.get(33);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).retry(2);</span><br></pre></td></tr></table></figure>
+<p>会打印3次错误了。</p>
+<h2 id="条件操作符和布尔操作符">条件操作符和布尔操作符</h2>
+<h3 id="all操作符">all操作符</h3>
+<p>会对所有的数据进行判断，全部满足则返回true，否则返回false</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Observable observable=Observable.just(1,2,3).all(new Predicate&lt;Integer&gt;() &#123;</span><br><span class="line">          @Override</span><br><span class="line">          public boolean test(@io.reactivex.annotations.NonNull Integer integer) throws Exception &#123;</span><br><span class="line">              return integer&gt;0;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;).toObservable();</span><br></pre></td></tr></table></figure>
+<p>结果：true</p>
+<h3 id="contain-isempty">contain、isEmpty</h3>
+<p>contain:判断是否包含某个值<br>
+isEmpty:判断是否为空</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Observable observable=Observable.just(1,2,3).contains(2).toObservable();</span><br><span class="line">Observable observable=Observable.just(1,2,3).isEmpty().toObservable();</span><br></pre></td></tr></table></figure>
+<p>结果：true，false</p>
+<h3 id="abm-abmarray操作符">abm、abmArray操作符</h3>
+<p>发射先发射数据的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Observable observabl1=Observable.just(1);</span><br><span class="line">        Observable observabl2=Observable.just(2).delay(10,TimeUnit.SECONDS);</span><br><span class="line">        Observable observable=Observable.ambArray(observabl1,observabl2);</span><br></pre></td></tr></table></figure>
+<p>结果：1</p>
+<h3 id="defaultifempty操作符">defaultIfEmpty操作符</h3>
+<p>发射原来的数据，如果没有数据就发射一个默认的数据。</p>
+<h2 id="转换操作符">转换操作符</h2>
+<h3 id="tolist操作符">toList操作符</h3>
+<p>将多个数据转换为List数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Observable observable=Observable.just(1,2,3).toList().toObservable();</span><br></pre></td></tr></table></figure>
+<p>结果为：[1, 2, 3]</p>
+<h3 id="tosortedlist">toSortedList</h3>
+<p>用法与toList一样，但是它会自动排列顺序，默认按升序排序，数据项没有定义comparable接口，会抱错。也可以使用toSortedList(Comparator&lt;? super T&gt; comparator)定义顺序。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Observable observable=Observable.just(1,2,3,1,2,5,2).toSortedList(new Comparator&lt;Integer&gt;() &#123;</span><br><span class="line">          @Override</span><br><span class="line">          public int compare(Integer lhs, Integer rhs) &#123;</span><br><span class="line">              return lhs-rhs;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;).toObservable();</span><br></pre></td></tr></table></figure>
+<p>结果：[1, 1, 2, 2, 2, 3, 5]</p>
+<h3 id="tomap操作符">toMap操作符</h3>
+<p>将数据添加到map（HashMap）发射，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Observable observable=Observable.just(1,2,3,1,2,5,2).toMap(new Function&lt;Integer, Object&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public Object apply(@io.reactivex.annotations.NonNull Integer integer) throws Exception &#123;</span><br><span class="line">                return integer+&quot;*&quot;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).toObservable();</span><br></pre></td></tr></table></figure>
+<p>apply中设置map的key<br>
+结果： {5*=5, 3*=3, 1*=1, 2*=2}</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/tips和坑/记录那些经常用却又打死记不住的代码-持续更新/" data-toggle="tooltip" data-placement="top" title="记录那些经常用却又打死记不住的代码(持续更新)">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/Android进阶之光/读书笔记/《Android进阶之光》读书笔记(五)/" data-toggle="tooltip" data-placement="top" title="《Android进阶之光》读书笔记(五)">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Rxjava" title="Rxjava">Rxjava</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/earthwo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; alonealice 2020 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://www.huweihuang.com">胡伟煌</a> |
+                    <br> 
+                    <a href="http://www.beian.miit.gov.cn">浙ICP备17033688号</a>   
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://alonealice.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://alonealice.com/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

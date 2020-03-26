@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="不懂要会问，打脸要立正">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          ConstraintLayout初步探究 - alonealice | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://alonealice.com/ConstraintLayout/ConstraintLayout初步探究/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/article_bg.jpeg')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#ConstraintLayout" title="ConstraintLayout">ConstraintLayout</a>
+                            
+                        </div>
+                        <h1>ConstraintLayout初步探究</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by alonealice on
+                            2017-12-18
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">alonealice</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>ConstraintLayout是这两年Google新推出的一个布局，俗称约束布局。相比于之前常用的线性布局和相对布局，ConstraintLayout能够使用的场景更多，能更好的见地页面的布局层级，提升页面的渲染性能。</p>
+<p>目前稳定版本是1.0.2，本文后面的内容也都是基于该版本。</p>
+<h4 id="基本相对位置属性">基本相对位置属性</h4>
+<p>ConstraintLayout有多个相对位置属性，满足开发者在构建界面的需要，主要使用的如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">layout_constraintTop_toTopOf — 期望视图的上边对齐另一个视图的上边。</span><br><span class="line">layout_constraintTop_toBottomOf — 期望视图的上边对齐另一个视图的底边。</span><br><span class="line">layout_constraintBottom_toTopOf — 期望视图的下边对齐另一个视图的上边。</span><br><span class="line">layout_constraintBottom_toBottomOf — 期望视图的底边对齐另一个视图的底边。</span><br><span class="line">layout_constraintLeft_toLeftOf — 期望视图的左边对齐另一个视图的左边。</span><br><span class="line">layout_constraintLeft_toRightOf — 期望视图的左边对齐另一个视图的右边。</span><br><span class="line">layout_constraintRight_toLeftOf — 期望视图的右边对齐另一个视图的左边。</span><br><span class="line">layout_constraintRight_toRightOf — 期望视图的右边对齐另一个视图的右边。</span><br></pre></td></tr></table></figure>
+<p>这些属性，从命名上就可以看出它的使用效果，这里就不再详细解释了。不过有一点，这些属性除了可以设置另一个view座位基准，还可以设置其父控件（也就是）ConstraintLayout，比如，将一个view设置在ConstraintLayout中间，就可以这样设置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;View</span><br><span class="line">       android:layout_width=&quot;100dp&quot;</span><br><span class="line">       android:layout_height=&quot;100dp&quot;</span><br><span class="line">       android:background=&quot;@color/colorPrimaryDark&quot;</span><br><span class="line">       app:layout_constraintRight_toRightOf=&quot;parent&quot;</span><br><span class="line">       app:layout_constraintBottom_toBottomOf=&quot;parent&quot;</span><br><span class="line">       app:layout_constraintTop_toTopOf=&quot;parent&quot;</span><br><span class="line">       app:layout_constraintLeft_toLeftOf=&quot;parent&quot;&gt;</span><br><span class="line">       &lt;/View&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="偏移">偏移</h4>
+<p>这设置居中后，可以设置其向某一个方向偏移：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">layout_constraintHorizontal_bias //水平方向</span><br><span class="line">layout_constraintVertical_bias //垂直方向</span><br></pre></td></tr></table></figure>
+<p>这两个参数的值都是0-1，当大于1是，view会移出屏幕，小于1时无效。在具体理解上，比如说，当layout_constraintHorizontal_bias=0.25时，相当于在水平方面，从左向右，空余部分宽度的0.25处。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;View</span><br><span class="line">       android:layout_width=&quot;100dp&quot;</span><br><span class="line">       android:layout_height=&quot;100dp&quot;</span><br><span class="line">       android:background=&quot;@color/colorPrimaryDark&quot;</span><br><span class="line">       app:layout_constraintRight_toRightOf=&quot;parent&quot;</span><br><span class="line">       app:layout_constraintBottom_toBottomOf=&quot;parent&quot;</span><br><span class="line">       app:layout_constraintTop_toTopOf=&quot;parent&quot;</span><br><span class="line">       app:layout_constraintHorizontal_bias=&quot;0.25&quot;</span><br><span class="line">       app:layout_constraintLeft_toLeftOf=&quot;parent&quot;&gt;</span><br><span class="line">       &lt;/View&gt;</span><br><span class="line"></span><br><span class="line">   &lt;View</span><br><span class="line">       android:layout_width=&quot;100dp&quot;</span><br><span class="line">       android:layout_height=&quot;100dp&quot;</span><br><span class="line">       android:background=&quot;@color/colorAccent&quot;</span><br><span class="line">       app:layout_constraintRight_toRightOf=&quot;parent&quot;</span><br><span class="line">       app:layout_constraintLeft_toLeftOf=&quot;parent&quot;&gt;</span><br><span class="line">   &lt;/View&gt;</span><br></pre></td></tr></table></figure>
+<p>效果：</p>
+<p><img src="http://7xjrms.com1.z0.glb.clouddn.com/QQ20171218-164040@2x.png" alt=""></p>
+<h4 id="可见属性">可见属性</h4>
+<p>visiable是之前就有的可见属性，在ConstraintLayout中作用也是一样的，不过当设置一个View为visiable=GONE时，与它相关的约束条件依旧是存在的。同时，我们还可以使用layout_goneMarginLeft、layout_goneMarginRight、layout_goneMarginTop、layout_goneMarginBottom来设置在约束view不可见的情况下的距离。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;View</span><br><span class="line">        android:id=&quot;@+id/v1&quot;</span><br><span class="line">        android:layout_width=&quot;100dp&quot;</span><br><span class="line">        android:layout_height=&quot;100dp&quot;</span><br><span class="line">        android:background=&quot;@color/colorPrimaryDark&quot;</span><br><span class="line">        app:layout_constraintRight_toRightOf=&quot;parent&quot;</span><br><span class="line">        app:layout_constraintBottom_toBottomOf=&quot;parent&quot;</span><br><span class="line">        app:layout_constraintTop_toTopOf=&quot;parent&quot;</span><br><span class="line">        android:visibility=&quot;gone&quot;</span><br><span class="line">        app:layout_constraintLeft_toLeftOf=&quot;parent&quot;&gt;</span><br><span class="line">        &lt;/View&gt;</span><br><span class="line"></span><br><span class="line">    &lt;View</span><br><span class="line">        android:layout_width=&quot;50dp&quot;</span><br><span class="line">        android:layout_height=&quot;50dp&quot;</span><br><span class="line">        android:background=&quot;@color/colorAccent&quot;</span><br><span class="line">        app:layout_goneMarginLeft=&quot;100dp&quot;</span><br><span class="line">        app:layout_goneMarginTop=&quot;100dp&quot;</span><br><span class="line">        app:layout_constraintLeft_toRightOf=&quot;@+id/v1&quot;</span><br><span class="line">        app:layout_constraintTop_toBottomOf=&quot;@+id/v1&quot;&gt;</span><br></pre></td></tr></table></figure>
+<p>效果图：</p>
+<p><img src="http://7xjrms.com1.z0.glb.clouddn.com/QQ20171218-165201@2x.png" alt=""></p>
+<h4 id="宽高比">宽高比</h4>
+<p>ConstraintLayout中可以使用layout_constraintDimentionRatio属性来直接设置View的宽高比。</p>
+<p>使用方法有如下几种：</p>
+<p>1.直接使用float设置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">app:layout_constraintDimensionRatio=&quot;2&quot;//宽：高=2</span><br></pre></td></tr></table></figure>
+<p>2.使用比值设置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">app:layout_constraintDimensionRatio=&quot;2:1&quot;////宽：高=2</span><br></pre></td></tr></table></figure>
+<p>3.自定义宽高比：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">app:layout_constraintDimensionRatio=&quot;W,1:2&quot;//宽：高=2</span><br><span class="line">app:layout_constraintDimensionRatio=&quot;H,1:2&quot;//宽：高=0.5</span><br></pre></td></tr></table></figure>
+<h4 id="链式约束">链式约束</h4>
+<p>链这个概念是约束布局新提出的，它提供了在一个维度（水平或者垂直），管理一组控件的方式。使用时，我们需要将整条链上的view都相互约束，同时，处于水平或者垂直方向第一个控件为chain head(链头)，当我们给chain head设置layout_constraintHorizontal_chainStyle或layout_constraintVertical_chainStyle，整条链的状态将会发生改变。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&lt;View</span><br><span class="line">        android:id=&quot;@+id/v1&quot;</span><br><span class="line">        android:layout_width=&quot;100dp&quot;</span><br><span class="line">        android:layout_height=&quot;100dp&quot;</span><br><span class="line">        app:layout_constraintHorizontal_chainStyle=&quot;spread&quot;</span><br><span class="line">        android:background=&quot;@color/colorPrimaryDark&quot;</span><br><span class="line">        app:layout_constraintRight_toLeftOf=&quot;@+id/v2&quot;</span><br><span class="line">        app:layout_constraintLeft_toLeftOf=&quot;parent&quot;&gt;</span><br><span class="line">        &lt;/View&gt;</span><br><span class="line"></span><br><span class="line">    &lt;View</span><br><span class="line">        android:id=&quot;@+id/v2&quot;</span><br><span class="line">        android:layout_width=&quot;100dp&quot;</span><br><span class="line">        android:layout_height=&quot;100dp&quot;</span><br><span class="line">        android:background=&quot;#453535&quot;</span><br><span class="line">        app:layout_constraintLeft_toRightOf=&quot;@id/v1&quot;</span><br><span class="line">        app:layout_constraintRight_toLeftOf=&quot;@+id/v3&quot;&gt;</span><br><span class="line">    &lt;/View&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &lt;View</span><br><span class="line">        android:id=&quot;@+id/v3&quot;</span><br><span class="line">        android:layout_width=&quot;100dp&quot;</span><br><span class="line">        android:layout_height=&quot;100dp&quot;</span><br><span class="line">        android:background=&quot;@color/colorAccent&quot;</span><br><span class="line">        app:layout_constraintLeft_toRightOf=&quot;@id/v2&quot;</span><br><span class="line">        app:layout_constraintRight_toRightOf=&quot;parent&quot;</span><br><span class="line">        &gt;</span><br><span class="line">    &lt;/View&gt;</span><br></pre></td></tr></table></figure>
+<p>效果图：</p>
+<p><img src="http://7xjrms.com1.z0.glb.clouddn.com/QQ20171218-171007@2x.png" alt=""></p>
+<p>这里layout_constraintHorizontal_chainStyle或layout_constraintVertical_chainStyle有3个参数:</p>
+<p>packed:首尾两条链将会分配空间，链内部将不会分配空间</p>
+<p>spread:元素之间的空间将会均匀分布，这是系统默认的排列方式</p>
+<p>spread_inside:首尾的两条链将不会分配空间，其余内部的链将均匀分配空间。</p>
+<h4 id="最后">最后</h4>
+<p>ConstraintLayout一开始觉得没什么特殊的，用起来还麻烦。但是在实际使用后，发现其确实可以避免很多布局嵌套的问题。本文简略的介绍了它的基本用法，如果需要更好的了解，可以去看官方详细的文档。同时，最新的ConstraintLayout也添加了一些新属性，功能也变得更加强大。</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/ConstraintLayout/ConstraintLayout-1-1新功能/" data-toggle="tooltip" data-placement="top" title="ConstraintLayout 1.1新功能">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/tips和坑/记录那些经常用却又打死记不住的代码-持续更新/" data-toggle="tooltip" data-placement="top" title="记录那些经常用却又打死记不住的代码(持续更新)">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#ConstraintLayout" title="ConstraintLayout">ConstraintLayout</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/earthwo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; alonealice 2020 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://www.huweihuang.com">胡伟煌</a> |
+                    <br> 
+                    <a href="http://www.beian.miit.gov.cn">浙ICP备17033688号</a>   
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://alonealice.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://alonealice.com/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

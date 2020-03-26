@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="不懂要会问，打脸要立正">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Kotlin基础语法(三) - alonealice | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://alonealice.com/Kotlin/Kotlin基础语法（三）/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/article_bg.jpeg')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Kotlin" title="Kotlin">Kotlin</a>
+                            
+                        </div>
+                        <h1>Kotlin基础语法(三)</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by alonealice on
+                            2017-06-07
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">alonealice</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h4 id="继承">继承</h4>
+<p>在 Kotlin 中所有类都有一个共同的超类<code>Any</code>，这对于没有超类型声明的类是默认超类，Any与java中的Object不同，它只有<code>equals()</code>、<code>hashCode()</code>和<code>toString()</code>三个方法。<br>
+要声明一个显式的超类型，我们把类型放到类头的冒号之后：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">open class Base(p: Int)</span><br><span class="line"></span><br><span class="line">class Derived(p: Int) : Base(p)</span><br></pre></td></tr></table></figure>
+<p>基类在声明时必须要有open修饰，表示该类可以被继承。同时如果类有主构造函数，那么其基类必须用主构造函数参数实例化，如果没有主构造函数，那么每个次构造函数必须用super关键字实例化基类。如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class MyView : View &#123;</span><br><span class="line">    constructor(ctx: Context) : super(ctx)</span><br><span class="line"></span><br><span class="line">    constructor(ctx: Context, attrs: AttributeSet) : super(ctx, attrs)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="覆盖方法和属性">覆盖方法和属性</h4>
+<p>Kotlin 需要显式 标注可覆盖的成员（我们称之为开放）和覆盖后的成员：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">open class Base &#123;</span><br><span class="line">    open val x: Int =3</span><br><span class="line">    open fun v() &#123;&#125;</span><br><span class="line">    fun nv() &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line">class Derived() : Base() &#123;</span><br><span class="line">    override val x: Int=7</span><br><span class="line">    override fun v() &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>基类可以覆盖的方法属性必须有<code>open</code>，子类覆盖的方法属性必须有<code>override</code>。同时你也可以用一个<code>var</code>属性覆盖一个<code>val</code>属性，但反之则不行。这是允许的，因为一个<code>val</code>属性本质上声明了一个<code>getter</code>方法，而将其覆盖为<code>var</code>只是在子类中额外声明一个<code>setter</code>方法。</p>
+<h4 id="抽象类">抽象类</h4>
+<p>类和其中的某些成员可以声明为<code>abstract</code>。抽象成员在本类中可以不用实现。需要注意的是，我们并不需要用<code>open</code>标注一个抽象类或者函数，因为抽象类本来就是让人继承的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">open class Base &#123;</span><br><span class="line">    open fun f() &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">abstract class Derived : Base() &#123;</span><br><span class="line">    override abstract fun f()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="接口">接口</h4>
+<p>Kotlin的接口与Java 8类似，既包含抽象方法的声明，也可以包含实现。与抽象类不同的是，接口无法保存状态。它可以有属性但必须声明为抽象或提供访问器实现。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">interface MyInterface &#123;</span><br><span class="line">    fun bar()</span><br><span class="line">    fun foo() &#123;</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实现接口：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class Child : MyInterface &#123;</span><br><span class="line">    override fun bar() &#123;</span><br><span class="line">        // 方法体</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>与抽象类一样，接口中无需<code>open</code>修饰，因为本来就是让其他类去实现的。<br>
+接口中属性的使用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">interface MyInterface &#123;</span><br><span class="line">    val prop: Int // 抽象的</span><br><span class="line"></span><br><span class="line">    val propertyWithImplementation: String</span><br><span class="line">        get() = &quot;foo&quot;</span><br><span class="line"></span><br><span class="line">    fun foo() &#123;</span><br><span class="line">        print(prop)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Child : MyInterface &#123;</span><br><span class="line">    override val prop: Int = 29</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="可见性修饰符">可见性修饰符</h3>
+<p>在 Kotlin 中有这四个可见性修饰符：<code>private</code>、<code>protected</code>、<code>internal</code>和<code>public</code>。如果没有显式指定修饰符的话，默认可见性是<code>public</code>。<br>
+<code>private</code>、<code>protected</code>和<code>public</code>的作用于在java中基本一样，<code>internal</code>表示它会在相同模块内随处可见。那什么是相同的模块呢？<br>
+具体地说， 一个模块是编译在一起的一套 Kotlin 文件，比如一个 IntelliJ IDEA 模块；一个 Maven 或者 Gradle 项目或一次 ＜kotlinc＞ Ant 任务执行所编译的一套文件。</p>
+<h4 id="扩展">扩展</h4>
+<p>在Kotlin中能够扩展一个类的新功能而无需继承该类或使用像装饰者这样的任何类型的设计模式，就叫做<code>扩展</code>。<code>Kotlin</code>支持<code>扩展函数</code>和<code>扩展属性</code>。<br>
+声明一个扩展函数，我们需要用一个 接收者类型 也就是被扩展的类型来作为他的前缀，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">class Expr</span><br><span class="line">fun Expr.r()&#123;</span><br><span class="line">    Log.d(&quot;&quot;,&quot;&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里就扩展了<code>Expr</code>类。<br>
+扩展函数是静态分发的，即他们不是根据接收者类型的虚方法。 这意味着调用的扩展函数是由函数调用所在的表达式的类型来决定的， 而不是由表达式运行时求值结果决定的。例如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">open class C</span><br><span class="line"></span><br><span class="line">class D: C()</span><br><span class="line"></span><br><span class="line">fun C.foo() = &quot;c&quot;</span><br><span class="line"></span><br><span class="line">fun D.foo() = &quot;d&quot;</span><br><span class="line"></span><br><span class="line">fun printFoo(c: C) &#123;</span><br><span class="line">    println(c.foo())</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">printFoo(D())</span><br></pre></td></tr></table></figure>
+<p>这个例子会输出 “c”，因为调用的扩展函数只取决于参数 c 的声明类型，该类型是 C 类。<br>
+同时，当扩展函数和成员函数相同时，调用会调用成员函数，除非两者出现重载。<br>
+和函数类似，Kotlin 支持扩展属性：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val &lt;T&gt; List&lt;T&gt;.lastIndex: Int</span><br><span class="line">    get() = size - 1</span><br></pre></td></tr></table></figure>
+<p>扩展属性不能有初始化器。他们的行为只能由显式提供的 getters/setters 定义。<br>
+如果一个类定义有一个伴生对象 ，你也可以为伴生对象定义扩展函数和属性：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">class MyClass &#123;</span><br><span class="line">    companion object &#123; &#125;  // 将被称为 &quot;Companion&quot;</span><br><span class="line">&#125;</span><br><span class="line">fun MyClass.Companion.foo() &#123;</span><br><span class="line">    // ……</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>调用时：<code>MyClass.foo()</code><br>
+在一个类内部你可以为另一个类声明扩展。在这样的扩展内部，有多个<code>隐式接收者</code>—— 其中的对象成员可以无需通过限定符访问。扩展声明所在的类的实例称为<code>分发接收者</code>（声明拓展的部分），扩展方法调用所在的接收者类型的实例称为<code>扩展接收者</code>(拓展部分)。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">class D &#123;</span><br><span class="line">    fun bar() &#123; …… &#125;//扩展接收者</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class C &#123;//分发接收者</span><br><span class="line">    fun baz() &#123; …… &#125;</span><br><span class="line"></span><br><span class="line">    fun D.foo() &#123;</span><br><span class="line">        bar()   // 调用 D.bar</span><br><span class="line">        baz()   // 调用 C.baz</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    fun caller(d: D) &#123;</span><br><span class="line">        d.foo()   // 调用扩展函数</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对于分发接收者和扩展接收者的成员名字冲突的情况，扩展接收者优先。</p>
+<h4 id="解构声明">解构声明</h4>
+<p>Kotlin可以把一个变量解构成多个变量，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var a=A()</span><br><span class="line">var(x,userName) = a//x和userName可以随意命名</span><br><span class="line">Log.d(&quot;显示&quot;,&quot;&quot;+x)</span><br></pre></td></tr></table></figure>
+<p>一个解构声明会被编译成以下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val x = person.component1()</span><br><span class="line">val userName = person.component2()</span><br></pre></td></tr></table></figure>
+<p>所以在A中需要添加如下代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">operator fun  component1(): Any? &#123;</span><br><span class="line">      return userName</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  operator fun  component2(): Any? &#123;</span><br><span class="line">      return userName</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>请注意，componentN() 函数需要用 operator 关键字标记，以允许在解构声明中使用它们，同时数据类自动声明 componentN() 函数。</p>
+<h4 id="集合">集合</h4>
+<p>Kotlin 区分可变集合和不可变集合（lists、sets、maps 等）。<br>
+Kotlin 的<code>List&lt;out T&gt;</code>类型是一个提供只读操作如<code>size</code>、<code>get</code>等的接口，要想编辑需要使用<code>MutableList&lt;T&gt;</code>。同样的这也适用于<code>Set&lt;out T&gt;</code>/<code>MutableSet&lt;T&gt;</code>及<code>Map&lt;K, out V&gt;</code>/<code>MutableMap&lt;K, V&gt;</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">val numbers: MutableList&lt;Int&gt; = mutableListOf(1, 2, 3)</span><br><span class="line">val readOnlyView: List&lt;Int&gt; = numbers</span><br><span class="line">println(numbers)        // 输出 &quot;[1, 2, 3]&quot;</span><br><span class="line">numbers.add(4)</span><br><span class="line">println(readOnlyView)   // 输出 &quot;[1, 2, 3, 4]&quot;</span><br><span class="line">readOnlyView.clear()    //不存在这个方法</span><br></pre></td></tr></table></figure>
+<p>Kotlin 没有专门的语法结构创建 list 或 set。 要用标准库的方法，如 listOf()、 mutableListOf()、 setOf()、 mutableSetOf()。 在非性能关键代码中创建 map 可以用一个简单的惯用法来完成：mapOf(a to b, c to d)。</p>
+<h4 id="区间">区间</h4>
+<p>区间表达式由具有操作符形式 … 的<code>rangeTo</code>函数辅以 in 和 !in 形成。<br>
+如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if (i in 1..10) &#123; // 等同于 1 &lt;= i &amp;&amp; i &lt;= 10</span><br><span class="line">    println(i)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里需要注意的是<code>1..10</code>是不能倒过来的，即如果写成<code>10..1</code>，那么就表明是 10 &lt;= i &amp;&amp; i &lt;= 1，这样程序是不会执行的。<br>
+所以如果要使用倒序，则需要使用<code>downTo</code>函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">for (i in 10 downTo 1) print(i)</span><br></pre></td></tr></table></figure>
+<p>除此以外，还有几个函数也非常有用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">for (i in 1..10 step 2) print(i)//输出 13579</span><br></pre></td></tr></table></figure>
+<p><code>step</code>函数表示执行的步长度。<code>step 2</code>说明每部执行2个数（即执行一步，跳一步）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for (i in 1 until 10) &#123;   // i in [1, 10) 排除了 10</span><br><span class="line">     println(i)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>until</code>函数表示不包含某数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for (i in (1..10).reversed())&#123;//10,9,8,7,6,5,4,3,2,1</span><br><span class="line">           println(i)</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
+<p><code>reversed</code>能返回函数返回数据反转后的数列。</p>
+<h4 id="类型的检查与转换">类型的检查与转换</h4>
+<p>我们可以使用<code>is</code>操作符或其否定形式<code>!is</code>来检查对象是否是给定类型。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if (obj is String) &#123;</span><br><span class="line">    print(obj.length)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在多数情况下，不需要使用显式转换操作符，因为编译器会跟踪<code>is</code>和<code>!is</code>检查，并在需要时自动插入转换：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">fun demo(x: Any) &#123;</span><br><span class="line">    if (x is String) &#123;</span><br><span class="line">        print(x.length) // x 自动转换为字符串</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> if (x !is String) return</span><br><span class="line">    print(x.length) // x 自动转换为字符串</span><br></pre></td></tr></table></figure>
+<p>这中智能转换也一样适用于when表达式。<br>
+当变量不能保证检查和使用时不可变时，不会进行智能转换，所以智能转换的使用范围:<br>
+val 局部变量——总是可以；<br>
+val 属性——如果属性是 private 或 internal，或者该检查在声明属性的同一模块中执行。智能转换不适用于 open 的属性或者具有自定义 getter 的属性；<br>
+var 局部变量——如果变量在检查和使用之间没有修改、并且没有在会修改它的 lambda 中捕获；<br>
+var 属性——决不可能（因为该变量可以随时被其他代码修改）。<br>
+Kotlin中的可以使用操作符<code>as</code>对类型进行强制转换：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">val x: String = y as String</span><br></pre></td></tr></table></figure>
+<p>当y为null时，上述代码会报错，所以我们必须在在转换左右都有可空类型：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">val x: String? = y as String?</span><br></pre></td></tr></table></figure>
+<h4 id="this作用域">this作用域</h4>
+<p>要访问来自外部作用域的this，我们使用this@label，其中 @label 是一个代指 this 来源的标签：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">class A &#123; // 隐式标签 @A</span><br><span class="line">    inner class B &#123; // 隐式标签 @B</span><br><span class="line">        fun Int.foo() &#123; // 隐式标签 @foo</span><br><span class="line">            val a = this@A // A 的 this</span><br><span class="line">            val b = this@B // B 的 this</span><br><span class="line"></span><br><span class="line">            val c = this // foo() 的接收者，一个 Int</span><br><span class="line">            val c1 = this@foo // foo() 的接收者，一个 Int</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="空安全">空安全</h4>
+<p>在<code>Kotlin</code>中，类型系统会区分一个引用是否可以容纳<code>null</code>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var a: String = &quot;abc&quot;</span><br><span class="line">a = null // 编译错误</span><br></pre></td></tr></table></figure>
+<p>当类型允许为空，但依旧被调用时：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var b: String? = &quot;abc&quot;</span><br><span class="line">val l = b.length//编译错误</span><br></pre></td></tr></table></figure>
+<p>这种情况时会编译错误，这时，我们可以对它进行空判断：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var b: String? = &quot;abc&quot;</span><br><span class="line">if(b!=null)&#123;</span><br><span class="line"> val l = b.length</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>除此以外，我们还可以使用安全调用符，<code>?.</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">val l = b?.length</span><br></pre></td></tr></table></figure>
+<p>它表示当b为null时，返回null，不为null时，返回b.length。<br>
+除此之外，我们还可以使用<code>Elvis</code>操作符，写作<code>?:</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">val l = b?.length ?: -1</span><br></pre></td></tr></table></figure>
+<p>它表示当左边的表达式非空时执行左边的表达式，为空时执行右边的表达式。<br>
+第三中方式是使用!! 操作符：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">val l = b!!.length</span><br></pre></td></tr></table></figure>
+<p>当b为空时，程序会抛出<code>NPE</code>异常。</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/设计模式/责任链模式/" data-toggle="tooltip" data-placement="top" title="设计模式之责任链模式">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/Kotlin/Kotlin基础语法（二）/" data-toggle="tooltip" data-placement="top" title="Kotlin基础语法（二）">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Kotlin" title="Kotlin">Kotlin</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/earthwo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; alonealice 2020 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://www.huweihuang.com">胡伟煌</a> |
+                    <br> 
+                    <a href="http://www.beian.miit.gov.cn">浙ICP备17033688号</a>   
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://alonealice.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://alonealice.com/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="不懂要会问，打脸要立正">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          BottomNavigationView分析 - alonealice | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://alonealice.com/源码阅读/BottomNavigationView分析/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/article_bg.jpeg')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#源码阅读" title="源码阅读">源码阅读</a>
+                            
+                        </div>
+                        <h1>BottomNavigationView分析</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by alonealice on
+                            2017-07-03
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">alonealice</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p><code>Bottom-Navigation</code>是谷歌官方发布的android底部状态栏，它的动画效果非常的漂亮，看起来非常的让人赏心悦目。为了能够拥有相同的用户体验，google对它有着严格的设计标准，具体的要求和实例请看：<a href="https://material.io/guidelines/components/bottom-navigation.html" target="_blank" rel="noopener">官方文档</a>。同时，谷歌还推出了<code>BottomNavigationView</code>来实现这种设计。那下面就来看看<code>BottomNavigationView</code>是如何实现的。</p>
+<h3 id="简单使用">简单使用</h3>
+<p>通过<code>BottomNavigationView</code>的官方文档，我们可以看到，<code>BottomNavigationView</code>是在<code>version 25.0.0</code>以后被添加进来的，所以在此之前的版本，要使用就需要添加的包：<code>compile 'com.android.support:design:25.0.0'</code>。同时，官方还给出了简单的使用实例，这里就不在介绍了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;android.support.design.widget.BottomNavigationView</span><br><span class="line">     xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">     xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;</span><br><span class="line">     android:id=&quot;@+id/navigation&quot;</span><br><span class="line">     android:layout_width=&quot;match_parent&quot;</span><br><span class="line">     android:layout_height=&quot;56dp&quot;</span><br><span class="line">     android:layout_gravity=&quot;start&quot;</span><br><span class="line">     app:menu=&quot;@menu/my_navigation_items&quot; /&gt;</span><br><span class="line"></span><br><span class="line"> res/menu/my_navigation_items.xml:</span><br><span class="line"> &lt;menu xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;</span><br><span class="line">     &lt;item android:id=&quot;@+id/action_search&quot;</span><br><span class="line">          android:title=&quot;@string/menu_search&quot;</span><br><span class="line">          android:icon=&quot;@drawable/ic_search&quot; /&gt;</span><br><span class="line">     &lt;item android:id=&quot;@+id/action_settings&quot;</span><br><span class="line">          android:title=&quot;@string/menu_settings&quot;</span><br><span class="line">          android:icon=&quot;@drawable/ic_add&quot; /&gt;</span><br><span class="line">     &lt;item android:id=&quot;@+id/action_navigation&quot;</span><br><span class="line">          android:title=&quot;@string/menu_navigation&quot;</span><br><span class="line">          android:icon=&quot;@drawable/ic_action_navigation_menu&quot; /&gt;</span><br><span class="line"> &lt;/menu&gt;</span><br></pre></td></tr></table></figure>
+<p>这里我们看到，<code>BottomNavigationView</code>的高度被限定在56dp，这个值是在官方的设计文档中明确要求的，因此当你使用大于56dp的高度时，就会有一部分空白区域流出来，同时也完全不建议使用过小的高度，这样，内部的图标或文字都可能会被裁剪掉部分。</p>
+<h3 id="实现原理">实现原理</h3>
+<h4 id="bottomnavigationview分析">BottomNavigationView分析</h4>
+<p>通过阅读<code>BottomNavigationView</code>源码，我们看到<code>BottomNavigationView</code>直接通过继承FrameLayout实现。它里面最重要的有3个对象:<code>MenuBuilder</code>，<code>BottomNavigationMenuView</code>，<br>
+<code>BottomNavigationPresenter</code>。从他们的命名上，我们就可以知道，<code>MenuBuilder</code>主要是创建一个menu，通过xml文件，创建menu后，再讲其中的item的title、icon、id等信息传递给<code>BottomNavigationMenuView</code>去创建最终我们看到的view，同时，也将view的点击事件通过menu的回调传回到<code>BottomNavigationMenuView</code>；<code>BottomNavigationPresenter</code>则主要是进行一些逻辑的操作，比如初始化<code>BottomNavigationMenuView</code>，更新<code>BottomNavigationMenuView</code>等；<br>
+<code>BottomNavigationMenuView</code>则是具体我们所看到的view，它通过<code>MenuBuilder</code>来创建item，同时根据click来进行样式的变化。<br>
+除了这三个之外，<code>BottomNavigationView</code>其他部分都是一些参数的设置和初始化，这边就不再介绍了。</p>
+<h4 id="bottomnavigationmenuview分析">BottomNavigationMenuView分析</h4>
+<p>通过上面我们可以看到，所有的一切都是围绕<code>BottomNavigationMenuView</code>所展开，所以我们重点通过<code>BottomNavigationMenuView</code>来了解整个流程。</p>
+<h5 id="初始化">初始化</h5>
+<p>在<code>BottomNavigationView</code>的构造方法里，程序在创建完这3个对象后，首先对<code>MenuBuilder</code>进行初始化：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public void inflateMenu(int resId) &#123;</span><br><span class="line">        mPresenter.setUpdateSuspended(true);</span><br><span class="line">        getMenuInflater().inflate(resId, mMenu);//初始化menu</span><br><span class="line">        mPresenter.initForMenu(getContext(), mMenu);</span><br><span class="line">        mPresenter.setUpdateSuspended(false);</span><br><span class="line">        mPresenter.updateMenuView(true);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>在初始化menu前，先对<code>BottomNavigationPresenter</code>进行暂停，同样的事情还出现在<code>BottomNavigationMenuView</code>初始化各个item和每次进行动画时。这样做可以避免在初始化和动画时同时在进行更新动画而冲突。<br>
+初始化<code>MenuBuilder</code>后，再通过<code>BottomNavigationPresenter</code>对<code>BottomNavigationMenuView</code>进行初始化：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">  public void initForMenu(Context context, MenuBuilder menu) &#123;</span><br><span class="line">      mMenuView.initialize(mMenu);</span><br><span class="line">      mMenu = menu;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>同时进行界面创建：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line"> public void updateMenuView(boolean cleared) &#123;</span><br><span class="line">     if (mUpdateSuspended) return;</span><br><span class="line">     if (cleared) &#123;</span><br><span class="line">         mMenuView.buildMenuView();</span><br><span class="line">     &#125; else &#123;</span><br><span class="line">         mMenuView.updateMenuView();</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>具体界面创建的方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public void buildMenuView() &#123;</span><br><span class="line">       if (mButtons != null) &#123;</span><br><span class="line">           for (BottomNavigationItemView item : mButtons) &#123;</span><br><span class="line">               sItemPool.release(item);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       removeAllViews();</span><br><span class="line">       mButtons = new BottomNavigationItemView[mMenu.size()];</span><br><span class="line">       mShiftingMode = mMenu.size() &gt; 3;</span><br><span class="line">       for (int i = 0; i &lt; mMenu.size(); i++) &#123;</span><br><span class="line">           mPresenter.setUpdateSuspended(true);</span><br><span class="line">           mMenu.getItem(i).setCheckable(true);</span><br><span class="line">           mPresenter.setUpdateSuspended(false);</span><br><span class="line">           BottomNavigationItemView child = getNewItem();</span><br><span class="line">           mButtons[i] = child;</span><br><span class="line">           child.setIconTintList(mItemIconTint);</span><br><span class="line">           child.setTextColor(mItemTextColor);</span><br><span class="line">           child.setItemBackground(mItemBackgroundRes);</span><br><span class="line">           child.setShiftingMode(mShiftingMode);</span><br><span class="line">           child.initialize((MenuItemImpl) mMenu.getItem(i), 0);</span><br><span class="line">           child.setItemPosition(i);</span><br><span class="line">           child.setOnClickListener(mOnClickListener);</span><br><span class="line">           addView(child);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>这里我们看到有一个池<code>sItemPool</code>，当界面重构时，会把原来已有的<code>BottomNavigationItemView</code>放到池中，再次创建新界面时又从池中取出，这样做可以减少对象的创建数量。同时，程序会根据menu的item数量创建<code>BottomNavigationItemView</code>数组，而<code>BottomNavigationItemView</code>就是显示的每一个菜单按钮。里面有3个控件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">LayoutInflater.from(context).inflate(R.layout.design_bottom_navigation_item, this, true);</span><br><span class="line">        setBackgroundResource(R.drawable.design_bottom_navigation_item_background);</span><br><span class="line">        mIcon = (ImageView) findViewById(R.id.icon);</span><br><span class="line">        mSmallLabel = (TextView) findViewById(R.id.smallLabel);</span><br><span class="line">        mLargeLabel = (TextView) findViewById(R.id.largeLabel);</span><br></pre></td></tr></table></figure>
+<p>这些就是一个item所显示的内容。</p>
+<h4 id="onmeasure和onlayout">onMeasure和onLayout</h4>
+<p>在<code>BottomNavigationMenuView</code>初始化完成之后，就要对里面的控件进行测量和排列。<br>
+在onMeasure方法中，做的主要是两件是：1是对里面每一个<code>BottomNavigationItemView</code>都进行宽高的测量；2是设置整个<code>BottomNavigationMenuView</code>的宽高。<br>
+第一步的测量还分两种情况，当item的数量大于3个时，<code>mShiftingMode</code>=true。在这种情况下，选中的item和其他的items的宽度是不一样的，所以程序要先计算出选中的item的宽度，然后根据它计算其他items的宽度；第二种情况是当items的数量&lt;=3个时，每个item的宽度是一样的，所以只需要根据总宽度/items的数量就可以计算出item的宽度。<br>
+第二步在测量整个view的宽度时，程序将先前的所有可见的items的宽度加起来作为整个<code>BottomNavigationMenuView</code>的宽度（目前也没有发现有什么可能会使item不可见）。<br>
+<code>onLayout</code>方法就比较简单，它根据之前计算好的每一个item的宽高，从左往右或从右往左放置每一个item的位置。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">    protected void onLayout(boolean changed, int left, int top, int right, int bottom) &#123;</span><br><span class="line">        final int count = getChildCount();</span><br><span class="line">        final int width = right - left;</span><br><span class="line">        final int height = bottom - top;</span><br><span class="line">        int used = 0;</span><br><span class="line">        for (int i = 0; i &lt; count; i++) &#123;</span><br><span class="line">            final View child = getChildAt(i);</span><br><span class="line">            if (child.getVisibility() == GONE) &#123;</span><br><span class="line">                continue;</span><br><span class="line">            &#125;</span><br><span class="line">            if (ViewCompat.getLayoutDirection(this) == ViewCompat.LAYOUT_DIRECTION_RTL) &#123;</span><br><span class="line">                child.layout(width - used - child.getMeasuredWidth(), 0, width - used, height);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                child.layout(used, 0, child.getMeasuredWidth() + used, height);</span><br><span class="line">            &#125;</span><br><span class="line">            used += child.getMeasuredWidth();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="点击动画和回调">点击动画和回调</h4>
+<p>在初始化<code>BottomNavigationMenuView</code>时，每一个<code>BottomNavigationItemView</code>都会添加<code>onClickListener</code>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mOnClickListener = new OnClickListener() &#123;</span><br><span class="line">           @Override</span><br><span class="line">           public void onClick(View v) &#123;</span><br><span class="line">               final BottomNavigationItemView itemView = (BottomNavigationItemView) v;</span><br><span class="line">               final int itemPosition = itemView.getItemPosition();</span><br><span class="line">               activateNewButton(itemPosition);</span><br><span class="line">               mMenu.performItemAction(itemView.getItemData(), mPresenter, 0);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;;</span><br></pre></td></tr></table></figure>
+<p>关键的代码是后面两句，其中一句是执行点击的动画，最后一句是执行menu点击的回调。那我们分别来看一下。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">private void activateNewButton(int newButton) &#123;</span><br><span class="line">        if (mActiveButton == newButton) return;</span><br><span class="line"></span><br><span class="line">        mAnimationHelper.beginDelayedTransition(this);</span><br><span class="line"></span><br><span class="line">        mPresenter.setUpdateSuspended(true);</span><br><span class="line">        mButtons[mActiveButton].setChecked(false);</span><br><span class="line">        mButtons[newButton].setChecked(true);</span><br><span class="line">        mPresenter.setUpdateSuspended(false);</span><br><span class="line"></span><br><span class="line">        mActiveButton = newButton;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>在这里我们看到，主要的操作就是将原来的<code>BottomNavigationItemView</code>check设置为false，将点击的设置为true，那我们来看<code>BottomNavigationItemView</code>的setCheck方法里又做了什么。<br>
+<code>setCheck</code>方法也是整个<code>BottomNavigationItemView</code>最核心的方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mItemData.setChecked(checked);</span><br><span class="line"></span><br><span class="line">       ViewCompat.setPivotX(mLargeLabel, mLargeLabel.getWidth() / 2);</span><br><span class="line">       ViewCompat.setPivotY(mLargeLabel, mLargeLabel.getBaseline());</span><br><span class="line">       ViewCompat.setPivotX(mSmallLabel, mSmallLabel.getWidth() / 2);</span><br><span class="line">       ViewCompat.setPivotY(mSmallLabel, mSmallLabel.getBaseline());</span><br></pre></td></tr></table></figure>
+<p>首先，它将设置menu的item是否为点击；设置两个文本的动画原点。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">if (checked) &#123;</span><br><span class="line">               LayoutParams iconParams = (LayoutParams) mIcon.getLayoutParams();</span><br><span class="line">               iconParams.gravity = Gravity.CENTER_HORIZONTAL | Gravity.TOP;</span><br><span class="line">               iconParams.topMargin = mDefaultMargin;</span><br><span class="line">               mIcon.setLayoutParams(iconParams);</span><br><span class="line">               mLargeLabel.setVisibility(VISIBLE);</span><br><span class="line">               ViewCompat.setScaleX(mLargeLabel, 1f);</span><br><span class="line">               ViewCompat.setScaleY(mLargeLabel, 1f);</span><br><span class="line">           &#125; else &#123;</span><br><span class="line">               LayoutParams iconParams = (LayoutParams) mIcon.getLayoutParams();</span><br><span class="line">               iconParams.gravity = Gravity.CENTER;</span><br><span class="line">               iconParams.topMargin = mDefaultMargin;</span><br><span class="line">               mIcon.setLayoutParams(iconParams);</span><br><span class="line">               mLargeLabel.setVisibility(INVISIBLE);</span><br><span class="line">               ViewCompat.setScaleX(mLargeLabel, 0.5f);</span><br><span class="line">               ViewCompat.setScaleY(mLargeLabel, 0.5f);</span><br><span class="line">           &#125;</span><br><span class="line">           mSmallLabel.setVisibility(INVISIBLE);</span><br></pre></td></tr></table></figure>
+<p>在有移动的情况下，对选中和非选中都进行动画操作，同时，大文本显示，小文本隐藏。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">if (checked) &#123;</span><br><span class="line">                LayoutParams iconParams = (LayoutParams) mIcon.getLayoutParams();</span><br><span class="line">                iconParams.gravity = Gravity.CENTER_HORIZONTAL | Gravity.TOP;</span><br><span class="line">                iconParams.topMargin = mDefaultMargin + mShiftAmount;</span><br><span class="line">                mIcon.setLayoutParams(iconParams);</span><br><span class="line">                mLargeLabel.setVisibility(VISIBLE);</span><br><span class="line">                mSmallLabel.setVisibility(INVISIBLE);</span><br><span class="line"></span><br><span class="line">                ViewCompat.setScaleX(mLargeLabel, 1f);</span><br><span class="line">                ViewCompat.setScaleY(mLargeLabel, 1f);</span><br><span class="line">                ViewCompat.setScaleX(mSmallLabel, mScaleUpFactor);</span><br><span class="line">                ViewCompat.setScaleY(mSmallLabel, mScaleUpFactor);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                LayoutParams iconParams = (LayoutParams) mIcon.getLayoutParams();</span><br><span class="line">                iconParams.gravity = Gravity.CENTER_HORIZONTAL | Gravity.TOP;</span><br><span class="line">                iconParams.topMargin = mDefaultMargin;</span><br><span class="line">                mIcon.setLayoutParams(iconParams);</span><br><span class="line">                mLargeLabel.setVisibility(INVISIBLE);</span><br><span class="line">                mSmallLabel.setVisibility(VISIBLE);</span><br><span class="line"></span><br><span class="line">                ViewCompat.setScaleX(mLargeLabel, mScaleDownFactor);</span><br><span class="line">                ViewCompat.setScaleY(mLargeLabel, mScaleDownFactor);</span><br><span class="line">                ViewCompat.setScaleX(mSmallLabel, 1f);</span><br><span class="line">                ViewCompat.setScaleY(mSmallLabel, 1f);</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
+<p>在不移动情况下，对icon的上距进行变化，同时选中时小文本变大，不选择时大文本变小文本。<br>
+在点击回调时，执行<code>mMenu.performItemAction (itemView.getItemData(), mPresenter, 0);</code>代码，该代码会调用<code>MenuItemImpl</code>invoke方法，并且最终调用callback回调。</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/tips和坑/android开发小tip与踩过的坑（持续更新）/" data-toggle="tooltip" data-placement="top" title="android开发小tip与踩过的坑（持续更新）">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/okhttp/源码阅读/Okhttp源码分析/" data-toggle="tooltip" data-placement="top" title="okhttp源码分析（一）">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#源码阅读" title="源码阅读">源码阅读</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/earthwo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; alonealice 2020 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://www.huweihuang.com">胡伟煌</a> |
+                    <br> 
+                    <a href="http://www.beian.miit.gov.cn">浙ICP备17033688号</a>   
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://alonealice.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://alonealice.com/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

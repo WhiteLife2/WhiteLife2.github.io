@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="不懂要会问，打脸要立正">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          《Android进阶之光》读书笔记（一） - alonealice | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://alonealice.com/Android进阶之光/读书笔记/Android《进阶之光》读书笔记（一）/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/article_bg.jpeg')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#读书笔记" title="读书笔记">读书笔记</a>
+                            
+                              <a class="tag" href="/tags/#Android进阶之光" title="Android进阶之光">Android进阶之光</a>
+                            
+                        </div>
+                        <h1>《Android进阶之光》读书笔记（一）</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by alonealice on
+                            2017-07-14
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">alonealice</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>最近买了一本《Android进阶之光》，看了之后确实有很多之前不了解或是不熟悉的知识，所以记个笔记，以便之后更好的巩固和复习。</p>
+<h2 id="android50新特性">Android5.0新特性</h2>
+<h3 id="recyclerview分割线">RecyclerView分割线</h3>
+<p><code>RecyclerView</code>在设置分割线的时候需要自定义（我之前在使用时一般都是直接在布局文件中放根线）。自定义<code>RecyclerView</code>的分割线时，需要创建一个class并且继承<code>RecyclerView.ItemDecoration</code>。继承该类之后需要重写<code>onDraw</code>方法。在该方法中，可以根据recyclerView排列情况，使用canvas绘制分割线。</p>
+<h3 id="折叠式和悬浮式notification">折叠式和悬浮式Notification</h3>
+<p>可以通过创建<code>RemoteViews</code>，在设置<code>notification.bigContentView=remoteView;</code>设置可折叠的通知。这类通知在外表看起来与普通的通知完全一样，滑动时，可将折叠部分展示出来。</p>
+<p>如果直接将折叠的view设置到普通的content中：<code>notification.contentView=remoteView;</code>，那通知会显示一个被裁剪掉的view。<br>
+可以通过设置<code>PendingIntent pendingIntent=PendingIntent.getActivity (this,0,intent,PendingIntent.FLAG_CANCEL_CURRENT); builder.setFullScreenIntent (pendingIntent,true)</code>显示悬浮式的notification。</p>
+<h3 id="notification显示等级">Notification显示等级</h3>
+<p>Notification有3个显示等级：<br>
+<code>VISIBILITY_PUBLIC</code>:在任何情况下都能显示<br>
+<code>VISIBILITY_PRIVATE</code>:只有在没有锁屏时显示通知<br>
+<code>VISIBILITY_SECRET</code>:在pin和password等安全锁和没有锁屏的情况下才能够显示的通知。</p>
+<h3 id="palette取色器">palette取色器</h3>
+<p>可以使用Palette来获取bitmap的色调，从而是界面色调一致。<br>
+要使用<code>Palette</code>之前，要先引入包：<code>compile 'com.android.support:palette-v7:25.0.0'</code><br>
+使用方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Bitmap bitmap= BitmapFactory.decodeResource(getResources(),R.mipmap.image);</span><br><span class="line">       Palette palette=Palette.from(bitmap).generate();</span><br><span class="line">       imageView.setImageDrawable(new ColorDrawable(palette.getVibrantSwatch().getRgb()));</span><br></pre></td></tr></table></figure>
+<p>其中<code>generate</code>方法有两个，一个同步，一个异步。</p>
+<h2 id="android60新特性">Android6.0新特性</h2>
+<h3 id="应用权限管理">应用权限管理</h3>
+<p>在之前的Android版本中，应用的权限会在应用安装时授予，而6.0以后，系统不会在安装时授予应用权限，所以应用不得不在需要使用这些权限时，逐个向用户请求。<br>
+对于targetSdkVersion&lt;23的应用，系统依旧会授予所申请的权限，这也就保证了之前开发的应用不会在运行时因为权限问题崩溃（想偷懒的话可以这么干）。</p>
+<h3 id="normal-permission与danger-permission">Normal Permission与Danger Permission</h3>
+<p>Android6.0以后的版本中，权限分两钟，一种是Normal Permission，这类权限一般不涉及到用户隐私，比如网络权限、震动权限，系统会直接授予；另一种是Danger Permission，这种权限一般涉及到用户隐私。这类权限是以分组的形式给出，有如下分组：<br>
+android.permission.group.CALENDAR (日历权限，包含读取日历和改写日历)<br>
+android.permission.group.CAMERA (相机权限)<br>
+android.permission.group.CONTACTS (联系人权限 包含读、写联系人)<br>
+android.permission.group.LOCATION (位置权限 包含精确、粗略位置)<br>
+android.permission.group.MICROPHONE (话筒权限）<br>
+android.permission.group.PHONE (电话权限)<br>
+android.permission.group.SENSORS (传感器权限)<br>
+android.permission.group.SMS (短信权限)<br>
+android.permission.group.STORAGE (存储权限 包含读、写sd卡)<br>
+这些权限组中，只要一个被授予了，那么整组都会被授予。</p>
+<p>我们可以通过<code>ActivityCompat.checkSelfPermission</code>或<code>ContextCompat.checkSelfPermission</code>来检查权限：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">if(ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) ==</span><br><span class="line">                PackageManager.PERMISSION_GRANTED)&#123;</span><br><span class="line">            //do</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            //申请权限</span><br><span class="line">            ActivityCompat.requestPermissions(activity,</span><br><span class="line">                    new String[]&#123;Manifest.permission.WRITE_EXTERNAL_STORAGE&#125;, 0);</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>同时在Activity中重写<code>onRequestPermissionsResult</code>方法，当requestCode返回为1时，说明权限申请成功。</p>
+<h2 id="android70新特性">Android7.0新特性</h2>
+<h3 id="多窗口模式">多窗口模式</h3>
+<p>当长按菜单键时，应用进入多窗口模式。activity的生命周期如下:<code>onPause-&gt;onStop-&gt;onDestory-&gt;onCreate-&gt;onStart-&gt;onPause</code>，当我们点击该窗口时，会进入<code>onResume</code>，这里可以看到，开启多窗口时，activity会先销毁，在创建。当我们推出多窗口模式时也一样，一用会先销毁，再创建，但是会直接进入到<code>onResume</code>中。</p>
+<p>我们可以在Application中设置<code>android:resizeableActivity=&quot;false&quot;</code>禁止多窗口模式。但是当targetSdkVersion&lt;24时，该设置会无效，在这种情况下，我们可以这只activity <code>android:screenOrientation=&quot;portrait&quot;</code>禁止屏幕旋转，来达到禁止多窗口模式的效果。</p>
+<h2 id="material-design">Material Design</h2>
+<h3 id="material-design相关控件">Material Design相关控件</h3>
+<p><code>SnakeBar</code>可以通过setAction来添加操作，同时，<code>make</code>方法中的view参数是Snake的父控件，可以确保其显示在正确的位置（不过我试了发现不管传什么view其都显示在最下面）。</p>
+<p><code>TextInputLayout</code>里面有且只有一个<code>edittext</code>,它可以使<code>edittext</code>在点击后依旧在输入框上面显示<code>hint</code>内容。除此之外，更加友好的提示错误信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">textInputLayout.setErrorEnable(true);</span><br><span class="line">textInputLayout.setError(“错误信息”);</span><br></pre></td></tr></table></figure>
+<p>这样可以在输入框下面显示错误提示<br>
+hint的颜色可以通过修改<code>colorAccent</code>修改。</p>
+<p><code>TabLayout</code>可以设置<code>app:tabMode=&quot;scrollable&quot;</code>来使其可以滑动，当不设置或者设置为<code>app:tabMode=&quot;fixed</code>时，所有的item都会挤在一个页面宽度中。</p>
+<p><code>NaviationView</code>实现侧滑菜单功能，它主要是与<code>DrawerLayout</code>同用。它可以通过设置<code>app:headerLayout=&quot;&quot;</code>引入头文件，<code>app:menu=&quot;&quot;</code>引入菜单文件，菜单文件中可以通过设置group来设置分组，group可以设置<code>”android:checkableBehavior=&quot;single&quot;</code>来设置只能选一个。</p>
+<p><code>Coordinatorlayout</code>可以是<code>toolbar</code>随着滑动消失，<code>toolbar</code>需要设置<code>app:layout_scrollFlags=&quot;scroll|enterAlways&quot;</code>(toolbar要包含在AppBarLayout中)。<br>
+<code>Coordinatorlayout</code>配合<code>CollapsingToolbarLayout</code>可以使<code>Toolbar</code>折叠，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">&lt;android.support.design.widget.CoordinatorLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;</span><br><span class="line">    android:orientation=&quot;vertical&quot;</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;match_parent&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;android.support.design.widget.AppBarLayout</span><br><span class="line">        android:id=&quot;@+id/app_bar&quot;</span><br><span class="line">        android:layout_width=&quot;match_parent&quot;</span><br><span class="line">        android:layout_height=&quot;200dp&quot;</span><br><span class="line">        android:fitsSystemWindows=&quot;true&quot;</span><br><span class="line">        android:theme=&quot;@style/AppTheme.AppBarOverlay&quot;&gt;</span><br><span class="line"></span><br><span class="line">        &lt;android.support.design.widget.CollapsingToolbarLayout</span><br><span class="line">            android:id=&quot;@+id/toolbar_layout&quot;</span><br><span class="line">            android:layout_width=&quot;match_parent&quot;</span><br><span class="line">            android:layout_height=&quot;match_parent&quot;</span><br><span class="line">            android:fitsSystemWindows=&quot;true&quot;</span><br><span class="line">            app:contentScrim=&quot;#f24242&quot;</span><br><span class="line">            android:minHeight=&quot;100dp&quot;</span><br><span class="line">            app:layout_scrollFlags=&quot;scroll|exitUntilCollapsed&quot;&gt;</span><br><span class="line"></span><br><span class="line">            &lt;LinearLayout</span><br><span class="line">                ...</span><br><span class="line">            &lt;/LinearLayout&gt;</span><br><span class="line">            &lt;android.support.v7.widget.Toolbar</span><br><span class="line">                android:id=&quot;@+id/toolbar&quot;</span><br><span class="line">                android:layout_width=&quot;match_parent&quot;</span><br><span class="line">                android:layout_height=&quot;50dp&quot;</span><br><span class="line">                app:layout_collapseMode=&quot;pin&quot;</span><br><span class="line">                app:popupTheme=&quot;@style/AppTheme.PopupOverlay&quot; /&gt;</span><br><span class="line"></span><br><span class="line">        &lt;/android.support.design.widget.CollapsingToolbarLayout&gt;</span><br><span class="line">    &lt;/android.support.design.widget.AppBarLayout&gt;</span><br><span class="line">    &lt;android.support.v7.widget.RecyclerView</span><br><span class="line">       android:id=&quot;@+id/recycle&quot;</span><br><span class="line">       android:layout_width=&quot;match_parent&quot;</span><br><span class="line">       android:layout_height=&quot;match_parent&quot;</span><br><span class="line">       app:layout_behavior=&quot;@string/appbar_scrolling_view_behavior&quot;&gt;&lt;/android.support.v7.widget.RecyclerView&gt;</span><br></pre></td></tr></table></figure>
+<p>解释几个<code>CollapsingToolbarLayout</code>关键的参数：<br>
+<code>app:contentScrim=&quot;#f24242&quot;</code>设置收缩后的顶部颜色<br>
+<code>app:expandedTitleGravity=&quot;center&quot;</code>表示展开后文字的位置，默认是<code>left|bottom</code><br>
+<code>app:layout_scrollFlags= &quot;scroll|exitUntilCollapsed&quot;</code>表示既随着滑动收缩，又保留在顶部，如果设置为<code>app:layout_scrollFlags= &quot;scroll|enterAlwaysCollapsed&quot;</code><br>
+或<code>app:layout_scrollFlags= &quot;scroll|enterAlways&quot;</code>，则表示既收缩，但是不保留，最终会划走。</p>
+<h3 id="自定义behavior">自定义Behavior</h3>
+<p>自定义<code>Behavior</code>需要继承<code>CollapsingToolbarLayout.Behavior&lt;View</code>类，实现方法主要分两种，一种是view监听<code>CollapsingToolbarLayout</code>状态，这种情况时我们需要重写<code>onStartNestedScroll</code>、和<code>onNestedPreScroll</code>方法；另一种是监听另一个view的变化，这种情况时需要重写<code>layoutDependsOn</code>方法和<code>onDependentViewChange</code>方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout,</span><br><span class="line">              View child, View directTargetChild, View target, int nestedScrollAxes) &#123;</span><br><span class="line">          return false;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      public void onNestedPreScroll(CoordinatorLayout coordinatorLayout, View child, View target,</span><br><span class="line">                     int dx, int dy, int[] consumed) &#123;</span><br><span class="line">                 // Do nothing</span><br><span class="line">             &#125;</span><br></pre></td></tr></table></figure>
+<p><code>onStartNestedScroll</code>方法的返回值表示这次滑动我们是否关心，而<code>onNestedScrollAccepted</code>表示滑动时的变化。</p>
+<p><code>onNestedScrollAccepted</code>方法的<code>child</code>表示设置了当前<code>Behavior</code>的view，dx,dy表示滑动的距离。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public boolean layoutDependsOn(CoordinatorLayout parent, View child, View dependency) &#123;</span><br><span class="line">           return false;</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       public boolean onDependentViewChanged(CoordinatorLayout parent, View child, View dependency) &#123;</span><br><span class="line">                  return false;</span><br><span class="line">              &#125;</span><br></pre></td></tr></table></figure>
+<p><code>layoutDependsOn</code>返回我们是否需要对本次滑动关心，而<code>onDependentViewChanged</code>表示滑动时的变化。<code>layoutDependsOn</code>和<code>onDependentViewChanged</code>方法中的child表示设置<code>Behavior</code>的view，<code>dependency</code>表示我们关心的view<br>
+``</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/Android进阶之光/读书笔记/《Android进阶之光》读书笔记（二）/" data-toggle="tooltip" data-placement="top" title="《Android进阶之光》读书笔记(二)">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/tips和坑/android开发小tip与踩过的坑（持续更新）/" data-toggle="tooltip" data-placement="top" title="android开发小tip与踩过的坑（持续更新）">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#读书笔记" title="读书笔记">读书笔记</a>
+                        
+                          <a class="tag" href="/tags/#Android进阶之光" title="Android进阶之光">Android进阶之光</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/earthwo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; alonealice 2020 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://www.huweihuang.com">胡伟煌</a> |
+                    <br> 
+                    <a href="http://www.beian.miit.gov.cn">浙ICP备17033688号</a>   
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://alonealice.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://alonealice.com/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

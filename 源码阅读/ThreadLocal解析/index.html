@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="不懂要会问，打脸要立正">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          ThreadLocal解析 - alonealice | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://alonealice.com/源码阅读/ThreadLocal解析/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/article_bg.jpeg')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#源码阅读" title="源码阅读">源码阅读</a>
+                            
+                        </div>
+                        <h1>ThreadLocal解析</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by alonealice on
+                            2016-12-07
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">alonealice</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p><code>ThreadLocal</code>是一个关于创建线程局部变量的类，为解决多线程程序的并发问题提供了一种新的思路。使用<code>ThreadLocal</code>创建的变量只能被当前线程访问，其他线程则无法访问和修改。那它内部是如何实现的呢？<br>
+<code>ThreadLocal</code>对外提供三个方法：set、get和remove，那我们一次来看一下这几个方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public void set(T value) &#123;</span><br><span class="line">      Thread currentThread = Thread.currentThread();</span><br><span class="line">      Values values = values(currentThread);</span><br><span class="line">      if (values == null) &#123;</span><br><span class="line">          values = initializeValues(currentThread);</span><br><span class="line">      &#125;</span><br><span class="line">      values.put(this, value);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  Values values(Thread current) &#123;</span><br><span class="line">       return current.localValues;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   Values initializeValues(Thread current) &#123;</span><br><span class="line">        return current.localValues = new Values();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>set方法很简洁，首先是获取当前的线程，再获取该线程的Values变量，如果线程的Values值为null，则创建新的Values给该Thread，然后将该<code>ThreadLocal</code>作为key，传入的值作为value，添加到Values中。那这个<code>Values</code>又是何方神圣呢。<br>
+<code>Values</code>是ThreadLocald的静态类，同时又是Thread的成员变量，它内部主要维护了一个Object数组。看一下它的构造方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Values() &#123;</span><br><span class="line">          initializeTable(INITIAL_SIZE);</span><br><span class="line">          this.size = 0;</span><br><span class="line">          this.tombstones = 0;</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
+<p>这里有两个变量，一个是size，它表示的是数组中存储的values的数量，tombstones表示数组中无用值的数量，关于它，后面再说。接下来看initializeTable方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">private void initializeTable(int capacity) &#123;</span><br><span class="line">         this.table = new Object[capacity * 2];</span><br><span class="line">         this.mask = table.length - 1;</span><br><span class="line">         this.clean = 0;</span><br><span class="line">         this.maximumLoad = capacity * 2 / 3; // 2/3</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure>
+<p>首先，它会创建一个Size为传入数字的2倍的Object数组，记录数组的最大下标mask，设置清除的数组下标clean和最大的存储量maximumLoad。关于后面两个变量的用处，后面再说。接下栏看看它的put方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">void put(ThreadLocal&lt;?&gt; key, Object value) &#123;</span><br><span class="line">            cleanUp();</span><br><span class="line"></span><br><span class="line">            // Keep track of first tombstone. That&apos;s where we want to go back</span><br><span class="line">            // and add an entry if necessary.</span><br><span class="line">            int firstTombstone = -1;</span><br><span class="line"></span><br><span class="line">            for (int index = key.hash &amp; mask;; index = next(index)) &#123;</span><br><span class="line">                Object k = table[index];</span><br><span class="line"></span><br><span class="line">                if (k == key.reference) &#123;</span><br><span class="line">                    // Replace existing entry.</span><br><span class="line">                    table[index + 1] = value;</span><br><span class="line">                    return;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                if (k == null) &#123;</span><br><span class="line">                    if (firstTombstone == -1) &#123;</span><br><span class="line">                        // Fill in null slot.</span><br><span class="line">                        table[index] = key.reference;</span><br><span class="line">                        table[index + 1] = value;</span><br><span class="line">                        size++;</span><br><span class="line">                        return;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    // Go back and replace first tombstone.</span><br><span class="line">                    table[firstTombstone] = key.reference;</span><br><span class="line">                    table[firstTombstone + 1] = value;</span><br><span class="line">                    tombstones--;</span><br><span class="line">                    size++;</span><br><span class="line">                    return;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                // Remember first tombstone.</span><br><span class="line">                if (firstTombstone == -1 &amp;&amp; k == TOMBSTONE) &#123;</span><br><span class="line">                    firstTombstone = index;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>首先是清除无用的values，这个我们后面再说。接下来是根据ThreadLocal的hash值和之前数组的最大下标mask值，计算当前threadlocal在数组中的位置。取出当前位置的值，如果值为null，且之前位置没有被占用过，则说明该threadlocal在之前完全没有存储过，就在该数组位置存储key，该位置+1存储value；如果已经存储过，就循环找到该位置更新数据；如果位置被已清除的数据占用，且其他位置没有该数据，那就在被占的位置上添加数据。<br>
+从这里我们可以看到，threadlocal本身并不存储值，而是用Thread的values存储，threadlocal只是作为存储的key，而在数组存储的方式为两两并排存储，key在前，value在后。同时我们会发现几个问题，首先存储是threadlocal并不是直接将自己作为key存储，而是将自己的作为软引用来存储，其次，存储的可以会在什么时候被清除，那下面就来讲讲这两个问题。<br>
+首先来讲讲为什么不直接使用强引用作为key。当我们将threadlocal作为强引用key时，当引用的threadlocal对象要被回收时，由于该Thread的Values还持有ThreadLocal的强引用，导致这个threadlocal对象就不会被回收，从而导致了内存泄漏。而如果使用软引用时，由于Values持有的是ThreadLocal的软引用，ThreadLocal会被直接回收，这时只要在将那些已经被回收的key的value清除，就不会再造成内存泄漏了。当然这种方式依旧会有泄漏的风险，因为Thread的Values的生命周期跟Thread一样长，当在一个长生命周期的Thread（如mainThread）中没有及时的remove对象，且ThreadLocal被回收了，又没有再次执行set、或get方法，那么依旧会造成内存泄漏。所以要彻底的避免泄漏，还是要及时的清除无用的threadlocal。<br>
+上面说的，set和get方法会将那些已经被回收的threadlocal的值清除，那它又是怎么做的呢？这里有一个我们之前跳过的方法：cleanUp。那再来看看这个方法做了什么。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">private void cleanUp() &#123;</span><br><span class="line">           if (rehash()) &#123;</span><br><span class="line">               // If we rehashed, we needn&apos;t clean up (clean up happens as</span><br><span class="line">               // a side effect).</span><br><span class="line">               return;</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           if (size == 0) &#123;</span><br><span class="line">               // No live entries == nothing to clean.</span><br><span class="line">               return;</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           // Clean log(table.length) entries picking up where we left off</span><br><span class="line">           // last time.</span><br><span class="line">           int index = clean;</span><br><span class="line">           Object[] table = this.table;</span><br><span class="line">           for (int counter = table.length; counter &gt; 0; counter &gt;&gt;= 1,</span><br><span class="line">                   index = next(index)) &#123;</span><br><span class="line">               Object k = table[index];</span><br><span class="line"></span><br><span class="line">               if (k == TOMBSTONE || k == null) &#123;</span><br><span class="line">                   continue; // on to next entry</span><br><span class="line">               &#125;</span><br><span class="line"></span><br><span class="line">               // The table can only contain null, tombstones and references.</span><br><span class="line">               @SuppressWarnings(&quot;unchecked&quot;)</span><br><span class="line">               Reference&lt;ThreadLocal&lt;?&gt;&gt; reference</span><br><span class="line">                       = (Reference&lt;ThreadLocal&lt;?&gt;&gt;) k;</span><br><span class="line">               if (reference.get() == null) &#123;</span><br><span class="line">                   // This thread local was reclaimed by the garbage collector.</span><br><span class="line">                   table[index] = TOMBSTONE;</span><br><span class="line">                   table[index + 1] = null;</span><br><span class="line">                   tombstones++;</span><br><span class="line">                   size--;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           // Point cursor to next index.</span><br><span class="line">           clean = index;</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
+<p>首先是判断数组是否需要重新设置，这个先放着。当数组的values数量不为空时，循环遍历数组。这里程序会记录之前检查过的下标为clean，这样可以减少循环次数。<br>
+当位置上的key没有没有被清除掉，且key的引用被清除掉时，会将该key和其对应的值都清掉。<br>
+接下来看看rehash方法，该方法用来判断是否需要扩大数组。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">private boolean rehash() &#123;</span><br><span class="line">           if (tombstones + size &lt; maximumLoad) &#123;</span><br><span class="line">               return false;</span><br><span class="line">           &#125;</span><br><span class="line">           int capacity = table.length &gt;&gt; 1;</span><br><span class="line">           int newCapacity = capacity;</span><br><span class="line"></span><br><span class="line">           if (size &gt; (capacity &gt;&gt; 1)) &#123;        </span><br><span class="line">               newCapacity = capacity * 2;</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           Object[] oldTable = this.table;</span><br><span class="line"></span><br><span class="line">           initializeTable(newCapacity);</span><br><span class="line"></span><br><span class="line">           this.tombstones = 0;</span><br><span class="line"></span><br><span class="line">           if (size == 0) &#123;</span><br><span class="line">               return true;</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           for (int i = oldTable.length - 2; i &gt;= 0; i -= 2) &#123;</span><br><span class="line">               Object k = oldTable[i];</span><br><span class="line">               if (k == null || k == TOMBSTONE) &#123;</span><br><span class="line">                   continue;</span><br><span class="line">               &#125;</span><br><span class="line"></span><br><span class="line">               @SuppressWarnings(&quot;unchecked&quot;)</span><br><span class="line">               Reference&lt;ThreadLocal&lt;?&gt;&gt; reference</span><br><span class="line">                       = (Reference&lt;ThreadLocal&lt;?&gt;&gt;) k;</span><br><span class="line">               ThreadLocal&lt;?&gt; key = reference.get();</span><br><span class="line">               if (key != null) &#123;</span><br><span class="line">                   // Entry is still live. Move it over.</span><br><span class="line">                   add(key, oldTable[i + 1]);</span><br><span class="line">               &#125; else &#123;</span><br><span class="line">                   // The key was reclaimed.</span><br><span class="line">                   size--;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           return true;</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
+<p>这里我们看到，当所有的值数量（被清除的值+正常的值）大于最大的数量时，或者正常的值数量到达数组范围的一半时，都会重新设置数组。更详细的说，当被清除的值数量过大时，会重新设置从序号0开始检查，并不再将那些清除的值添加到新数组；当正常的值size过大时，会将数组扩大一倍，再讲值重新添加到数组。<br>
+然后我们再来看看get方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public T get() &#123;</span><br><span class="line">        // Optimized for the fast path.</span><br><span class="line">        Thread currentThread = Thread.currentThread();</span><br><span class="line">        Values values = values(currentThread);</span><br><span class="line">        if (values != null) &#123;</span><br><span class="line">            Object[] table = values.table;</span><br><span class="line">            int index = hash &amp; values.mask;</span><br><span class="line">            if (this.reference == table[index]) &#123;</span><br><span class="line">                return (T) table[index + 1];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            values = initializeValues(currentThread);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return (T) values.getAfterMiss(this);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>首先会根据threadlocal获取数据在数组位置，从线程中获取数据。如果没有数据的话，就执行getAfterMiss方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line">Object getAfterMiss(ThreadLocal&lt;?&gt; key) &#123;</span><br><span class="line">         Object[] table = this.table;</span><br><span class="line">         int index = key.hash &amp; mask;</span><br><span class="line"></span><br><span class="line">         // If the first slot is empty, the search is over.</span><br><span class="line">         if (table[index] == null) &#123;  //1</span><br><span class="line">             Object value = key.initialValue();</span><br><span class="line"></span><br><span class="line">             // If the table is still the same and the slot is still empty...</span><br><span class="line">             if (this.table == table &amp;&amp; table[index] == null) &#123;</span><br><span class="line">                 table[index] = key.reference;</span><br><span class="line">                 table[index + 1] = value;</span><br><span class="line">                 size++;</span><br><span class="line"></span><br><span class="line">                 cleanUp();</span><br><span class="line">                 return value;</span><br><span class="line">             &#125;</span><br><span class="line"></span><br><span class="line">             // The table changed during initialValue().</span><br><span class="line">             put(key, value);</span><br><span class="line">             return value;</span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line">         // Keep track of first tombstone. That&apos;s where we want to go back</span><br><span class="line">         // and add an entry if necessary.</span><br><span class="line">         int firstTombstone = -1;</span><br><span class="line"></span><br><span class="line">         // Continue search.</span><br><span class="line">         for (index = next(index);; index = next(index)) &#123;</span><br><span class="line">             Object reference = table[index];</span><br><span class="line">             if (reference == key.reference) &#123; //2</span><br><span class="line">                 return table[index + 1];</span><br><span class="line">             &#125;</span><br><span class="line"></span><br><span class="line">             // If no entry was found...</span><br><span class="line">             if (reference == null) &#123;</span><br><span class="line">                 Object value = key.initialValue();</span><br><span class="line"></span><br><span class="line">                 // If the table is still the same...</span><br><span class="line">                 if (this.table == table) &#123;</span><br><span class="line">                     // If we passed a tombstone and that slot still</span><br><span class="line">                     // contains a tombstone...</span><br><span class="line">                     if (firstTombstone &gt; -1</span><br><span class="line">                             &amp;&amp; table[firstTombstone] == TOMBSTONE) &#123;</span><br><span class="line">                         table[firstTombstone] = key.reference;</span><br><span class="line">                         table[firstTombstone + 1] = value;</span><br><span class="line">                         tombstones--;</span><br><span class="line">                         size++;</span><br><span class="line"></span><br><span class="line">                         // No need to clean up here. We aren&apos;t filling</span><br><span class="line">                         // in a null slot.</span><br><span class="line">                         return value;</span><br><span class="line">                     &#125;</span><br><span class="line"></span><br><span class="line">                     // If this slot is still empty...</span><br><span class="line">                     if (table[index] == null) &#123;</span><br><span class="line">                         table[index] = key.reference;</span><br><span class="line">                         table[index + 1] = value;</span><br><span class="line">                         size++;</span><br><span class="line"></span><br><span class="line">                         cleanUp();</span><br><span class="line">                         return value;</span><br><span class="line">                     &#125;</span><br><span class="line">                 &#125;</span><br><span class="line"></span><br><span class="line">                 // The table changed during initialValue().</span><br><span class="line">                 put(key, value);</span><br><span class="line">                 return value;</span><br><span class="line">             &#125;</span><br><span class="line"></span><br><span class="line">             if (firstTombstone == -1 &amp;&amp; reference == TOMBSTONE) &#123;</span><br><span class="line">                 // Keep track of this tombstone so we can overwrite it.</span><br><span class="line">                 firstTombstone = index;</span><br><span class="line">             &#125;</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure>
+<p>该方法比较长，但是核心就几处。首先是1处，当位置上的key为null时，说明之前没有数据存储过，那就返回null，同时将null作为值添加到数组；其次是2处，从原位置+2处开始遍历循环数组，如果位置上的数据为key的reference，那就直接返回值；如果如果位置上的数据为不是key的reference，这说明之前的key被回收清除了，那么就将null作为值添加到该清除位置同时返回null。<br>
+最后再来看看remove方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">public void remove() &#123;</span><br><span class="line">     Thread currentThread = Thread.currentThread();</span><br><span class="line">     Values values = values(currentThread);</span><br><span class="line">     if (values != null) &#123;</span><br><span class="line">         values.remove(this);</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br><span class="line">...</span><br><span class="line"> void remove(ThreadLocal&lt;?&gt; key) &#123;</span><br><span class="line">           cleanUp();</span><br><span class="line"></span><br><span class="line">           for (int index = key.hash &amp; mask;; index = next(index)) &#123;</span><br><span class="line">               Object reference = table[index];</span><br><span class="line"></span><br><span class="line">               if (reference == key.reference) &#123;</span><br><span class="line">                   // Success!</span><br><span class="line">                   table[index] = TOMBSTONE;</span><br><span class="line">                   table[index + 1] = null;</span><br><span class="line">                   tombstones++;</span><br><span class="line">                   size--;</span><br><span class="line">                   return;</span><br><span class="line">               &#125;</span><br><span class="line"></span><br><span class="line">               if (reference == null) &#123;</span><br><span class="line">                   // No entry found.</span><br><span class="line">                   return;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
+<p>remove方法就比较简单了，如果key还存在，就将key和它的值都清除掉。<br>
+最后总结一下：首先ThreadLocal本身不存储任何值，它将自己作为key存储到线程的Values中；同时如果存储的位置已经有其他值，那它会增加序号到新的位置存储；如果存储的位置的值被清除了，且后面没有存储该值，那就会在该清除位置上储存。同时，每次get、set和remove方法，都会将那些已经被回收的key和值都清除掉。</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/ndk/jni学习笔记/" data-toggle="tooltip" data-placement="top" title="NDK学习笔记(一)">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/源码阅读/LocalBroadcastManager源码分析/" data-toggle="tooltip" data-placement="top" title="LocalBroadcastManager源码分析">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#源码阅读" title="源码阅读">源码阅读</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/earthwo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; alonealice 2020 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://www.huweihuang.com">胡伟煌</a> |
+                    <br> 
+                    <a href="http://www.beian.miit.gov.cn">浙ICP备17033688号</a>   
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://alonealice.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://alonealice.com/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
