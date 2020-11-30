@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="不懂要会问，打脸要立正">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          MediaCodec基础 - alonealice | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://alonealice.com/音视频/MediaCodec基础/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/article_bg.jpeg')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#音视频" title="音视频">音视频</a>
+                            
+                        </div>
+                        <h1>MediaCodec基础</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by alonealice on
+                            2020-10-26
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">alonealice</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>MediaCodec是一个Codec，通过硬件加速解码和编码。</p>
+<p>MediaCodec 的作用是处理输入的数据生成输出数据。首先生成一个输入数据缓冲区，将数据填入缓冲区提供给 codec，codec 会采用异步的方式处理这些输入的数据，然后将填满输出缓冲区提供给消费者，消费者消费完后将缓冲区返还给 codec。</p>
+<h3 id="mediacodec的数据">MediaCodec的数据</h3>
+<p>MediaCodec 接受三种数据格式：压缩数据，原始音频数据和原始视频数据。这三种数据都可以使用 ByteBuffer 作为载体传输给 MediaCodec 来处理。但是当使用原始视频数据时，最好采用 Surface 作为输入源来替代 ByteBuffer，这样效率更高，因为 Surface 使用的更底层的视频数据，不会映射或复制到 ByteBuffer 缓冲区。</p>
+<h4 id="压缩数据">压缩数据</h4>
+<p>压缩数据可以作为解码器的输入数据或者编码器的输出数据，需要指定数据格式。对于视频数据而言，通常是一帧数据；音频数据，一般是单个处理单元。</p>
+<h4 id="原始音频数据">原始音频数据</h4>
+<p>原始音频数据即编码器的输入数据，解码器的输出数据。包含整个 PCM 音频数据帧，这是通道顺序中每个通道的一个样本。每个采样都是以本地字节顺序的 16 位有符号整数。</p>
+<h4 id="原始视频数据">原始视频数据</h4>
+<p>原始视频数据也是编码器的输入数据，解码器的输出数据。即yuv数据，MediaCodec主要支持的格式为：</p>
+<ul>
+<li>native raw video format :  COLOR_FormatSurface，用来处理 Surface 模式的数据输入输出</li>
+<li>flexible YUV buffers :  例如 COLOR_FormatYUV420Flexible</li>
+<li>specific formats: 支持ByteBuffer模式，有一些厂家会定制</li>
+</ul>
+<h3 id="mediacodec的生命周期">MediaCodec的生命周期</h3>
+<p>MediaCodec 的生命周期有三种状态：Stopped、Executing、Released，其中Stopped包含三种子状态：Uninitialized、Configured、Error，Executing，包含三种子状态：Flushed、Running、End-of-Stream。</p>
+<img src="https://img.alicdn.com/tfs/TB1.ljA0oH1gK0jSZSyXXXtlpXa-1136-754.jpg" style="zoom:50%;">
+<p>**Stopped **的三种子状态：</p>
+<ol>
+<li>Uninitialized：当创建了一个MediaCodec对象，此时处于Uninitialized状态。可以在任何状态调用reset()方法使MediaCodec返回到Uninitialized状态。</li>
+<li>Configured：使用configure(…)方法对MediaCodec进行配置转为Configured状态。</li>
+<li>Error：MediaCodec遇到错误时进入Error状态。错误可能是在队列操作时返回的错误或者异常导致的。</li>
+</ol>
+<p><strong>Executing</strong> 的三种子状态：</p>
+<ol>
+<li>Flushed：在调用start()方法后MediaCodec立即进入Flushed子状态，此时MediaCodec会拥有所有的缓存。可以在Executing状态的任何时候通过调用flush()方法返回到Flushed子状态。</li>
+<li>Running：一旦第一个输入缓存（input buffer）被移出队列，MediaCodec就转入Running子状态，这种状态占据了MediaCodec的大部分生命周期。通过调用stop()方法转移到Uninitialized状态。</li>
+<li>End-of-Stream：将一个带有end-of-stream标记的输入buffer入队列时，MediaCodec将转入End-of-Stream子状态。在这种状态下，MediaCodec不再接收之后的输入buffer，但它仍然产生输出buffer直到end-of-stream标记输出。</li>
+</ol>
+<p><strong>Released</strong> 状态</p>
+<ol>
+<li>当使用完MediaCodec后，必须调用release()方法释放其资源。调用 release()方法进入最终的Released状态。</li>
+</ol>
+<h3 id="mediacodec-api">MediaCodec API</h3>
+<p>首先是创建 MediaCodec，在知道 MimeType (如&quot;video/avc&quot;)的情况下，可以通过 createDecoderByType 方法来创建，也可以使用createByCodecName 方法，根据组件的确切名称(如OMX.google.mp3.decoder来获取实例。如果不知道 MimeType，可以使用 MediaCodecList.findDecoderForFormat、 MediaCodecList.findEncoderForFormat 来获取。创建成功之后，MediaCodec 进入 Uninitialized 状态。</p>
+<p>在创建好 MediaCodec 后，需要调用 MediaCodec 的configure方法，主要是配置解码器或者编码器。同时 MediaCodec 的状态也会从 uninitialized 变成 configured 。configure方法中的 MediaFormat 的类型有：</p>
+<p>Video 所必须的 Format Setting</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Encoder</th>
+<th>Decoder</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>KEY_MIME</td>
+<td>✔️</td>
+<td>✔️</td>
+</tr>
+<tr>
+<td>KEY_BIT_RATE</td>
+<td>✔️</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>KEY_WIDTH</td>
+<td>✔️</td>
+<td>✔️</td>
+</tr>
+<tr>
+<td>KEY_HEIGHT</td>
+<td>✔️</td>
+<td>✔️</td>
+</tr>
+<tr>
+<td>KEY_COLOR_FORMAT</td>
+<td>✔️</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>KYE_FRAME_RATE</td>
+<td>✔️</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>KEY_I_FRAME_INTERVAL</td>
+<td>✔️</td>
+<td>❌</td>
+</tr>
+</tbody>
+</table>
+<p>Audio 所必须的 Format Setting</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Encoder</th>
+<th>Decoder</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>KEY_MIME</td>
+<td>✔️</td>
+<td>✔️</td>
+</tr>
+<tr>
+<td>KEY_BIT_RATE</td>
+<td>✔️</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>KEY_CHANNEL_COUNT</td>
+<td>✔️</td>
+<td>✔️</td>
+</tr>
+<tr>
+<td>KEY_SAMPLE_RATE</td>
+<td>✔️</td>
+<td>✔️</td>
+</tr>
+</tbody>
+</table>
+<p>配置成功后可以调用start方法。</p>
+<p>start后相关的<strong>buffer处理的接口</strong>：</p>
+<p><strong>dequeueInputBuffer</strong>：从输入流队列中取数据进行编码操作。</p>
+<p><strong>queueInputBuffer</strong>：输入流入队列。</p>
+<p><strong>dequeueOutputBuffer</strong>：从输出队列中取出编码操作之后的数据。</p>
+<p><strong>releaseOutputBuffer</strong>：处理完成，释放ByteBuffer数据。</p>
+<p><strong>getInputBuffers</strong>：获取需要编码数据的输入流队列，返回的是一个ByteBuffer数组。</p>
+<p><strong>getOutputBuffers</strong>：获取编解码之后的数据输出流队列，返回的是一个ByteBuffer数组。</p>
+<p>处理完成之后调用的方法：</p>
+<p><strong>flush</strong>：清空的输入和输出端口。</p>
+<p><strong>stop</strong>：终止decode/encode会话</p>
+<p><strong>release</strong>：释放编解码器实例使用的资源。</p>
+<h3 id="api详解">API详解</h3>
+<p><strong>MediaCodec创建</strong>：</p>
+<p>可以使用MediaCodecList为特定的媒体格式创建一个MediaCodec。</p>
+<ul>
+<li>可以从 MediaExtractor 的 getTrackFormat 获得track的格式。</li>
+<li>使用 MediaFormat setFeatureEnabled 注入想要添加的任何特性。</li>
+<li>然后调用MediaCodecList 的 findDecoderForFormat来获取能够处理该特定媒体格式的编解码器的名称。</li>
+<li>最后，使用createByCodecName(字符串)创建编解码器。</li>
+</ul>
+<p>还可以使用createDecoder/EncoderByType(java.lang.String)为特定MIME类型创建首选的编解码器。但是，这不能用于注入特性，并且可能会创建一个不能处理特定媒体格式的编解码器。</p>
+<p><strong>configure</strong>：</p>
+<p>MediaFormat format：输入数据的格式(解码器)或输出数据的所需格式(编码器)。传null等同于传递MediaFormat#MediaFormat作为空的MediaFormat。</p>
+<p>Surface surface：指定Surface，用于解码器输出的渲染。如果编解码器不生成原始视频输出(例如，不是视频解码器)和/或想配置解码器输出ByteBuffer，则传null。</p>
+<p>MediaCrypto crypto：指定一个crypto对象，用于对媒体数据进行安全解密。对于非安全的编解码器，传null。</p>
+<p>flags：当组件是编码器时，flags指定为常量CONFIGURE_FLAG_ENCODE。</p>
+<p><strong>MediaFormat</strong>：封装描述媒体数据格式的信息(包括音频或视频)，以及可选的特性元数据。媒体数据的格式指定为key/value对。key是字符串。值可以integer、long、float、String或ByteBuffer。特性元数据被指定为string/boolean对。</p>
+<p><strong>dequeueInputBuffer</strong>：</p>
+<p>返回用于填充有效数据的输入buffer的索引，如果当前没有可用的buffer，则返回-1。<code>long timeoutUs</code>：等待可用的输入buffer的时间。如果timeoutUs == 0，则立即返回，如果timeoutUs &lt; 0，则无限期等待可用的输入buffer，如果timeoutUs &gt; 0，则等待相应的微秒。</p>
+<p><strong>queueInputBuffer</strong>：</p>
+<p>在指定索引处填充输入buffer后，使用queueInputBuffer将buffer提交给组件。许多codec要求实际压缩的数据流之前必须有“特定于codec的数据”，即用于初始化codec的设置数据，如AVC视频中的PPS/SPS，vorbis音频中的code tables。</p>
+<p>int index：以前调用dequeueInputBuffer(long)返回的输入buffer的索引。</p>
+<p>int offset：数据开始时输入buffer中的字节偏移量。</p>
+<p>int size：有效输入数据的字节数。</p>
+<p>long presentationTimeUs：此buffer的PTS(以微秒为单位)。</p>
+<p>int flags：一个由BUFFER_FLAG_CODEC_CONFIG和BUFFER_FLAG_END_OF_STREAM标志组成的位掩码。虽然没有被禁止，但是大多数codec并不对输入buffer使用BUFFER_FLAG_KEY_FRAME标志。</p>
+<p>BUFFER_FLAG_END_OF_STREAM：用于指示这是输入数据的最后一部分。</p>
+<p>BUFFER_FLAG_CODEC_CONFIG：通过指定这个标志，可以在start()或flush()之后直接提交特定于codec的数据buffer。但是，如果您使用包含这些密钥的媒体格式配置编解码器，它们将在启动后由MediaCodec直接自动提交。因此，不建议使用BUFFER_FLAG_CODEC_CONFIG标志，只建议高级用户使用。</p>
+<p><strong>dequeueOutputBuffer</strong>：</p>
+<p>从MediaCodec获取输出buffer。</p>
+<p>返回值：已成功解码的输出buffer的索引或INFO_*常量之一(INFO_TRY_AGAIN_LATER, INFO_OUTPUT_FORMAT_CHANGED 或 INFO_OUTPUT_BUFFERS_CHANGED)。</p>
+<ul>
+<li>返回INFO_TRY_AGAIN_LATER而timeoutUs指定为了非负值，表示超时了。</li>
+<li>返回INFO_OUTPUT_FORMAT_CHANGED表示输出格式已更改，后续数据将遵循新格式。</li>
+</ul>
+<p>BufferInfo info：输出buffer的metadata。</p>
+<p>long timeoutUs：含义同dequeueInputBuffer中的timeoutUs参数。</p>
+<p><strong>BufferInfo</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">BufferInfo</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">                <span class="keyword">int</span> newOffset, <span class="keyword">int</span> newSize, <span class="keyword">long</span> newTimeUs, <span class="keyword">int</span> newFlags)</span></span>;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">int</span> offset;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">int</span> size;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">long</span> presentationTimeUs;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">int</span> flags;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>offset：buffer中数据的起始偏移量。</p>
+<ul>
+<li>注意设备之间的offset是不一致的。在一些设备上，offset是相对裁剪矩形的左上角像素，而在大多数设备上，offset是相对整个帧的左上角像素。</li>
+</ul>
+<p>size：buffer中的数据量(以字节为单位)。如果是0则表示buffer中没有数据，可以丢弃。0大小的buffer的唯一用途是携带流结束标记。</p>
+<p>presentationTimeUs：buffer的PTS(以微秒为单位)。来源于相应输入buffer一起传入的PTS。对于大小为0的buffer，应该忽略这个值。</p>
+<p>flags：与buffer关联的标识信息，flags包含如下取值：</p>
+<ul>
+<li>BUFFER_FLAG_KEY_FRAME：buffer包含关键帧的数据。</li>
+<li>BUFFER_FLAG_CODEC_CONFIG：buffer包含编解码器初始化/编解码器特定的数据，而不是媒体数据。</li>
+<li>BUFFER_FLAG_END_OF_STREAM：标志着流的结束，即在此之后没有buffer可用，除非后面跟着flush。</li>
+<li>BUFFER_FLAG_PARTIAL_FRAME：buffer只包含帧的一部分，解码器应该对数据进行批处理，直到在解码帧之前出现没有该标志的buffer为止。</li>
+</ul>
+<p><strong>releaseOutputBuffer</strong></p>
+<p>使用此方法将输出buffer返回给codec或将其渲染在输出surface。</p>
+<p><code>boolean render</code>：如果在配置codec时指定了一个有效的surface，则传递true会将此输出buffer在surface上渲染。一旦不再使用buffer，该surface将把buffer释放回codec。</p>
+<h3 id="异步流程">异步流程</h3>
+<p>同步流程：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">创建并配置MediaCodec对象。</span><br><span class="line">- 循环直到完成：</span><br><span class="line">	- 调用dequeueInputBuffer获取能填充有效数据的输入buffer的索引</span><br><span class="line">  - 如果输入buffer准备好了：</span><br><span class="line">    - 读取一段输入，将其填充到输入buffer中（queueInputBuffer）</span><br><span class="line">  - 调用dequeueOutputBuffer获取输出buffer的索引</span><br><span class="line">  - 如果输出buffer准备好了：</span><br><span class="line">    - 从输出buffer中获取数据进行处理。</span><br><span class="line">- 处理完毕后，release MediaCodec 对象。</span><br></pre></td></tr></table></figure>
+<p>异步流程：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- 创建并配置MediaCodec对象。</span><br><span class="line">- 给MediaCodec对象设置回调MediaCodec.Callback</span><br><span class="line">- 在onInputBufferAvailable回调中：</span><br><span class="line">    - 读取一段输入，将其填充到输入buffer中</span><br><span class="line">  	- onInputBufferAvailable会持续回调，在onInputBufferAvailable中调用mediaExtractor的advance方法，				逐帧输入</span><br><span class="line">- 在onOutputBufferAvailable回调中：</span><br><span class="line">    - 从输出buffer中获取数据进行处理。</span><br><span class="line">  	- 在onOutputBufferAvailable中会不断回调，可以根据BufferInfo的flag判断输出结束</span><br><span class="line">- 处理完毕后，release MediaCodec 对象。</span><br></pre></td></tr></table></figure>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/音视频/MediaExtractor和MediaMuxer/" data-toggle="tooltip" data-placement="top" title="MediaExtractor和MediaMuxer">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/音视频/RTP和RTCP/" data-toggle="tooltip" data-placement="top" title="RTP和RTCP">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#mediacodec的数据"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">MediaCodec&#x7684;&#x6570;&#x636E;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#压缩数据"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">&#x538B;&#x7F29;&#x6570;&#x636E;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#原始音频数据"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">&#x539F;&#x59CB;&#x97F3;&#x9891;&#x6570;&#x636E;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#原始视频数据"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">&#x539F;&#x59CB;&#x89C6;&#x9891;&#x6570;&#x636E;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#mediacodec的生命周期"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">MediaCodec&#x7684;&#x751F;&#x547D;&#x5468;&#x671F;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#mediacodec-api"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">MediaCodec API</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#api详解"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">API&#x8BE6;&#x89E3;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#异步流程"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">&#x5F02;&#x6B65;&#x6D41;&#x7A0B;</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#音视频" title="音视频">音视频</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/earthwo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; alonealice 2020 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://www.huweihuang.com">胡伟煌</a> |
+                    <br> 
+                    <a href="http://www.beian.miit.gov.cn">浙ICP备17033688号</a>   
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://alonealice.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://alonealice.com/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

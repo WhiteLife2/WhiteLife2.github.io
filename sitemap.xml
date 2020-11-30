@@ -3,22 +3,22 @@
 
     <sitemap>
         <loc>http://alonealice.com/post-sitemap.xml</loc>
-        <lastmod>2019-03-11T07:35:22.331Z</lastmod>
+        <lastmod>2020-11-30T12:32:18.272Z</lastmod>
     </sitemap>
 
     <sitemap>
         <loc>http://alonealice.com/page-sitemap.xml</loc>
-        <lastmod>2020-03-26T04:22:46.498Z</lastmod>
+        <lastmod>2020-03-26T04:22:46.000Z</lastmod>
     </sitemap>
 
     <sitemap>
         <loc>http://alonealice.com/category-sitemap.xml</loc>
-        <lastmod>2019-03-11T07:35:22.313Z</lastmod>
+        <lastmod>2019-03-11T07:35:22.000Z</lastmod>
     </sitemap>
 
     <sitemap>
         <loc>http://alonealice.com/tag-sitemap.xml</loc>
-        <lastmod>2019-03-11T07:35:22.313Z</lastmod>
+        <lastmod>2019-03-11T07:35:22.000Z</lastmod>
     </sitemap>
 
 </sitemapindex>

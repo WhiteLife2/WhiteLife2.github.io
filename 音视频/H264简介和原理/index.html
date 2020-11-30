@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="不懂要会问，打脸要立正">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          H264简介和原理 - alonealice | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://alonealice.com/音视频/H264简介和原理/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/article_bg.jpeg')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#音视频" title="音视频">音视频</a>
+                            
+                        </div>
+                        <h1>H264简介和原理</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by alonealice on
+                            2020-10-13
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">alonealice</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h3 id="什么是h264">什么是H264</h3>
+<p>H264其实就是一种视频压缩的算法，它是目前所有的视频压缩技术中运用最广泛，最流行的，普遍运用在各种视频播放的应用和服务中。对比其他的压缩标准，它主要有两大优势，一是网络亲和性，它可以适用于各种传输网络；二是更高的视频压缩比，对比H.263和MPEG-4，约为它们的 2 倍。</p>
+<p>H264主要采用了几下几种方法对视频数据进行的压缩：帧内预测压缩、帧间预测压缩、整数离散余弦变换和CABAC压缩。</p>
+<h3 id="基础概念">基础概念</h3>
+<h4 id="i帧-p帧和b帧">I帧、P帧和B帧</h4>
+<p>视频经过上述一系列的压缩后，里面的视频帧会分为3种，I帧、P帧和B帧。</p>
+<p><strong>I帧</strong>：帧内编码帧 又称intra picture，即为关键帧。I帧是将全帧图像信息经过帧内压缩技术后的产物。你可以理解为这一帧画面的完整保留；解码时只需要本帧数据就可以完成，不需要参考其他帧数据。 I帧描述了图像背景和运动主体的详情，因此不需要考虑运动矢量，它的数据信息占比也比较大也。I帧是P帧和B帧的参考帧，P帧和B帧需要参考I帧还原画面，因此I帧直接影响依赖它的后面各帧的画面质量。</p>
+<p><strong>P帧</strong>：前向预测编码帧 又称predictive-frame，它是I帧后面相隔1~2帧的编码帧。它是通过压缩当前帧与前面已编码的帧的时间冗余信息来压缩传输数据量的编码图像的，因此也叫预测帧。即它采用运动补偿的方法，传送它与前面的I或P帧的差值及运动矢量(预测误差)。因此解码时，需要用之前缓存的画面（I帧）叠加上本帧定义的差别，生成最终画面。P帧是前向预测的帧间编码，因此它只参考前面最靠近它的I帧或P帧，但它同样可以是其后面P帧的参考帧，也可以是其前后的B帧的参考帧。由于是差值传送，P帧的压缩比较高。</p>
+<p><strong>B帧</strong>： 双向预测内插编码帧(双向差别帧、双向预测帧) 又称bi-directional interpolated prediction frame，既考虑与源图像序列前面的已编码帧（I帧），也参考源图像序列后面已编码帧（P帧）。也就是说，B帧记录的是本帧与前后帧的差别，换言之，要解码B帧，不仅要取得之前的缓存画面，还要解码之后的画面，通过前后画面的与本帧数据的叠加取得最终的画面。B帧压缩率最高。</p>
+<p><strong>GOP</strong>：两个I帧之间是一个图像序列，也就是一个GOP，在一个图像序列中只有一个I帧。GOP主要用作形容一个 i 帧到下一个 i 帧之间的间隔了多少个帧，增大一个GOP帧数能够有效的减少编码后的视频体积，但是也会降低视频质量。<br>
+I帧是完整的视频帧，换句话说，客户端只有在获得I帧后才会有完整的视频。如果直接发送，不等I帧，客户端得到的画面会残缺，但是延迟较低。如果等I帧，客户端缓冲时间较长，得到画面会完整，但是延迟至少是一个gop。</p>
+<p><img src="https://pic4.zhimg.com/80/v2-2f5cd00597740d1c1aed424b1ab7efbf_1440w.jpg" alt=""></p>
+<h4 id="h264数据结构">H264数据结构</h4>
+<p>H264的码流是有一个接一个的 NALU 组成的，而它的功能分为两层：视频编码层(VCL)和网络提取层(NAL)。其中，前者负责有效表示视频数据的内容，而后者则负责格式化数据并提供头信息，以保证数据适合各种信道和存储介质上的传输。因此我们平时的每帧数据就是一个NAL单元（NALU）。</p>
+<p>VCL 数据即编码处理的输出，它表示被压缩编码后的视频数据 序列。在 VCL 数据传输或存储之前，这些编码的 VCL 数据，先被映射或封装进 NAL 单元中。每个 NALU 包括一个原始字节序列负荷(RBSP,)、一组对应于视频编码的 NALU 头部信息。RBSP 的基本结构是:在原始编码数据的后面填加了结尾比特。</p>
+<img src="https://img.alicdn.com/tfs/TB1iZi3kiDsXe8jSZR0XXXK6FXa-1326-108.jpg" style="zoom:50%;">
+<h5 id="nalu和切片">NALU和切片</h5>
+<p>视频里面的每一帧图片，在经过H264编码之后，都会成为一个或多个片（slice），而NALU就是用来装载片的载体，但是NALU内部不一定都是切片，也有可能装载其他描述视频的信息。</p>
+<img src="https://img.alicdn.com/tfs/TB1Lk7sYFP7gK0jSZFjXXc5aXXa-1076-544.jpg" style="zoom:50%;">
+<p>片的主要作用是用作宏块的载体，同时也是为限制误码的扩散和传输，每个片都应该是互相独立被传输的，某片的预测（片内预测和片间预测）不能以其它片中的宏块为参考图像。</p>
+<img src="https://img.alicdn.com/tfs/TB1uwsqYUT1gK0jSZFrXXcNCXXa-1210-776.jpg" style="zoom:50%;">
+<h5 id="宏块">宏块</h5>
+<p>宏块是视频信息的主要承载者，因为它包含着每一个像素的亮度和色度信息。视频解码最主要的工作则是提供高效的方式从码流中获得宏块中的像素阵列。</p>
+<p>H264默认是使用 16X16 大小的区域作为一个宏块，也可以划分成 8X8 大小。一个宏块由一个16×16亮度像素和附加的一个8×8 Cb和一个 8×8 Cr 彩色像素块组成。每个图象中，若干宏块被排列成片的形式。</p>
+<p>宏块中包含了宏块类型、预测类型、Coded Block Pattern、Quantization Parameter、像素的亮度和色度数据集等等信息。</p>
+<h6 id="子宏块">子宏块</h6>
+<p>切片类型和宏块类型的关系：</p>
+<p>I片：只包 I宏块，I 宏块利用从当前片中已解码的像素作为参考进行帧内预测(不能取其它片中的已解码像素作为参考进行帧内预测)。</p>
+<p>P片：可包 P和I宏块，P 宏块利用前面已编码图象作为参考图象进行帧内预测，一个帧内编码的宏块可进一步作宏块的分割:即 16×16、16×8、8×16 或 8×8 亮度像素块(以及附带的彩色像素);如果选了 8×8 的子宏块，则可再分成各种子宏块的分割，其尺寸为 8×8、8×4、4×8 或 4×4 亮度像素块(以及附带的彩色像素)。</p>
+<p>B片：可包 B和I宏块，B 宏块则利用双向的参考图象(当前和 来的已编码图象帧)进行帧内预测。</p>
+<p>SP片(切换P)：用于不同编码流之间的切换，包含 P 或 I 宏块</p>
+<p>SI片：扩展档次中必须具有的切换，它包 了一种特殊类型的编码宏块，叫做 SI 宏块，SI 也是扩展档次中的必备功能。</p>
+<p>I、P、B压缩分别为I、P、B帧。</p>
+<p>整个H264的数据结构如下：</p>
+<img src="https://img.alicdn.com/tfs/TB1qvsnYQL0gK0jSZFAXXcA9pXa-1244-1100.jpg" style="zoom:30%;">
+<p>H264编码后视频的每一组图像（GOP）都给予了传输中的序列（PPS）和本身这个帧的图像参数（SPS）。</p>
+<h3 id="压缩技术">压缩技术</h3>
+<h4 id="帧内压缩">帧内压缩</h4>
+<p>人眼对图象都有一个识别度，对低频的亮度很敏感，对高频的亮度不太敏感。所以可以将一幅图像中人眼不敏感的数据去除掉。这样就提出了帧内预测技术。</p>
+<p>帧内压缩就是将一幅图像被划分好宏块后，对每个宏块可以进行 9 种模式的预测。找出与原图最接近的一种预测模式。然后将将原始图像与帧内预测后的图像相减得残差值，在将之前得到的预测模式信息一起保存起来，这样我们就可以在解码时恢复原图了。</p>
+<h4 id="帧间压缩">帧间压缩</h4>
+<p>利用连续帧中的时间冗余来进行运动估计和补偿。码流中增加SP帧，方便在不同码率的码流间切换，同时支持随机接入和快速回放。</p>
+<h6 id="帧分组">帧分组</h6>
+<p>视频数据主要有两类数据冗余，一类是时间上的数据冗余，另一类是空间上的数据冗余。其中时间上的数据冗余是最大的。视频里有很多特别密切的帧，其实我们只需要保存一帧的数据，其它帧都可以通过这一帧再按某种规则预测出来。</p>
+<p>H264编码器会按顺序，每次取出两幅相邻的帧进行宏块比较，计算两帧的相似度，在相邻几幅图像画面中，一般有差别的像素只有10%以内的点,亮度差值变化不超过2%，而色度差值的变化只有1%以内，我们认为这样的图可以分到一组。在这样一组帧中，经过编码后，我们只保留第一帖的完整数据，其它帧都通过参考上一帧计算出来。我们称第一帧为IDR／I帧，其它帧我们称为P／B帧，这样编码后的数据帧组我们称为GOP。</p>
+<h5 id="运动估计与补偿">运动估计与补偿</h5>
+<p>H264编码器中将帧分组后，就要计算帧组内物体的运动矢量。编码器首先按顺序从缓冲区头部取出两帧视频数据，然后进行宏块扫描，找到运动物体后计算相邻两帧间物体运动的方向和距离。运动矢量计算出来后，将相同部分（也就是绿色部分）减去，就得到了补偿数据。我们最终只需要将补偿数据进行压缩保存，以后在解码时就可以恢复原图。</p>
+<p>运动矢量与补偿称为<strong>帧间压缩技术</strong>，它解决的是视频帧在时间上的数据冗余。</p>
+<h4 id="对残差数据做dct">对残差数据做DCT</h4>
+<p>将残差数据做整数离散余弦变换，去掉数据的相关性，进一步压缩数据。</p>
+<h4 id="熵编码cabac">熵编码(CABAC)</h4>
+<p>熵编码压缩是一种无损压缩，其实现原理是使用新的编码来表示输入的数据，从而达到压缩的效果。常用的熵编码有游程编码，哈夫曼编码和CAVLC编码等。</p>
+<p>CABAC也是 H.264/MPEG-4AVC中使用的熵编码算法。CABAC在不同的上下文环境中使用不同的概率模型来编码。其编码过程大致是这样：首先，将欲编码的符号用二进制bit表示；然后对于每个bit，编码器选择一个合适的概率模型，并通过相邻元素的信息来优化这个概率模型；最后，使用算术编码压缩数据。</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/音视频/H265的原理/" data-toggle="tooltip" data-placement="top" title="H265的原理">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/Android8-0/Android8-0通知栏/" data-toggle="tooltip" data-placement="top" title="Android8.0通知栏">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#什么是h264"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x4EC0;&#x4E48;&#x662F;H264</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#基础概念"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x57FA;&#x7840;&#x6982;&#x5FF5;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#i帧-p帧和b帧"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">I&#x5E27;&#x3001;P&#x5E27;&#x548C;B&#x5E27;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#h264数据结构"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">H264&#x6570;&#x636E;&#x7ED3;&#x6784;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#nalu和切片"><span class="toc-nav-number">2.2.1.</span> <span class="toc-nav-text">NALU&#x548C;&#x5207;&#x7247;</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#宏块"><span class="toc-nav-number">2.2.2.</span> <span class="toc-nav-text">&#x5B8F;&#x5757;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-6"><a class="toc-nav-link" href="#子宏块"><span class="toc-nav-number">2.2.2.1.</span> <span class="toc-nav-text">&#x5B50;&#x5B8F;&#x5757;</span></a></li></ol></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#压缩技术"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">&#x538B;&#x7F29;&#x6280;&#x672F;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#帧内压缩"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">&#x5E27;&#x5185;&#x538B;&#x7F29;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#帧间压缩"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text">&#x5E27;&#x95F4;&#x538B;&#x7F29;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-6"><a class="toc-nav-link" href="#帧分组"><span class="toc-nav-number">3.2.0.1.</span> <span class="toc-nav-text">&#x5E27;&#x5206;&#x7EC4;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#运动估计与补偿"><span class="toc-nav-number">3.2.1.</span> <span class="toc-nav-text">&#x8FD0;&#x52A8;&#x4F30;&#x8BA1;&#x4E0E;&#x8865;&#x507F;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#对残差数据做dct"><span class="toc-nav-number">3.3.</span> <span class="toc-nav-text">&#x5BF9;&#x6B8B;&#x5DEE;&#x6570;&#x636E;&#x505A;DCT</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#熵编码cabac"><span class="toc-nav-number">3.4.</span> <span class="toc-nav-text">&#x71B5;&#x7F16;&#x7801;(CABAC)</span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#音视频" title="音视频">音视频</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/earthwo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; alonealice 2020 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://www.huweihuang.com">胡伟煌</a> |
+                    <br> 
+                    <a href="http://www.beian.miit.gov.cn">浙ICP备17033688号</a>   
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://alonealice.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://alonealice.com/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
