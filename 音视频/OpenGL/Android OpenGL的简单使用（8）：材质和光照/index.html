@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="不懂要会问，打脸要立正">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Android OpenGL的简单使用（8）：材质和光照 - alonealice | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://alonealice.com/音视频/OpenGL/Android OpenGL的简单使用（8）：材质和光照/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/article_bg.jpeg')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#音视频" title="音视频">音视频</a>
+                            
+                              <a class="tag" href="/tags/#OpenGL" title="OpenGL">OpenGL</a>
+                            
+                        </div>
+                        <h1>Android OpenGL的简单使用（8）：材质和光照</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by alonealice on
+                            2020-12-27
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">alonealice</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h3 id="光照">光照</h3>
+<p>观察一个真实的3D物体，在不同的部位必然有不同的光照效果,有的地方暗一点，有的地方亮一点。而这种视觉差异是由光源和材质（物体的材料）共同决定的。光源强度由红、绿、蓝三色光强度共同决定，最终的光照效果由4部分组成:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- Emitted(光源）</span><br><span class="line">- diffuse(漫反射光）</span><br><span class="line">- specular（镜面反射光）</span><br><span class="line">- ambient(环境光）</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdn.net/20160806201226640" alt=""></p>
+<h4 id="emitted光源">Emitted(光源）</h4>
+<p>物体本身所发射出的光，有的物体不发射光，那就没有这个属性。</p>
+<h4 id="diffuse漫反射光">diffuse(漫反射光）</h4>
+<p>漫反射和镜面反射大家应该都知道，初中物理有讲过。<br>
+漫反射，是投射在粗糙表面上的光向各个方向反射的现象。当一束平行的入射光线射到粗糙的表面时，表面会把光线向着四面八方反射，所以入射线虽然互相平行，由于各点的法线方向不一致，造成反射光线向不同的方向无规则地反射，这种反射称之为“漫反射”或“漫射”。</p>
+<h4 id="specular镜面反射光">specular（镜面反射光）</h4>
+<p>镜面反射是指若反射面比较光滑，当平行入射的光线射到这个反射面时，仍会平行地向一个方向反射出来，这种反射就属于镜面反射。</p>
+<h4 id="ambient环境光">ambient(环境光）</h4>
+<p>在环境中进行了多次散射的光，而最终无法分辨其方向的光。</p>
+<h3 id="材质">材质</h3>
+<p>物体的材质属性通过反射不同方向的环境光，漫反射光，镜面光的RGB颜色来表示的。分为四种:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- 泛射材质</span><br><span class="line">- 漫反射材质</span><br><span class="line">- 镜面反射材质</span><br><span class="line">- 发射材质</span><br></pre></td></tr></table></figure>
+<h3 id="光照模型">光照模型</h3>
+<p>添加光照效果也就是使用OpenGL的光照模型需要以下步骤</p>
+<ol>
+<li>打开光源</li>
+<li>设置光源的种类、位置和方向(对于平行光源)</li>
+<li>设置顶点的法向量</li>
+<li>设置材质</li>
+</ol>
+<h4 id="打开光源">打开光源</h4>
+<p>首先需要打开光源的总开关</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//打开光源总开关</span><br><span class="line">gl.glEnable(GL10.GL_LIGHTING);12</span><br></pre></td></tr></table></figure>
+<p>在OpenGL ES中，仅仅支持有限数量的光源。使用GL_LIGHT0表示第0号光源，GL_LIGHT1表示第1号光源，依次类推，OpenGL至少会支持8个光源 。GL_LIGHT0到GL_LIGHT7。</p>
+<p>打开0号光源</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//打开0号光源</span><br><span class="line">gl.glEnable(GL10.GL_LIGHT0);</span><br></pre></td></tr></table></figure>
+<h4 id="设置光源的种类-位置和方向">设置光源的种类、位置和方向</h4>
+<p>设置光源的方法如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- glLightfv(int light, int pname, FloatBuffer params)</span><br><span class="line">- glLightfv(int light, int pname, float[] params, int offset)</span><br></pre></td></tr></table></figure>
+<p>各个参数含义如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- light—————— 光源的序号</span><br><span class="line">- pname—————— 光源属性名称 </span><br><span class="line">- params—————— 光源属性的值(float 数组或是Buffer类型)</span><br><span class="line">- offset——————  偏移量</span><br></pre></td></tr></table></figure>
+<p>params有以下几种</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">- GL_SPOT_EXPONENT————表示聚光的程度，为零时表示光照范围内向各方向发射的光线强度相同，为正数时表示光照向中央集中，正对发射方向的位置受到更多光照，其它位置受到较少光照。数值越大，聚光效果就越明显</span><br><span class="line"></span><br><span class="line">- GL_SPOT_CUTOFF————表示一个角度，它是光源发射光线所覆盖角度的一半，其取值范围在0到90之间，也可以取180这个特殊值。取值为180时表示光源发射光线覆盖360度，即不使用聚光灯，向全周围发射</span><br><span class="line"></span><br><span class="line">- GL_CONSTANT_ATTENUATION————表示光线按常量衰减</span><br><span class="line"></span><br><span class="line">- GL_LINEAR_ATTENUATION————表示光线按距离线性衰减</span><br><span class="line"></span><br><span class="line">- GL_QUADRATIC_ATTENUATION————表示光线按距离以二次函数衰减</span><br><span class="line"></span><br><span class="line">- GL_AMBIENT————表示各种光线照射到该材质上，经过很多次反射后最终遗留在环境中的光线强度 </span><br><span class="line"></span><br><span class="line">- GL_DIFFUSE————表示光线照射到该材质上，经过漫反射后形成的光线强度 </span><br><span class="line"></span><br><span class="line">- GL_SPECULAR————表示光线照射到该材质上，经过镜面反射后形成的光线强度 </span><br><span class="line"></span><br><span class="line">- GL_SPOT_DIRECTION————表示一个向量，即光源发射的方向。默认方向是(0.0,0.0,-1.0)</span><br><span class="line"></span><br><span class="line">- GL_POSITION————表示光源所在的位置，由四个值（X, Y, Z, W）表示,W为0表示平行光源，表示该光源位于无限远处,类似太阳,W不为0表示位置性光源,（X/W, Y/W, Z/W）表示了光源的位置，可以设置各种衰减因子</span><br></pre></td></tr></table></figure>
+<p><strong>上面说的与聚光强度、角度、衰减等有关的属性只适用于位置光源</strong></p>
+<h3 id="设置顶点的法向量">设置顶点的法向量</h3>
+<p>设置法向量来确定图元的明暗程度,不过我的例子并没有用到。有两个方法可以为平面设置法线。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- public void glNormal3f(float nx,float ny,float nz) ————为后续所有平面设置同样的方向，直到重新设置新的法线为止</span><br><span class="line"></span><br><span class="line">- public void glNormalPointer(int type,int stride, Buffer pointer)————为某个顶点设置法线</span><br></pre></td></tr></table></figure>
+<h4 id="设置材质">设置材质</h4>
+<p>设置材质的方法如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- public void glMaterialf(int face,int pname,float param)</span><br><span class="line">- public void glMaterialfv(int face,int pname,float[] params,int offset)</span><br><span class="line">- public void glMaterialfv(int face,int pname,FloatBuffer params)</span><br></pre></td></tr></table></figure>
+<p>各参数含义如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- face ———— 表示物体的前、后面,有GL_FRONT(正面)，GL_BACK(反面)，GL_FRONT_AND_BACK(正反两面)</span><br><span class="line">- pname ———— 材质属性类型</span><br><span class="line">- param ———— 材质属性类型的对应的值(float 数组或者Buffer 类型)</span><br><span class="line">- offset ———— 偏移量</span><br></pre></td></tr></table></figure>
+<p>其中pname 有以下几种</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- GL_AMBIENT————表示各种光线照射到该材质上，经过很多次反射后最终遗留在环境中的光线强度</span><br><span class="line">- GL_DIFFUSE ————表示光线照射到该材质上，经过漫反射后形成的光线强度</span><br><span class="line">- GL_SPECULAR————表示光线照射到该材质上，经过镜面反射后形成的光线强度</span><br><span class="line">- GL_SHININESS————“镜面指数”，取值范围是0到128。该值越小，表示材质越粗糙，点光源发射的光线照射到上面，也可以产生较大的亮点。该值越大，表示材质越类似于镜面，光源照射到上面后，产生较小的亮点 </span><br><span class="line">- GL_EMISSION————该属性由四个值组成，表示一种颜色。OpenGL认为材质本身就微微的向外发射光线，以至于眼睛感觉到它有这样的颜色，但这光线又比较微弱，以至于不会影响到其它物体的颜色 </span><br><span class="line">- GL_COLOR_INDEXES———— 颜色索引</span><br></pre></td></tr></table></figure>
+<h4 id="完整实例">完整实例</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PointRenderer</span> <span class="keyword">implements</span> <span class="title">GLSurfaceView</span>.<span class="title">Renderer</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//顶点数组</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span>[] mArray = &#123;</span><br><span class="line">            -<span class="number">0.5f</span>, -<span class="number">0.5f</span>, <span class="number">0f</span>,</span><br><span class="line">            -<span class="number">0.5f</span>, <span class="number">0.5f</span>, <span class="number">0f</span>,</span><br><span class="line">            <span class="number">0.5f</span>, <span class="number">0.5f</span>, <span class="number">0f</span>,</span><br><span class="line">            <span class="number">1f</span>, <span class="number">0f</span>, <span class="number">0f</span>,</span><br><span class="line">            <span class="number">1f</span>, -<span class="number">1f</span>, <span class="number">0f</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 缓冲区</span></span><br><span class="line">    <span class="keyword">private</span> FloatBuffer mBuffer;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> FloatBuffer amb_light_buffer;</span><br><span class="line">    <span class="keyword">private</span> FloatBuffer diff_light_buffer;</span><br><span class="line">    <span class="keyword">private</span> FloatBuffer spec_light_buffer;</span><br><span class="line">    <span class="keyword">private</span> FloatBuffer pos_light_buffer;</span><br><span class="line">    <span class="keyword">private</span> FloatBuffer spot_dir_buffer;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//环境光材质</span></span><br><span class="line">    <span class="keyword">float</span> amb_mat[]  = &#123; <span class="number">0f</span>,  <span class="number">0.3f</span>, <span class="number">0f</span>, <span class="number">1f</span> &#125;;</span><br><span class="line">    <span class="comment">//漫反射光材质</span></span><br><span class="line">    <span class="keyword">float</span> diff_mat[]  =&#123; <span class="number">0f</span>,  <span class="number">0.3f</span>, <span class="number">0f</span>, <span class="number">1f</span> &#125;;</span><br><span class="line">    <span class="comment">//镜面反射光材质</span></span><br><span class="line">    <span class="keyword">float</span> spec_mat[] = &#123; <span class="number">0f</span>,  <span class="number">0.3f</span>, <span class="number">0f</span>, <span class="number">1f</span> &#125;;</span><br><span class="line">    <span class="comment">//本身颜色</span></span><br><span class="line">    <span class="keyword">float</span> emi_mat[] = &#123; <span class="number">0.0f</span>, <span class="number">0f</span>, <span class="number">0.0f</span>, <span class="number">1.0f</span> &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//环境光强度</span></span><br><span class="line">    <span class="keyword">float</span>[] amb_light = &#123;<span class="number">0f</span>, <span class="number">0f</span>, <span class="number">1f</span>, <span class="number">1f</span> &#125;;</span><br><span class="line">    <span class="comment">//漫反射光强度</span></span><br><span class="line">    <span class="keyword">float</span>[] diff_light = &#123; <span class="number">1f</span>, <span class="number">1f</span>, <span class="number">1f</span>, <span class="number">1f</span> &#125;;</span><br><span class="line">    <span class="comment">//镜面反射光强度</span></span><br><span class="line">    <span class="keyword">float</span>[] spec_light = &#123;<span class="number">1f</span>, <span class="number">1f</span>, <span class="number">1f</span>, <span class="number">1f</span> &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//光源位置</span></span><br><span class="line">    <span class="keyword">float</span>[] pos_light = &#123;<span class="number">0f</span>, <span class="number">0.0f</span>, <span class="number">1f</span>, <span class="number">0.4f</span>&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//光源方向</span></span><br><span class="line">    <span class="keyword">float</span>[] spot_dir = &#123; <span class="number">0.0f</span>, <span class="number">0.0f</span>,  -<span class="number">1f</span>, &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//镜面指数</span></span><br><span class="line">    <span class="keyword">float</span> shini_mat  =  <span class="number">0f</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> FloatBuffer amb_mat_buffer;</span><br><span class="line">    <span class="keyword">private</span> FloatBuffer diff_mat_buffer;</span><br><span class="line">    <span class="keyword">private</span> FloatBuffer spec_mat_buffer;</span><br><span class="line">    <span class="keyword">private</span> FloatBuffer emi_mat_buffer;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">PointRenderer</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        mBuffer = Util.getFloatBuffer(mArray);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//获取浮点型环境光数据</span></span><br><span class="line">        amb_light_buffer= Util.getFloatBuffer(amb_light);</span><br><span class="line">        <span class="comment">//获取浮点型漫反射光数据</span></span><br><span class="line">        diff_light_buffer= Util.getFloatBuffer(diff_light);</span><br><span class="line">        <span class="comment">//获取浮点型镜面反射光数据</span></span><br><span class="line">        spec_light_buffer= Util.getFloatBuffer(spec_light);</span><br><span class="line">        <span class="comment">//获取浮点型光源位置数据</span></span><br><span class="line">        pos_light_buffer= Util.getFloatBuffer(pos_light);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//获取浮点型光源方向数据</span></span><br><span class="line">        spot_dir_buffer= Util.getFloatBuffer(spot_dir);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//获取浮点型环境光材质数据</span></span><br><span class="line">        amb_mat_buffer= Util.getFloatBuffer(amb_mat);</span><br><span class="line">        <span class="comment">//获取浮点型漫反射光材质数据</span></span><br><span class="line">        diff_mat_buffer= Util.getFloatBuffer(diff_mat);</span><br><span class="line">        <span class="comment">//获取浮点型镜面反射光材质数据</span></span><br><span class="line">        spec_mat_buffer= Util.getFloatBuffer(spec_mat);</span><br><span class="line">        <span class="comment">//获取浮点型本身颜色数据</span></span><br><span class="line">        emi_mat_buffer= Util.getFloatBuffer(emi_mat);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSurfaceCreated</span><span class="params">(GL10 gl, EGLConfig config)</span> </span>&#123;</span><br><span class="line">        gl.glClearColor(<span class="number">0f</span>, <span class="number">1f</span>, <span class="number">0f</span>, <span class="number">0f</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSurfaceChanged</span><span class="params">(GL10 gl, <span class="keyword">int</span> width, <span class="keyword">int</span> height)</span> </span>&#123;</span><br><span class="line">        gl.glViewport(<span class="number">0</span>,<span class="number">0</span>,width,height);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDrawFrame</span><span class="params">(GL10 gl)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 清除屏幕</span></span><br><span class="line">        gl.glClear(GL10.GL_COLOR_BUFFER_BIT);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//打开光源总开关</span></span><br><span class="line">        gl.glEnable(GL10.GL_LIGHTING);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//打开0号光源</span></span><br><span class="line">        gl.glEnable(GL10.GL_LIGHT0);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//设置光源位置</span></span><br><span class="line">        gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_POSITION, pos_light_buffer);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//设置光源方向</span></span><br><span class="line">        gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_SPOT_DIRECTION , spot_dir_buffer);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//设置光源种类</span></span><br><span class="line">        gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_AMBIENT ,  amb_light_buffer );</span><br><span class="line">        gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_DIFFUSE , diff_light_buffer );</span><br><span class="line">        gl.glLightfv(GL10.GL_LIGHT0, GL10.GL_SPECULAR, spec_light_buffer);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//设置聚光强度</span></span><br><span class="line">        gl.glLightf(GL10.GL_LIGHT0, GL10.GL_SPOT_EXPONENT, <span class="number">64f</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//设置聚光角度</span></span><br><span class="line">        gl.glLightf(GL10.GL_LIGHT0, GL10.GL_SPOT_CUTOFF, <span class="number">45f</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 允许设置顶点 // GL10.GL_VERTEX_ARRAY顶点数组</span></span><br><span class="line">        gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 设置顶点</span></span><br><span class="line">        gl.glVertexPointer(<span class="number">3</span>, GL10.GL_FLOAT, <span class="number">0</span>, mBuffer);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//设置点的颜色为绿色</span></span><br><span class="line">        gl.glColor4f(<span class="number">1f</span>, <span class="number">0f</span>, <span class="number">0f</span>, <span class="number">0f</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//设置材质种类</span></span><br><span class="line">        gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_AMBIENT, amb_mat_buffer);</span><br><span class="line"></span><br><span class="line">        gl.glMaterialfv(GL10.GL_FRONT_AND_BACK,GL10.GL_DIFFUSE, diff_mat_buffer);</span><br><span class="line"></span><br><span class="line">        gl.glMaterialfv(GL10.GL_FRONT_AND_BACK,GL10.GL_SPECULAR, spec_mat_buffer);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//设置镜面指数</span></span><br><span class="line">        gl.glMaterialf(GL10.GL_FRONT_AND_BACK, GL10.GL_SHININESS, shini_mat);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 绘制面</span></span><br><span class="line">        gl.glDrawArrays(GL10.GL_TRIANGLE_FAN, <span class="number">0</span>, <span class="number">3</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 禁止顶点设置</span></span><br><span class="line">        gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/音视频/OpenGL/Android OpenGL的简单使用（9）：纹理/" data-toggle="tooltip" data-placement="top" title="Android OpenGL的简单使用（9）：纹理">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/音视频/OpenGL/Android OpenGL的简单使用（7）：添加颜色/" data-toggle="tooltip" data-placement="top" title="Android OpenGL的简单使用（7）：添加颜色">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#光照"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x5149;&#x7167;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#emitted光源"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">Emitted(&#x5149;&#x6E90;&#xFF09;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#diffuse漫反射光"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">diffuse(&#x6F2B;&#x53CD;&#x5C04;&#x5149;&#xFF09;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#specular镜面反射光"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">specular&#xFF08;&#x955C;&#x9762;&#x53CD;&#x5C04;&#x5149;&#xFF09;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#ambient环境光"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">ambient(&#x73AF;&#x5883;&#x5149;&#xFF09;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#材质"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x6750;&#x8D28;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#光照模型"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">&#x5149;&#x7167;&#x6A21;&#x578B;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#打开光源"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">&#x6253;&#x5F00;&#x5149;&#x6E90;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#设置光源的种类-位置和方向"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text">&#x8BBE;&#x7F6E;&#x5149;&#x6E90;&#x7684;&#x79CD;&#x7C7B;&#x3001;&#x4F4D;&#x7F6E;&#x548C;&#x65B9;&#x5411;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#设置顶点的法向量"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">&#x8BBE;&#x7F6E;&#x9876;&#x70B9;&#x7684;&#x6CD5;&#x5411;&#x91CF;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#设置材质"><span class="toc-nav-number">4.1.</span> <span class="toc-nav-text">&#x8BBE;&#x7F6E;&#x6750;&#x8D28;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#完整实例"><span class="toc-nav-number">4.2.</span> <span class="toc-nav-text">&#x5B8C;&#x6574;&#x5B9E;&#x4F8B;</span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#音视频" title="音视频">音视频</a>
+                        
+                          <a class="tag" href="/tags/#OpenGL" title="OpenGL">OpenGL</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/earthwo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; alonealice 2021 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://www.huweihuang.com">胡伟煌</a> |
+                    <br> 
+                    <a href="http://www.beian.miit.gov.cn">浙ICP备17033688号</a>   
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://alonealice.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://alonealice.com/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="不懂要会问，打脸要立正">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Android OpenGL的简单使用（5）：多点、线、面的绘制 - alonealice | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://alonealice.com/音视频/OpenGL/Android OpenGL的简单使用（5）：多点、线、面的绘制/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/article_bg.jpeg')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#音视频" title="音视频">音视频</a>
+                            
+                              <a class="tag" href="/tags/#OpenGL" title="OpenGL">OpenGL</a>
+                            
+                        </div>
+                        <h1>Android OpenGL的简单使用（5）：多点、线、面的绘制</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by alonealice on
+                            2020-12-26
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">alonealice</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>在绘制点的基础上，我们可以拓展来绘制多个点、线和面。在OpenGL ES中，面特指一个三角形。绘制调用glDrawArrays(int mode, int first, int count)方法。</p>
+<p>mode的参数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- GL_POINTS ————绘制独立的点</span><br><span class="line">- GL_LINE_STRIP————绘制连续的线段,不封闭</span><br><span class="line">- GL_LINE_LOOP————绘制连续的线段,封闭</span><br><span class="line">- GL_LINES————顶点两两连接，为多条线段构成</span><br><span class="line">- GL_TRIANGLES————每隔三个顶点构成一个三角形</span><br><span class="line">- GL_TRIANGLE_STRIP————每相邻三个顶点组成一个三角形</span><br><span class="line">- GL_TRIANGLE_FAN————以一个点为三角形公共顶点，组成一系列相邻的三角形</span><br></pre></td></tr></table></figure>
+<h4 id="顶点数据">顶点数据</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//顶点数组</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">float</span>[] mArray = &#123;</span><br><span class="line">        -<span class="number">0.5f</span>, -<span class="number">0.5f</span>, <span class="number">0f</span>,</span><br><span class="line">        -<span class="number">0.5f</span>, <span class="number">0.5f</span>, <span class="number">0f</span>,</span><br><span class="line">        <span class="number">0.5f</span>, <span class="number">0.5f</span>, <span class="number">0f</span>,</span><br><span class="line">        <span class="number">0.5f</span>, -<span class="number">0.5f</span>, <span class="number">0f</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>3个值代表一个顶点，因此这里有3个顶点。</p>
+<h4 id="绘制多点">绘制多点</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 绘制点</span></span><br><span class="line">gl.glDrawArrays(GL10.GL_POINTS, <span class="number">0</span>, <span class="number">4</span>);</span><br></pre></td></tr></table></figure>
+<p>在glDrawArrays设置需要绘制的点的数量。如果数量超过设置的坐标的数量，那么会在原点绘制</p>
+<h4 id="绘制不封闭线">绘制不封闭线</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//设置线的宽度</span></span><br><span class="line">gl.glLineWidth(<span class="number">30f</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 绘制线</span></span><br><span class="line">gl.glDrawArrays(GL10.GL_LINE_STRIP, <span class="number">0</span>, <span class="number">5</span>);</span><br></pre></td></tr></table></figure>
+<p>glDrawArrays中的参数为GL10.GL_LINE_STRIP。同样，如果数量超过设置的坐标的数量，那么会在原点绘制连线。</p>
+<h4 id="绘制封闭连线">绘制封闭连线</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gl.glDrawArrays(GL10.GL_LINE_LOOP, <span class="number">0</span>, <span class="number">5</span>);</span><br></pre></td></tr></table></figure>
+<p>glDrawArrays中的参数为GL10.GL_LINE_LOOP。</p>
+<h4 id="绘制多条连线">绘制多条连线</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gl.glDrawArrays(GL10.GL_LINES, <span class="number">0</span>, <span class="number">5</span>);</span><br></pre></td></tr></table></figure>
+<p>glDrawArrays中的参数为GL10.GL_LINES。两个连之前绘制一条线，即第一个和第二个点绘制一条线，第三个和第四个点绘制一条线。多出的点会被舍弃。</p>
+<h4 id="绘制面">绘制面</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//顶点数组</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">float</span>[] mArray = &#123;</span><br><span class="line">        -<span class="number">0.5f</span>, -<span class="number">0.5f</span>, <span class="number">0f</span>,</span><br><span class="line">        -<span class="number">0.5f</span>, <span class="number">0.5f</span>, <span class="number">0f</span>,</span><br><span class="line">        <span class="number">0.5f</span>, <span class="number">0.5f</span>, <span class="number">0f</span>,</span><br><span class="line">        <span class="number">0.5f</span>, -<span class="number">0.5f</span>, <span class="number">0f</span>,</span><br><span class="line">        <span class="number">0f</span>, -<span class="number">0.8f</span>, <span class="number">0f</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 绘制面</span></span><br><span class="line">gl.glDrawArrays(GL10.GL_TRIANGLES, <span class="number">0</span>, <span class="number">6</span>);</span><br></pre></td></tr></table></figure>
+<p>绘制模式为GL_TRIANGLES，即1,2,3个点绘制一个图形，4，5，6个点绘制一个。当顶点个数不足以绘制三角形时，就会被忽略，如果设置的点数量超过顶点数，会用原点顶替（如上面的情况）。</p>
+<h4 id="绘制连续的面">绘制连续的面</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, <span class="number">0</span>, <span class="number">5</span>);</span><br></pre></td></tr></table></figure>
+<p>指定绘制模式为GL_TRIANGLE_STRIP。这个模式是什么呢，就是会用相邻的3个点绘制一个面，比如刚刚顶点数组，就用1，2，3个点绘制一个面，在用2，3，4绘制一个，再用3，4，5绘制一个。</p>
+<p>绘制初始点的面</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gl.glDrawArrays(GL10.GL_TRIANGLE_FAN, <span class="number">0</span>, <span class="number">4</span>);</span><br></pre></td></tr></table></figure>
+<p>指定绘制模式为GL_TRIANGLE_FAN，本身以第一个顶点为公共点,绘制了相邻的三角形。比如上面的点，就会以1，2，3绘制一个面，1，3，4绘制一个，再以1，4，5绘制一个。</p>
+<h4 id="索引绘制">索引绘制</h4>
+<p>索引就是让不同的顶点按照规定的顺序来绘制，这样就不会导致各种三角形的错乱。</p>
+<p>首先定义一个索引数组,这里的0,1,2等指的是顶点顺序，比如0,1,2就是按照0,1,2的顺序绘制三角形,0,2,3就是按照0,2,3的顺序绘制三角形，就不会出现0,1,2 和1,2,3 以及 0,2,3都绘制的情况。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//索引数组</span></span><br><span class="line">       <span class="keyword">private</span> <span class="keyword">short</span>[] indices=&#123;  </span><br><span class="line">                <span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,  </span><br><span class="line">                <span class="number">0</span>,<span class="number">2</span>,<span class="number">3</span>,  </span><br><span class="line"></span><br><span class="line">                <span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,  </span><br><span class="line">                <span class="number">4</span>,<span class="number">6</span>,<span class="number">7</span>,  </span><br><span class="line"></span><br><span class="line">                <span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>,  </span><br><span class="line">                <span class="number">8</span>,<span class="number">10</span>,<span class="number">11</span>,  </span><br><span class="line"></span><br><span class="line">                <span class="number">12</span>,<span class="number">13</span>,<span class="number">14</span>,  </span><br><span class="line">                <span class="number">12</span>,<span class="number">14</span>,<span class="number">15</span>,  </span><br><span class="line"></span><br><span class="line">                <span class="number">16</span>,<span class="number">17</span>,<span class="number">18</span>,  </span><br><span class="line">                <span class="number">16</span>,<span class="number">18</span>,<span class="number">19</span>,  </span><br><span class="line"></span><br><span class="line">                <span class="number">20</span>,<span class="number">21</span>,<span class="number">22</span>,  </span><br><span class="line">                <span class="number">20</span>,<span class="number">22</span>,<span class="number">23</span>,  </span><br><span class="line">        &#125;;</span><br></pre></td></tr></table></figure>
+<p>获取浮点型索引数据：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//获取浮点型索引数据</span></span><br><span class="line">indexbuffer= Utils.getShortBuffer(indices);</span><br></pre></td></tr></table></figure>
+<p>绘制图形时：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//绘制三角形  </span><br><span class="line">//gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP  , 0, 24); </span><br><span class="line"></span><br><span class="line">gl.glDrawElements(GL10.GL_TRIANGLES, indices.length, GL10.GL_UNSIGNED_SHORT, indexbuffer);</span><br></pre></td></tr></table></figure>
+<p>OpenGL ES提供了两类方法来绘制一个空间几何图形：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-public abstract void glDrawArrays(int mode, int first, int count) 使用VetexBuffer 来绘制，顶点的顺序由vertexBuffer中的顺序指定。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">- public abstract void glDrawElements(int mode, int count, int type, Buffer indices) ，可以重新定义顶点的顺序，顶点的顺序由indices Buffer 指定。</span><br></pre></td></tr></table></figure>
+<p>glDrawElements各个参数如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- mode——指明被渲染的是哪种图元，被允许的符号常量有GL_POINTS,GL_LINE_STRIP,GL_LINE_LOOP,GL_LINES,GL_TRIANGLE_STRIP, GL_TRIANGLE_FAN 和GL_TRIANGLES</span><br><span class="line"></span><br><span class="line">- count——指明被渲染的元素个数。</span><br><span class="line"></span><br><span class="line">- type——指明索引指的类型，不是GL_UNSIGNED_BYTE 就是GL_UNSIGNED_SHORT。</span><br><span class="line"></span><br><span class="line">- indices——指明存储索引的位置指针。</span><br></pre></td></tr></table></figure>
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/音视频/OpenGL/Android OpenGL的简单使用（6）：图形变换/" data-toggle="tooltip" data-placement="top" title="Android OpenGL的简单使用（6）：图图形变换">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/音视频/OpenGL/Android OpenGL的简单使用（4）：深度测试/" data-toggle="tooltip" data-placement="top" title="Android OpenGL的简单使用（4）：深度测试">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#顶点数据"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x9876;&#x70B9;&#x6570;&#x636E;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#绘制多点"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x7ED8;&#x5236;&#x591A;&#x70B9;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#绘制不封闭线"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">&#x7ED8;&#x5236;&#x4E0D;&#x5C01;&#x95ED;&#x7EBF;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#绘制封闭连线"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">&#x7ED8;&#x5236;&#x5C01;&#x95ED;&#x8FDE;&#x7EBF;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#绘制多条连线"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">&#x7ED8;&#x5236;&#x591A;&#x6761;&#x8FDE;&#x7EBF;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#绘制面"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">&#x7ED8;&#x5236;&#x9762;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#绘制连续的面"><span class="toc-nav-number">7.</span> <span class="toc-nav-text">&#x7ED8;&#x5236;&#x8FDE;&#x7EED;&#x7684;&#x9762;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#索引绘制"><span class="toc-nav-number">8.</span> <span class="toc-nav-text">&#x7D22;&#x5F15;&#x7ED8;&#x5236;</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#音视频" title="音视频">音视频</a>
+                        
+                          <a class="tag" href="/tags/#OpenGL" title="OpenGL">OpenGL</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/earthwo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; alonealice 2021 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://www.huweihuang.com">胡伟煌</a> |
+                    <br> 
+                    <a href="http://www.beian.miit.gov.cn">浙ICP备17033688号</a>   
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://alonealice.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://alonealice.com/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

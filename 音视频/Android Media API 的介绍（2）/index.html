@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="不懂要会问，打脸要立正">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Android Media API 的介绍（2） - alonealice | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://alonealice.com/音视频/Android Media API 的介绍（2）/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/article_bg.jpeg')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#音视频" title="音视频">音视频</a>
+                            
+                        </div>
+                        <h1>Android Media API 的介绍（2）</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by alonealice on
+                            2020-10-30
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">alonealice</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h3 id="mediaformat">MediaFormat</h3>
+<p>封装描述媒体数据格式的信息，无论是音频还是视频。媒体数据的格式被指定为字符串/值对。</p>
+<p>KEY_MIME：格式的类型</p>
+<p>KEY_MAX_INPUT_SIZE：可选，输入数据缓冲区的最大大小</p>
+<p>KEY_BIT_RATE：仅编码器，所需比特率（以比特/秒为单位）</p>
+<p><strong>视频格式具有以下键：</strong></p>
+<p>KEY_WIDTH：描述视频格式的内容的宽度的键。</p>
+<p>KEY_HEIGHT：描述视频格式的内容的高度的键。</p>
+<p>KEY_COLOR_FORMAT：描述视频格式的内容的颜色格式的键。</p>
+<p>KEY_FRAME_RATE：描述以帧/秒为单位的视频格式的帧速率的键。</p>
+<p>KEY_I_FRAME_INTERVAL： 描述以I帧表示的I帧的频率的键。</p>
+<p><strong>音频格式具有以下键：</strong></p>
+<p>KEY_CHANNEL_COUNT：描述音频格式的频道数量的键。</p>
+<p>KEY_SAMPLE_RATE：描述音频格式的采样率的键。</p>
+<p>KEY_IS_ADTS：可选，如果<em>解码</em> AAC音频内容，将此键设置为1表示每个音频帧都以ADTS头为前缀。</p>
+<p>KEY_AAC_PROFILE：仅编码器，可选，如果内容为AAC音频，则指定所需的配置文件。</p>
+<p>KEY_CHANNEL_MASK：可选的，音频通道分配的掩码。</p>
+<p>KEY_FLAC_COMPRESSION_LEVEL：仅编码器，可选，如果内容为FLAC音频，则指定所需的压缩级别。</p>
+<h3 id="mediacodecbufferinfo">MediaCodec.BufferInfo</h3>
+<p>每个缓冲区元数据包括一个偏移量和一个大小，用于指定关联的编解码器（输出）缓冲区中有效数据的范围。</p>
+<p>其中有个字段是flags，它有几种常量情况：</p>
+<p>flags = 4；End of Stream。</p>
+<p>flags = 2；首帧信息帧。</p>
+<p>flags = 1；关键帧。</p>
+<p>flags = 0；普通帧。</p>
+<h3 id="mediacrypto">MediaCrypto</h3>
+<p>如果视频需要进行视频版权的，那么MediaCodec进行decode的时候,configure()方法需要传进一个<a href="https://link.jianshu.com/?t=https://developer.android.com/reference/android/media/MediaCrypto.html" target="_blank" rel="noopener">MediaCrypto</a>保护。MediaCrypto类可以与<code>MediaCodec</code>一起使用来解码加密的媒体数据。 加密方案被分配16个字节的UUID，方法<code>isCryptoSchemeSupported(UUID)</code>可用于查询设备是否支持给定的方案。</p>
+<h3 id="mediacodecinfo">MediaCodecInfo</h3>
+<p>提供MediaCodec在设备上的支持信息。</p>
+<p>主要方法：getCapabilitiesForType</p>
+<h3 id="结合使用">结合使用</h3>
+<h4 id="音视频录制">音视频录制</h4>
+<p><img src="https://img.alicdn.com/imgextra/i2/O1CN01lHjcSs1kviNrVee4f_!!6000000004746-0-tps-671-252.jpg" alt=""></p>
+<p>将采集到的视音频通过MediaCodec进行编码处理，之后将编码数据传递到MediaMuxer进行合成，也就完成了视音频录制的功能。</p>
+<p>根据视音频采集的相关参数创建MediaCodec，当MediaCodec的outputBufferId为INFO_OUTPUT_FORMAT_CHANGED时，可以通过codec.getOutputFormat()得到相应的MediaFormat，之后便可以用这个MediaFormat为MediaMuxer添加相应的视音频轨道。通过codec.dequeueOutputBuffer可以得到编码后的数据的bufferInfo信息和相应的数据，之后将这个数据和bufferInfo通过muxer.writeSampleData(currentTrackIndex, nputBuffer, bufferInfo)传递给Muxer，也就将整个视音频数据合成到了mp4中。</p>
+<h4 id="音视频播放">音视频播放</h4>
+<p><img src="https://img.alicdn.com/imgextra/i3/O1CN01N4tVul28xamqme48V_!!6000000007999-0-tps-645-244.jpg" alt=""></p>
+<p>利用MediaExtractor分离视音频文件，得到相应的音频轨道和视频轨道。之后通过MediaExtractor从相应的轨道中获取数据，并且将这些数据传递给MediaCodec的输入缓冲区，经过MediaCodec的解码便可以得到相应的原始数据。音频解码后可以得到PCM数据，从而可以传递给AudioTrack进行播放。视频解码后可以渲染到相应的Surface，这个Surface可以是通过SurfaceTexture创建，而SurfaceTexture是可以通过纹理创建的，从而将解码后的视频数据传递到纹理上了。</p>
+<p>MediaExtractor解析视音频文件，可以得到相应数据的pts，之后pts可以传输到MediaCodec，之后在MediaCodec的输出里面可以得到相应的pts，之后在根据视音频的pts来控制视音频的渲染，从而实现视音频的同步。</p>
+<h4 id="音视音频转码">音视音频转码</h4>
+<p><img src="https://img.alicdn.com/imgextra/i1/O1CN01GX0kVz1aHjecSh4mr_!!6000000003305-0-tps-680-174.jpg" alt=""></p>
+<p>视音频的转码，其实就是通过MediaExtractor解析相应的文件，之后得到相应的视频轨道和音频轨道，之后将轨道里的数据传输到MediaCodec进行解码，然后将解码后的数据进行相应的处理（例如音频变声、视频裁剪、视频滤镜），之后将处理后的数据传递给MediaCodec进行编码，最后利用MediaMuxer将视频轨道和音频轨道进行合成，从而完成了整个转码过程。</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/音视频/音频管理AudioManager使用/" data-toggle="tooltip" data-placement="top" title="音频管理AudioManager使用">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/音视频/Android Media API 的介绍（1）/" data-toggle="tooltip" data-placement="top" title="Android Media API 的介绍（1）">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#mediaformat"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">MediaFormat</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#mediacodecbufferinfo"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">MediaCodec.BufferInfo</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#mediacrypto"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">MediaCrypto</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#mediacodecinfo"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">MediaCodecInfo</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#结合使用"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">&#x7ED3;&#x5408;&#x4F7F;&#x7528;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#音视频录制"><span class="toc-nav-number">5.1.</span> <span class="toc-nav-text">&#x97F3;&#x89C6;&#x9891;&#x5F55;&#x5236;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#音视频播放"><span class="toc-nav-number">5.2.</span> <span class="toc-nav-text">&#x97F3;&#x89C6;&#x9891;&#x64AD;&#x653E;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#音视音频转码"><span class="toc-nav-number">5.3.</span> <span class="toc-nav-text">&#x97F3;&#x89C6;&#x97F3;&#x9891;&#x8F6C;&#x7801;</span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#音视频" title="音视频">音视频</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/earthwo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; alonealice 2021 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://www.huweihuang.com">胡伟煌</a> |
+                    <br> 
+                    <a href="http://www.beian.miit.gov.cn">浙ICP备17033688号</a>   
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://alonealice.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://alonealice.com/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

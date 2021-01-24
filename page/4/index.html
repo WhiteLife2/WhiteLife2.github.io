@@ -134,13 +134,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archive/">Archives</a>
                         </li>
                         
@@ -149,6 +142,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -211,32 +211,28 @@
 
 <div class="post-preview">
 
-    <a href="/Retrofit/源码阅读/Retrofit源码分析/">
+    <a href="/Android8-0/Android8-0通知栏/">
         <h2 class="post-title">
                                  
-            Retrofit源码分析
+            Android8.0通知栏
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            Retrofit 是安卓上最流行的HTTP Client库之一，它因其出色的性能和简洁的实现广受开发者好评，那么现在就来看看它的实现原理。
-使用方法
-具体的使用方法，我在这里不再赘述，大家可以直接看它的官方文档 Retrofit官方文档，里面讲的非常简洁具体。
-实现原理
-在具体了解原理之前，我们先看看认真看完这一篇，不懂 Retrofit？不存在的（源码解析这篇文章中分享的Retrofit简......
+            在日常使用Android手机的过程中，我们经常会遇到被各种通知轰炸的情况。大量的通知，极大的降低了使用体验，同时也将真正有用的信息淹没。虽然手机可以屏蔽这些通知，但是一旦屏蔽，应用里重要的通知也无法再提示，让人进退两难。
+面对这种情况，google在Android8.0系统中开始对其进行改进优化。
+在Android8.0中，google引入了通知渠道的概念。每个应用都可以创建自己的通知渠道，......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by alonealice on
-            2017-05-17
+            2018-06-29
         </p>
         <div class="tags">
             
-              <a href="/tags/#源码阅读" title="源码阅读">源码阅读</a>
-            
-              <a href="/tags/#Retrofit" title="Retrofit">Retrofit</a>
+              <a href="/tags/#Android8.0" title="Android8.0">Android8.0</a>
             
         </div>
     
@@ -246,32 +242,29 @@
 
 <div class="post-preview">
 
-    <a href="/动态代理/java动态代理/">
+    <a href="/nio/nio学习笔记-三/">
         <h2 class="post-title">
                                  
-            java动态代理
+            nio学习笔记(三)
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            代理的概念
-首先，什么是代理？
-当我们不能或者不希望直接访问对象A，而是通过对象B去访问对象A，这种方式就叫做代理。而对象A的类就被称为委托类，对象B的类就被称为代理类。
-这样做有什么好处呢？第一，委托类被完全隐藏起来，其他类无法直接访问委托类；第二，在访问委托类之前，可以在代理类中做一些公共的操作，比如一些判断，可以帮助程序更好的解耦。
-代理可以分为静态代理和动态代理。
-静态代理
-什么是静......
+            FileChannel
+FileChannel是一个文件的通道，可以通过它来读写文件。FileChannel无法设置为非阻塞模式。
+读数据：
+1234RandomAccessFile accessFile = new RandomAccessFile(filePath, &quot;rw&quot;);FileChannel fileChannel = accessFile.getChann......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by alonealice on
-            2017-05-11
+            2018-02-05
         </p>
         <div class="tags">
             
-              <a href="/tags/#动态代理" title="动态代理">动态代理</a>
+              <a href="/tags/#nio" title="nio">nio</a>
             
         </div>
     
@@ -281,32 +274,29 @@
 
 <div class="post-preview">
 
-    <a href="/C语言/C语言学习笔记-四/">
+    <a href="/nio/nio学习笔记-二/">
         <h2 class="post-title">
                                  
-            C语言学习笔记(四)
+            nio学习笔记(二)
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            文件和内存管理
-
-
-文件类型为FILE，typedef定义数据类型，使用时一般使用文件指针：FILE *pFile
-
-
-文件打开：FILE *pFile;pFile=fopen(“文件名”,使用方式);使用方式有以下：r（只读文本文件），w（只写文本文件），a（追加文本文件，在末尾加内容），rb（只读二进制文件），wb（只写二进制文件），ab（追加二进制文件），r+（打开文件文本，可读可写）......
+            RandomAccessFile
+RandomAccessFile允许你来回读写文件，也可以替换文件中的某些部分。
+读写文件
+123456789//打开文件RandomAccessFile file = new RandomAccessFile(filePath, &quot;rw&quot;);//读取文件int aByte = file.read();//写入文件file.write(t......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by alonealice on
-            2017-03-06
+            2018-02-02
         </p>
         <div class="tags">
             
-              <a href="/tags/#C语言" title="C语言">C语言</a>
+              <a href="/tags/#nio" title="nio">nio</a>
             
         </div>
     
@@ -316,36 +306,28 @@
 
 <div class="post-preview">
 
-    <a href="/C语言/C语言学习笔记-三/">
+    <a href="/nio/nio概念/">
         <h2 class="post-title">
                                  
-            C语言学习笔记(三)
+            nio学习笔记
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            结构体和共同体
-
-
-结构体，有点像java的类：struct 结构体名{成员列表}
-123456789struct Man&#123;	int age;	int sex;&#125;;或者：struct Man&#123;	int age;	int sex;&#125;man;
-
-
-使用结构体的成员变量时使用结构体名.成员名
-
-
-初始化结构体时可以直接加括号；也可以直接定义结构体数组初始化结......
+            在学习nio之前，首先要弄清楚什么是nio，以及它与平时使用的io的区别。
+NIO（Non-blocking I/O，在Java领域，也称为New I/O），是一种同步非阻塞的I/O模型，也是I/O多路复用的基础。它已经被越来越多地应用到了大型应用服务器中，是一种解决高并发与大量连接、I/O处理问题的有效方式。
+我们都知道，IO是面向流的， 这面向流意味着每次可以从流中读一个或多个字节，直至......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by alonealice on
-            2017-03-06
+            2018-02-01
         </p>
         <div class="tags">
             
-              <a href="/tags/#C语言" title="C语言">C语言</a>
+              <a href="/tags/#nio" title="nio">nio</a>
             
         </div>
     
@@ -355,29 +337,29 @@
 
 <div class="post-preview">
 
-    <a href="/C语言/C语言学习笔记-二/">
+    <a href="/WebView/android-WebView优化分析/">
         <h2 class="post-title">
                                  
-            C语言学习笔记(二)
+            android WebView优化
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            函数和指针
-
-
-处理字符串的方法(需要string.h)：strcpy(a,b)：把b复制给a；strcat(a,b)。在这里需要注意的是，a,b都是数组如int[]。；strcmp(a,b)：把b连到a后面；strcmp(a,b)：比较a，b是否相等（a、b既可以是数组，也可以是地址）；strupr(a)把字符串变大写，strlwr(a)把字符串变小写，这两个函数不是标准的函数，只能在vc......
+            在android使用WebView去显示页面时，有一个很严重的问题就是慢。这个慢会导致页面白屏时间或者等待时间过长，严重影响用户体验。
+在WebView加载页面的过程中，主要有这么几个步骤：WebView初始化，建立连接，获取数据，页面框架渲染，JS加载、解析。那么我们依次来看看这些环节有哪些可以优化的地方可以加快WebView的页面显示。
+WebView初始化
+App中打开WebView的......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by alonealice on
-            2017-03-06
+            2017-12-19
         </p>
         <div class="tags">
             
-              <a href="/tags/#C语言" title="C语言">C语言</a>
+              <a href="/tags/#WebView" title="WebView">WebView</a>
             
         </div>
     
@@ -387,30 +369,29 @@
 
 <div class="post-preview">
 
-    <a href="/C语言/C语言学习笔记(一)/">
+    <a href="/WebView/WebView缓存原理/">
         <h2 class="post-title">
                                  
-            C语言学习笔记(一)
+            WebView缓存简述
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            大学时期学过C语言，但是各种原因学的不是很完整，同时由于时间久远，很多内容也有点忘记了。所以找了点时间看了一本C语言的入门书籍，快速的把遗忘的和之前没学到的C语言的基础知识简单学习一下，写个笔记以便后面查询。
-编程规范
-
-代码缩进统一为4个字符，使用tab
-常量名全部使用大写，成员变量用m_开始，普通变量，要在前面添加类型的首字母，且名称的首字母要大写如iAge，指针要加p，且首字母大写，如......
+            WebView缓存在日常的使用中非常重要，它不仅能使用户能够在离线的情况下依旧可以使用它，更重要的是，它可以加快网页的加载速度，减少服务器的负载。
+WebView主要包括两类缓存，一类是浏览器自带的网页数据缓存，这是所有的浏览器都支持的、由HTTP协议定义的缓存；另一类是H5缓存，这是由web页面的开发者设置的。
+浏览器自带的网页数据缓存
+浏览器缓存机制是通过HTTP协议Header里的Ca......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by alonealice on
-            2017-03-05
+            2017-12-19
         </p>
         <div class="tags">
             
-              <a href="/tags/#C语言" title="C语言">C语言</a>
+              <a href="/tags/#WebView" title="WebView">WebView</a>
             
         </div>
     
@@ -420,28 +401,29 @@
 
 <div class="post-preview">
 
-    <a href="/自定义键盘/android自定义键盘/">
+    <a href="/WebView/WebView与Js交互/">
         <h2 class="post-title">
                                  
-            android自定义键盘
+            WebView与Js交互
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            在某些安全性比较高的软件，如银行的相关软件中，输入密码等操作时往往会弹出自定义的软键盘。如果输入的只有数字，开发者往往会通过自定义View和TextView的方式实现，这种方式可以避免第三方键盘的调起。但是如果需要在editview中实现时，就需要实现自己的键盘。
-实现自定义键盘主要有两个类：Keyboard和KeyboardView。
-Keyboard类主要是用于监听虚拟键盘，它里面有内部......
+            在日常开发中我们经常会使用WebView，尤其是那些动态化要求很高的页面。而在使用WebView的过程中，又会有很多的问题。比如说WebView加载慢，内存消耗大以及和原生代码交互的问题。这篇文章就来简单讲讲WebView与Native交互的问题。
+Native于 JavaScript 交互
+java Native代码与 JavaScript 交互主要有3中方法：
+1.使用系统方法 addJ......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by alonealice on
-            2017-03-04
+            2017-12-19
         </p>
         <div class="tags">
             
-              <a href="/tags/#自定义键盘" title="自定义键盘">自定义键盘</a>
+              <a href="/tags/#WebView" title="WebView">WebView</a>
             
         </div>
     
@@ -451,29 +433,28 @@ Keyboard类主要是用于监听虚拟键盘，它里面有内部......
 
 <div class="post-preview">
 
-    <a href="/ndk/NDK学习笔记-四/">
+    <a href="/ConstraintLayout/ConstraintLayout-1-1新功能/">
         <h2 class="post-title">
                                  
-            NDK学习笔记(四)
+            ConstraintLayout 1.1新功能
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            在开发NDK的过程中，我们会发现，一旦程序出现异常，程序会直接闪退，而且不会有相关的日志，只会留下类似这样的一句话：
-1A/libc: Fatal signal 11 (SIGSEGV), code 1, fault addr 0x0 in tid 1656 (telife.jnistudy)
-一旦遇到这样的错误信息，我们即找不到错误的原因，也找不到出错的地方，根本无从改起。
-那要怎么办呢？......
+            在ConstraintLayout初步探究中简单的介绍了ConstraintLayout的几个实用的属性，那些都是基于1.0.2的版本的功能。今年的google开发者大会，google为我们带来了新的ConstraintLayout。那么新版的ConstraintLayout又有哪些新的功能呢。
+首先，本文基于的版本为1.1.0-beta3.
+引用该版本：compile 'com.andro......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by alonealice on
-            2017-02-08
+            2017-12-18
         </p>
         <div class="tags">
             
-              <a href="/tags/#ndk" title="ndk">ndk</a>
+              <a href="/tags/#ConstraintLayout" title="ConstraintLayout">ConstraintLayout</a>
             
         </div>
     
@@ -483,31 +464,29 @@ Keyboard类主要是用于监听虚拟键盘，它里面有内部......
 
 <div class="post-preview">
 
-    <a href="/ndk/NDK学习笔记-三/">
+    <a href="/ConstraintLayout/ConstraintLayout初步探究/">
         <h2 class="post-title">
                                  
-            NDK学习笔记(三)
+            ConstraintLayout初步探究
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            在ndk开发中，很多时候并不需要我们实现全部的代码，往往可以通过NDK的API来实现相应的功能，那么ndk中要如何使用NDK的api呢？
-添加 NDK API
-在介绍如何使用NDK的api时，会以打印的log为例，该包可以实现将native层的信息打印到log中。
-首先，我们需要在源文件中引入log的头文件：
-1#include &lt;android/log.h&gt;
-引入头文件后，我们......
+            ConstraintLayout是这两年Google新推出的一个布局，俗称约束布局。相比于之前常用的线性布局和相对布局，ConstraintLayout能够使用的场景更多，能更好的见地页面的布局层级，提升页面的渲染性能。
+目前稳定版本是1.0.2，本文后面的内容也都是基于该版本。
+基本相对位置属性
+ConstraintLayout有多个相对位置属性，满足开发者在构建界面的需要，主要使用的如下......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by alonealice on
-            2017-01-07
+            2017-12-18
         </p>
         <div class="tags">
             
-              <a href="/tags/#ndk" title="ndk">ndk</a>
+              <a href="/tags/#ConstraintLayout" title="ConstraintLayout">ConstraintLayout</a>
             
         </div>
     
@@ -517,31 +496,30 @@ Keyboard类主要是用于监听虚拟键盘，它里面有内部......
 
 <div class="post-preview">
 
-    <a href="/ndk/NDK学习笔记-二/">
+    <a href="/tips和坑/记录那些经常用却又打死记不住的代码-持续更新/">
         <h2 class="post-title">
                                  
-            NDK学习笔记(二)
+            记录那些经常用却又打死记不住的代码(持续更新)
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            之前的文章中我详细的介绍了第一个NDK程序，后面要讲讲如何使用jni的接口，实现更多的功能。
-jstring相关方法
-首先要讲讲jstring相关方法。
-NewStringUTF
-NewStringUTF函数传入一个字符串，返回jstring对象。
-12345678910char p[20]=&quot;hello&quot;;return env-&gt;NewStringUTF(p);或......
+            时间固定格式转Long
+123SimpleDateFormat simpleDateFormat = new SimpleDateFormat(style);Date date = simpleDateFormat.parse(time);return date.getTime();
+组合属性动画
+方法1：
+12345PropertyValuesHolder holder1=Property......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by alonealice on
-            2016-12-26
+            2017-08-02
         </p>
         <div class="tags">
             
-              <a href="/tags/#ndk" title="ndk">ndk</a>
+              <a href="/tags/#tips和坑" title="tips和坑">tips和坑</a>
             
         </div>
     
@@ -594,11 +572,23 @@ NewStringUTF函数传入一个字符串，返回jstring对象。
     <div class="tags">
         
             
+            <a href="/tags/#andfix" title="andfix" rel="1">andfix</a>
+            
+        
+            
             <a href="/tags/#AIDL" title="AIDL" rel="1">AIDL</a>
             
         
             
-            <a href="/tags/#andfix" title="andfix" rel="1">andfix</a>
+            <a href="/tags/#音视频" title="音视频" rel="22">音视频</a>
+            
+        
+            
+            <a href="/tags/#OpenGL" title="OpenGL" rel="8">OpenGL</a>
+            
+        
+            
+            <a href="/tags/#Open GL" title="Open GL" rel="1">Open GL</a>
             
         
             
@@ -622,11 +612,11 @@ NewStringUTF函数传入一个字符串，返回jstring对象。
             
         
             
-            <a href="/tags/#Executors" title="Executors" rel="1">Executors</a>
+            <a href="/tags/#Flutter" title="Flutter" rel="1">Flutter</a>
             
         
             
-            <a href="/tags/#线程池" title="线程池" rel="1">线程池</a>
+            <a href="/tags/#Android Jetpack" title="Android Jetpack" rel="7">Android Jetpack</a>
             
         
             
@@ -635,6 +625,14 @@ NewStringUTF函数传入一个字符串，返回jstring对象。
         
             
             <a href="/tags/#源码阅读" title="源码阅读" rel="8">源码阅读</a>
+            
+        
+            
+            <a href="/tags/#Executors" title="Executors" rel="1">Executors</a>
+            
+        
+            
+            <a href="/tags/#线程池" title="线程池" rel="1">线程池</a>
             
         
             
@@ -674,6 +672,10 @@ NewStringUTF函数传入一个字符串，返回jstring对象。
             
         
             
+            <a href="/tags/#动态代理" title="动态代理" rel="1">动态代理</a>
+            
+        
+            
             <a href="/tags/#java反射" title="java反射" rel="1">java反射</a>
             
         
@@ -682,11 +684,11 @@ NewStringUTF函数传入一个字符串，返回jstring对象。
             
         
             
-            <a href="/tags/#动态代理" title="动态代理" rel="1">动态代理</a>
+            <a href="/tags/#java注解" title="java注解" rel="1">java注解</a>
             
         
             
-            <a href="/tags/#java注解" title="java注解" rel="1">java注解</a>
+            <a href="/tags/#WebRtc" title="WebRtc" rel="2">WebRtc</a>
             
         
             
@@ -702,11 +704,11 @@ NewStringUTF函数传入一个字符串，返回jstring对象。
             
         
             
-            <a href="/tags/#NDK" title="NDK" rel="1">NDK</a>
+            <a href="/tags/#tips和坑" title="tips和坑" rel="3">tips和坑</a>
             
         
             
-            <a href="/tags/#tips和坑" title="tips和坑" rel="3">tips和坑</a>
+            <a href="/tags/#NDK" title="NDK" rel="1">NDK</a>
             
         
             
@@ -718,15 +720,11 @@ NewStringUTF函数传入一个字符串，返回jstring对象。
             
         
             
-            <a href="/tags/#音视频" title="音视频" rel="6">音视频</a>
+            <a href="/tags/#Preference" title="Preference" rel="1">Preference</a>
             
         
             
             <a href="/tags/#okhttp" title="okhttp" rel="1">okhttp</a>
-            
-        
-            
-            <a href="/tags/#Preference" title="Preference" rel="1">Preference</a>
             
         
             
@@ -786,23 +784,23 @@ NewStringUTF函数传入一个字符串，返回jstring对象。
     <ul>
       
         <li>
-          <a href="/音视频/WebRtc入门/">WebRtc 入门</a>
+          <a href="/Flutter/Flutter入门：第一个Flutter程序/">Flutter入门：第一个Flutter应用</a>
         </li>
       
         <li>
-          <a href="/音视频/MediaExtractor和MediaMuxer/">MediaExtractor和MediaMuxer</a>
+          <a href="/音视频/WebRtc/WebRtc连接过程/">WebRtc 建联过程</a>
         </li>
       
         <li>
-          <a href="/音视频/MediaCodec基础/">MediaCodec基础</a>
+          <a href="/音视频/OpenGL/Android OpenGL的简单使用（9）：纹理/">Android OpenGL的简单使用（9）：纹理</a>
         </li>
       
         <li>
-          <a href="/音视频/RTP和RTCP/">RTP和RTCP</a>
+          <a href="/音视频/OpenGL/Android OpenGL的简单使用（8）：材质和光照/">Android OpenGL的简单使用（8）：材质和光照</a>
         </li>
       
         <li>
-          <a href="/音视频/H265的原理/">H265的原理</a>
+          <a href="/音视频/OpenGL/Android OpenGL的简单使用（7）：添加颜色/">Android OpenGL的简单使用（7）：添加颜色</a>
         </li>
       
     </ul>
@@ -817,7 +815,7 @@ NewStringUTF函数传入一个字符串，返回jstring对象。
         
     <h5>ARCHIVES</h5>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">3</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">3</span></li></ul>
     </div>
 
         <hr>
@@ -859,7 +857,7 @@ NewStringUTF函数传入一个字符串，返回jstring对象。
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; alonealice 2020 
+                    Copyright &copy; alonealice 2021 
                     <br>
                     Theme by <a href="http://beantech.org">BeanTech</a> 
                     <span style="display: inline-block; margin: 0 5px;">

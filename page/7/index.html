@@ -134,13 +134,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archive/">Archives</a>
                         </li>
                         
@@ -149,6 +142,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -211,25 +211,186 @@
 
 <div class="post-preview">
 
-    <a href="/源码阅读/IntentService解析/">
+    <a href="/自定义键盘/android自定义键盘/">
         <h2 class="post-title">
                                  
-            IntentService解析
+            android自定义键盘
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            IntentService是Service的子类，它只要是处理异步请求。与普通的Service相比，它有两点区别：一是它的操作都是在异步线程中进行，二是它执行完成之后会自动停止。那我们就来看看它内部是如何实现的。
-IntentService的源码真的是非常简单，只有区区几十行代码。
-首先来看看oncreate方法：
-12345678910111213@Override   public vo......
+            在某些安全性比较高的软件，如银行的相关软件中，输入密码等操作时往往会弹出自定义的软键盘。如果输入的只有数字，开发者往往会通过自定义View和TextView的方式实现，这种方式可以避免第三方键盘的调起。但是如果需要在editview中实现时，就需要实现自己的键盘。
+实现自定义键盘主要有两个类：Keyboard和KeyboardView。
+Keyboard类主要是用于监听虚拟键盘，它里面有内部......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by alonealice on
-            2016-08-04
+            2017-03-04
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#自定义键盘" title="自定义键盘">自定义键盘</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/ndk/NDK学习笔记-四/">
+        <h2 class="post-title">
+                                 
+            NDK学习笔记(四)
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            在开发NDK的过程中，我们会发现，一旦程序出现异常，程序会直接闪退，而且不会有相关的日志，只会留下类似这样的一句话：
+1A/libc: Fatal signal 11 (SIGSEGV), code 1, fault addr 0x0 in tid 1656 (telife.jnistudy)
+一旦遇到这样的错误信息，我们即找不到错误的原因，也找不到出错的地方，根本无从改起。
+那要怎么办呢？......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by alonealice on
+            2017-02-08
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#ndk" title="ndk">ndk</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/ndk/NDK学习笔记-三/">
+        <h2 class="post-title">
+                                 
+            NDK学习笔记(三)
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            在ndk开发中，很多时候并不需要我们实现全部的代码，往往可以通过NDK的API来实现相应的功能，那么ndk中要如何使用NDK的api呢？
+添加 NDK API
+在介绍如何使用NDK的api时，会以打印的log为例，该包可以实现将native层的信息打印到log中。
+首先，我们需要在源文件中引入log的头文件：
+1#include &lt;android/log.h&gt;
+引入头文件后，我们......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by alonealice on
+            2017-01-07
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#ndk" title="ndk">ndk</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/ndk/NDK学习笔记-二/">
+        <h2 class="post-title">
+                                 
+            NDK学习笔记(二)
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            之前的文章中我详细的介绍了第一个NDK程序，后面要讲讲如何使用jni的接口，实现更多的功能。
+jstring相关方法
+首先要讲讲jstring相关方法。
+NewStringUTF
+NewStringUTF函数传入一个字符串，返回jstring对象。
+12345678910char p[20]=&quot;hello&quot;;return env-&gt;NewStringUTF(p);或......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by alonealice on
+            2016-12-26
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#ndk" title="ndk">ndk</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/ndk/jni学习笔记/">
+        <h2 class="post-title">
+                                 
+            NDK学习笔记(一)
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            在Android开发中，使用NDK开发越来越重要。如何在android studio中使用NDK开发，这里不再介绍，可以参考第一个ndk程序。在程序运行起来之后，接下来主要是要讲讲这个方法中相关代码的含义。
+第一个程序分析
+首先是引入了jni.h和string.h的头文件，作为jni的程序，引入jni的相关内容是必须的，同时，因为里面还用到了string的内容，所以也引入了string的头文......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by alonealice on
+            2016-12-24
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#ndk" title="ndk">ndk</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/源码阅读/ThreadLocal解析/">
+        <h2 class="post-title">
+                                 
+            ThreadLocal解析
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            ThreadLocal是一个关于创建线程局部变量的类，为解决多线程程序的并发问题提供了一种新的思路。使用ThreadLocal创建的变量只能被当前线程访问，其他线程则无法访问和修改。那它内部是如何实现的呢？
+ThreadLocal对外提供三个方法：set、get和remove，那我们一次来看一下这几个方法。
+1234567891011121314151617public void set(T......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by alonealice on
+            2016-12-07
         </p>
         <div class="tags">
             
@@ -243,23 +404,22 @@ IntentService的源码真的是非常简单，只有区区几十行代码。
 
 <div class="post-preview">
 
-    <a href="/源码阅读/AsyncTask解析/">
+    <a href="/源码阅读/LocalBroadcastManager源码分析/">
         <h2 class="post-title">
                                  
-            AsyncTask解析
+            LocalBroadcastManager源码分析
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            AsyncTask是我们在开发过程中经常使用的类，它是一个抽象类，主要用来实现轻量级异步操作。那接下来我们就看看它的内部实现。
-1234567891011121314151617181920212223242526272829public AsyncTask() &#123;        mWorker = new WorkerRunnable&lt;Params, Result&gt;(......
+            当我们在发送广播时，有时会遇到这样的问题，就是我不想让该广播被其他应用接收，或者我的广播接收器不想接收其他的应用的广播，这该怎么做呢？解决的方案有很多中，比如可以自定义广播的权限；比如可以给intent设置package等。但是这些方法，一旦应用被反编译，就完全无法保障其他应用再来发冒充我们的广播了。在Android系统中，有一个LocalBroadcastManager类，就是专门来解决广......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by alonealice on
-            2016-07-23
+            2016-11-21
         </p>
         <div class="tags">
             
@@ -273,27 +433,31 @@ IntentService的源码真的是非常简单，只有区区几十行代码。
 
 <div class="post-preview">
 
-    <a href="/NDK/第一个jni程序/">
+    <a href="/Effective-Java/读书笔记/Effective-java读书笔记(3)/">
         <h2 class="post-title">
                                  
-            第一个ndk程序
+            Effective java读书笔记(3)
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            之前写过一个如何创建ndk程序并且调用相关的c语言方法，虽然方法是可行的，但是过程怎么看都别扭，都有一种投机取巧的感觉。查阅网上的相关资料，资料虽多，但是不是写的很复杂，就是时间太久了无法再适用了。哎，第三方资料都靠不住呀，只能看官方资料了。
-官方资料其实很简单，而且基于 Android Studio 2.2 或者更高的版本，同时要求 Gradle version 2.2.0 或更高的版本。......
+            尽量不要使用原生态类型
+首先，我们要知道什么是原生态类型。每一个泛型都定义一个原生态类型，比如List它的原生态类型就是List。那为什么又尽量不要使用呢？因为使用它可能会照成类型不安全。比如：
+123public void add(List list,String string)&#123;  list.add(string);&#125;
+如果调用方法时是new Person().add......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by alonealice on
-            2016-06-14
+            2016-11-07
         </p>
         <div class="tags">
             
-              <a href="/tags/#NDK" title="NDK">NDK</a>
+              <a href="/tags/#Effective Java" title="Effective Java">Effective Java</a>
+            
+              <a href="/tags/#读书笔记" title="读书笔记">读书笔记</a>
             
         </div>
     
@@ -303,31 +467,32 @@ IntentService的源码真的是非常简单，只有区区几十行代码。
 
 <div class="post-preview">
 
-    <a href="/AIDL/AIDL简单入门/">
+    <a href="/Effective-Java/读书笔记/Effective-Java读书笔记(2)/">
         <h2 class="post-title">
                                  
-            AIDL简单入门
+            Effective Java读书笔记(2)
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            AIDL是 Android Interface definition language的缩写，是android内部进程通信接口的描述语言，通过它我们可以进行进程间的通信。
-AIDL使用步骤
-使用AIDL一般是在两个应用的通信中使用。一个作为服务端提供接口，一个作为客户端调用接口。
-使用步骤
-1.在服务端定义自定义类型 注意需要实现Parcelable 接口：
-1234567891011121......
+            覆盖equals方法时的通用约定
+1.自反性：对于任何非null的对象x，x.equals(x)一定是true
+2.对称性：对于任何非null对象x，y，x.equals(y)为true时，y.equals(x)也一定为true
+3.传递性：x.equals(y)等于true，y.equals(z)也为true，那么x.equals(z)也一定为true
+4.一致性：在没有修改两个对象信息的......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by alonealice on
-            2016-06-13
+            2016-11-07
         </p>
         <div class="tags">
             
-              <a href="/tags/#AIDL" title="AIDL">AIDL</a>
+              <a href="/tags/#Effective Java" title="Effective Java">Effective Java</a>
+            
+              <a href="/tags/#读书笔记" title="读书笔记">读书笔记</a>
             
         </div>
     
@@ -337,35 +502,38 @@ AIDL使用步骤
 
 <div class="post-preview">
 
-    <a href="/andfix/Andfix的简单使用/">
+    <a href="/Effective-Java/读书笔记/Effective-Java读书笔记(1)/">
         <h2 class="post-title">
                                  
-            Andfix的简单使用
+            Effective Java读书笔记(1)
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            简介
-AndFix是&quot;Android hot-fix&quot;的简写，用于在线解决Android应用程序的bugs的Android库。AndFix支持Android2.3到Android6.0，支持ARM和X86架构。
-原理
-实现原理是通过改变内部方法来修改bugs
-
-修改过程
-
-使用方法
-1.添加依赖库
-123dependencies &#123;compile &apos;c......
+            用静态工厂方法代替构造器
+优势：
+1.静态工厂方法有名字，可以增强阅读性，可以强化与其他静态工厂方法的区别。
+2.静态工厂方法在返回对象时可以返回静态对象，不需要每次都创建新对象。
+3.静态工厂方法可以返回原对象类型的子类型对象。
+缺点：类如果没有公有的或者受保护的构造器，就不能被子类化。
+遇到多个构造参数是用构建器
+优势：
+1.代码的可读性更高（看起来更高级）
+2.可以有多个可变参数
+示例......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by alonealice on
-            2016-06-12
+            2016-11-04
         </p>
         <div class="tags">
             
-              <a href="/tags/#andfix" title="andfix">andfix</a>
+              <a href="/tags/#Effective Java" title="Effective Java">Effective Java</a>
+            
+              <a href="/tags/#读书笔记" title="读书笔记">读书笔记</a>
             
         </div>
     
@@ -383,6 +551,10 @@ AndFix是&quot;Android hot-fix&quot;的简写，用于在线解决Android应用�
             <a href="/page/6/">&larr; Newer Posts</a>
         </li>
     
+    
+        <li class="next">
+            <a href="/page/8/">Older Posts &rarr;</a>
+        </li>
     
 </ul>
 
@@ -414,11 +586,23 @@ AndFix是&quot;Android hot-fix&quot;的简写，用于在线解决Android应用�
     <div class="tags">
         
             
+            <a href="/tags/#andfix" title="andfix" rel="1">andfix</a>
+            
+        
+            
             <a href="/tags/#AIDL" title="AIDL" rel="1">AIDL</a>
             
         
             
-            <a href="/tags/#andfix" title="andfix" rel="1">andfix</a>
+            <a href="/tags/#音视频" title="音视频" rel="22">音视频</a>
+            
+        
+            
+            <a href="/tags/#OpenGL" title="OpenGL" rel="8">OpenGL</a>
+            
+        
+            
+            <a href="/tags/#Open GL" title="Open GL" rel="1">Open GL</a>
             
         
             
@@ -442,11 +626,11 @@ AndFix是&quot;Android hot-fix&quot;的简写，用于在线解决Android应用�
             
         
             
-            <a href="/tags/#Executors" title="Executors" rel="1">Executors</a>
+            <a href="/tags/#Flutter" title="Flutter" rel="1">Flutter</a>
             
         
             
-            <a href="/tags/#线程池" title="线程池" rel="1">线程池</a>
+            <a href="/tags/#Android Jetpack" title="Android Jetpack" rel="7">Android Jetpack</a>
             
         
             
@@ -455,6 +639,14 @@ AndFix是&quot;Android hot-fix&quot;的简写，用于在线解决Android应用�
         
             
             <a href="/tags/#源码阅读" title="源码阅读" rel="8">源码阅读</a>
+            
+        
+            
+            <a href="/tags/#Executors" title="Executors" rel="1">Executors</a>
+            
+        
+            
+            <a href="/tags/#线程池" title="线程池" rel="1">线程池</a>
             
         
             
@@ -494,6 +686,10 @@ AndFix是&quot;Android hot-fix&quot;的简写，用于在线解决Android应用�
             
         
             
+            <a href="/tags/#动态代理" title="动态代理" rel="1">动态代理</a>
+            
+        
+            
             <a href="/tags/#java反射" title="java反射" rel="1">java反射</a>
             
         
@@ -502,11 +698,11 @@ AndFix是&quot;Android hot-fix&quot;的简写，用于在线解决Android应用�
             
         
             
-            <a href="/tags/#动态代理" title="动态代理" rel="1">动态代理</a>
+            <a href="/tags/#java注解" title="java注解" rel="1">java注解</a>
             
         
             
-            <a href="/tags/#java注解" title="java注解" rel="1">java注解</a>
+            <a href="/tags/#WebRtc" title="WebRtc" rel="2">WebRtc</a>
             
         
             
@@ -522,11 +718,11 @@ AndFix是&quot;Android hot-fix&quot;的简写，用于在线解决Android应用�
             
         
             
-            <a href="/tags/#NDK" title="NDK" rel="1">NDK</a>
+            <a href="/tags/#tips和坑" title="tips和坑" rel="3">tips和坑</a>
             
         
             
-            <a href="/tags/#tips和坑" title="tips和坑" rel="3">tips和坑</a>
+            <a href="/tags/#NDK" title="NDK" rel="1">NDK</a>
             
         
             
@@ -538,15 +734,11 @@ AndFix是&quot;Android hot-fix&quot;的简写，用于在线解决Android应用�
             
         
             
-            <a href="/tags/#音视频" title="音视频" rel="6">音视频</a>
+            <a href="/tags/#Preference" title="Preference" rel="1">Preference</a>
             
         
             
             <a href="/tags/#okhttp" title="okhttp" rel="1">okhttp</a>
-            
-        
-            
-            <a href="/tags/#Preference" title="Preference" rel="1">Preference</a>
             
         
             
@@ -606,23 +798,23 @@ AndFix是&quot;Android hot-fix&quot;的简写，用于在线解决Android应用�
     <ul>
       
         <li>
-          <a href="/音视频/WebRtc入门/">WebRtc 入门</a>
+          <a href="/Flutter/Flutter入门：第一个Flutter程序/">Flutter入门：第一个Flutter应用</a>
         </li>
       
         <li>
-          <a href="/音视频/MediaExtractor和MediaMuxer/">MediaExtractor和MediaMuxer</a>
+          <a href="/音视频/WebRtc/WebRtc连接过程/">WebRtc 建联过程</a>
         </li>
       
         <li>
-          <a href="/音视频/MediaCodec基础/">MediaCodec基础</a>
+          <a href="/音视频/OpenGL/Android OpenGL的简单使用（9）：纹理/">Android OpenGL的简单使用（9）：纹理</a>
         </li>
       
         <li>
-          <a href="/音视频/RTP和RTCP/">RTP和RTCP</a>
+          <a href="/音视频/OpenGL/Android OpenGL的简单使用（8）：材质和光照/">Android OpenGL的简单使用（8）：材质和光照</a>
         </li>
       
         <li>
-          <a href="/音视频/H265的原理/">H265的原理</a>
+          <a href="/音视频/OpenGL/Android OpenGL的简单使用（7）：添加颜色/">Android OpenGL的简单使用（7）：添加颜色</a>
         </li>
       
     </ul>
@@ -637,7 +829,7 @@ AndFix是&quot;Android hot-fix&quot;的简写，用于在线解决Android应用�
         
     <h5>ARCHIVES</h5>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">3</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">3</span></li></ul>
     </div>
 
         <hr>
@@ -679,7 +871,7 @@ AndFix是&quot;Android hot-fix&quot;的简写，用于在线解决Android应用�
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; alonealice 2020 
+                    Copyright &copy; alonealice 2021 
                     <br>
                     Theme by <a href="http://beantech.org">BeanTech</a> 
                     <span style="display: inline-block; margin: 0 5px;">

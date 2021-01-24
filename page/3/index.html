@@ -134,13 +134,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archive/">Archives</a>
                         </li>
                         
@@ -149,6 +142,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -211,32 +211,28 @@
 
 <div class="post-preview">
 
-    <a href="/Android进阶之光/读书笔记/《Android进阶之光》读书笔记（三）/">
+    <a href="/音视频/RTP和RTCP/">
         <h2 class="post-title">
                                  
-            《Android进阶之光》读书笔记（三）
+            RTP和RTCP
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            多线程
-线程基础
-继承是操作系统结构的基础，是程序在一个数据集合上运行的过程，是系统进行资源分配和调度的基本单位。进程可以被看做程序的实体，同样，它也是线程的容器。
-线程是操作系统调度的最小单元，也叫做轻量级进程。
-使用多线程的原因：使用多线程可以减少程序的响应时间；与进程相比，线程的创建和切换开销更小，同时在数据共享方面效率更高；多cpu或者多核计算机本身就支持多线程，多进程可以提高CPU......
+            RTP全名实时传输协议，用来为IP网上的语音、图像、传真等多种需要实时传输的多媒体数据提供端到端的实时传输服务。其相关的配套协议RTCP，实时传输控制协议。RTP为端到端的实时传输提供时间信息和流同步，但并不保证服务质量，服务质量由RTCP来提供。
+RTP用于在单播或多播网络中传送实时数据，主要的场景有：
+简单的多播音频会议：语音通信通过一个多播地址和一对端口来实现。一个用于音频数据，另一个......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by alonealice on
-            2017-07-18
+            2020-10-21
         </p>
         <div class="tags">
             
-              <a href="/tags/#读书笔记" title="读书笔记">读书笔记</a>
-            
-              <a href="/tags/#Android进阶之光" title="Android进阶之光">Android进阶之光</a>
+              <a href="/tags/#音视频" title="音视频">音视频</a>
             
         </div>
     
@@ -246,31 +242,28 @@
 
 <div class="post-preview">
 
-    <a href="/Android进阶之光/读书笔记/《Android进阶之光》读书笔记（二）/">
+    <a href="/音视频/H265的原理/">
         <h2 class="post-title">
                                  
-            《Android进阶之光》读书笔记(二)
+            H265的原理
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            View体系和自定义View
-点击事件坐标系
-getX():获取点击事件距离控件左边的距离，即视图坐标
-getY():获取点击事件距离控件左边的距离，即视图坐标
-getRawX():获取点击事件距离整个屏幕左边的距离，即绝对坐标
-getRawY():获取点击事件距离整个屏幕顶边的距离，即绝对坐标
-View的滑动
-Android View移动的6中方法：layout()，offsetLeftA......
+            H.265又称为HEVC，是作为继 H.264 之后的新一代视频编码格式，除了能减少普通视频 50% 的码率，缓解网络传输压力外，同时也是 4K 高清视频和 VR 直播最合适的选择。
+H.265 的优势
+H.265 对比 H.264 有更高的压缩比，H.265 全新的编码方式有效提升了视频压缩率，以相同的视频质量为基准，H.265 编码技术相比 H.264 编码技术能够在视频容量减少大约 3......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by alonealice on
-            2017-07-17
+            2020-10-21
         </p>
         <div class="tags">
+            
+              <a href="/tags/#音视频" title="音视频">音视频</a>
             
         </div>
     
@@ -280,31 +273,28 @@ Android View移动的6中方法：layout()，offsetLeftA......
 
 <div class="post-preview">
 
-    <a href="/Android进阶之光/读书笔记/Android《进阶之光》读书笔记（一）/">
+    <a href="/音视频/H264简介和原理/">
         <h2 class="post-title">
                                  
-            《Android进阶之光》读书笔记（一）
+            H264简介和原理
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            最近买了一本《Android进阶之光》，看了之后确实有很多之前不了解或是不熟悉的知识，所以记个笔记，以便之后更好的巩固和复习。
-Android5.0新特性
-RecyclerView分割线
-RecyclerView在设置分割线的时候需要自定义（我之前在使用时一般都是直接在布局文件中放根线）。自定义RecyclerView的分割线时，需要创建一个class并且继承RecyclerView.Ite......
+            什么是H264
+H264其实就是一种视频压缩的算法，它是目前所有的视频压缩技术中运用最广泛，最流行的，普遍运用在各种视频播放的应用和服务中。对比其他的压缩标准，它主要有两大优势，一是网络亲和性，它可以适用于各种传输网络；二是更高的视频压缩比，对比H.263和MPEG-4，约为它们的 2 倍。
+H264主要采用了几下几种方法对视频数据进行的压缩：帧内预测压缩、帧间预测压缩、整数离散余弦变换和C......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by alonealice on
-            2017-07-14
+            2020-10-13
         </p>
         <div class="tags">
             
-              <a href="/tags/#读书笔记" title="读书笔记">读书笔记</a>
-            
-              <a href="/tags/#Android进阶之光" title="Android进阶之光">Android进阶之光</a>
+              <a href="/tags/#音视频" title="音视频">音视频</a>
             
         </div>
     
@@ -314,28 +304,31 @@ RecyclerView在设置分割线的时候需要自定义（我之前在使用时�
 
 <div class="post-preview">
 
-    <a href="/tips和坑/android开发小tip与踩过的坑（持续更新）/">
+    <a href="/Android-Jetpack/Paging：分页库/">
         <h2 class="post-title">
                                  
-            android开发小tip与踩过的坑（持续更新）
+            Paging：分页库
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            这篇文章主要是记录自己在开发过程中遇到的一些小tip，别看这些东西很细微，有时候可以解决大麻烦，有些对于开发非常重要。还有就是自己曾经踩过的坑，我觉得都有必要记录下来。这些坑虽然不是每个人都会踩(有些确实是自己太笨了才踩的)，但是既然我踩了，那可能还会有人踩，这样既惊醒自己，也可帮助他人。文章内容持续更新，也没有具体的分类，遇到一个添加一个。
-greendao 生成代码
-很多人都用过gree......
+            Paging是Google官方推出了一个新的分页组件。
+添加依赖
+123implementation "android.arch.paging:runtime:1.0.1"//Paging对RxJava2的原生支持implementation "android.arch.paging:rxjava2:1.0.1"
+使用
+创建PageKeyedDataSource，用以获取数据源：
+12345......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by alonealice on
-            2017-07-11
+            2020-05-25
         </p>
         <div class="tags">
             
-              <a href="/tags/#tips和坑" title="tips和坑">tips和坑</a>
+              <a href="/tags/#Android Jetpack" title="Android Jetpack">Android Jetpack</a>
             
         </div>
     
@@ -345,28 +338,28 @@ greendao 生成代码
 
 <div class="post-preview">
 
-    <a href="/源码阅读/BottomNavigationView分析/">
+    <a href="/Android-Jetpack/Navigation的使用/">
         <h2 class="post-title">
                                  
-            BottomNavigationView分析
+            Navigation的使用
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            Bottom-Navigation是谷歌官方发布的android底部状态栏，它的动画效果非常的漂亮，看起来非常的让人赏心悦目。为了能够拥有相同的用户体验，google对它有着严格的设计标准，具体的要求和实例请看：官方文档。同时，谷歌还推出了BottomNavigationView来实现这种设计。那下面就来看看BottomNavigationView是如何实现的。
-简单使用
-通过BottomN......
+            Google官方的描述：
+
+今天，我们宣布推出Navigation组件，作为构建您的应用内界面的框架，重点是让单 Activity 应用成为首选架构。利用Navigation组件对 Fragment 的原生支持，您可以获得架构组件的所有好处（例如生命周期和 ViewModel），同时让此组件为您处理 FragmentTransaction 的复杂性。此外，Navigation组件还可以让您声......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by alonealice on
-            2017-07-03
+            2020-05-24
         </p>
         <div class="tags">
             
-              <a href="/tags/#源码阅读" title="源码阅读">源码阅读</a>
+              <a href="/tags/#Android Jetpack" title="Android Jetpack">Android Jetpack</a>
             
         </div>
     
@@ -376,31 +369,28 @@ greendao 生成代码
 
 <div class="post-preview">
 
-    <a href="/okhttp/源码阅读/Okhttp源码分析/">
+    <a href="/Android-Jetpack/Lifecycle使用/">
         <h2 class="post-title">
                                  
-            okhttp源码分析（一）
+            Lifecycle使用和原理
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            OkHttp是一款优秀的HTTP框架，它支持get请求和post请求，支持基于Http的文件上传和下载，支持加载图片，支持下载文件透明的GZIP压缩，支持响应缓存避免重复的网络请求，支持使用连接池来降低响应延迟问题。
-基本用例
-首先看一下它的基本使用：(具体的使用方法请看官方文档)
-12345OkHttpClient client = new OkHttpClient();      Req......
+            Lifecycle 是官方提供的架构组件之一，是具有生命周期感知能力的组件。也就是说，我们能在 Activity 或者 Fragment 的生命周期发生变化的时候得到通知
+依赖
+12implementation "android.arch.lifecycle:livedata:1.1.1"annotationProcessor "android.arch.lifecycle:compiler......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by alonealice on
-            2017-06-22
+            2020-05-22
         </p>
         <div class="tags">
             
-              <a href="/tags/#源码阅读" title="源码阅读">源码阅读</a>
-            
-              <a href="/tags/#okhttp" title="okhttp">okhttp</a>
+              <a href="/tags/#Android Jetpack" title="Android Jetpack">Android Jetpack</a>
             
         </div>
     
@@ -410,31 +400,28 @@ greendao 生成代码
 
 <div class="post-preview">
 
-    <a href="/设计模式/责任链模式/">
+    <a href="/Android-Jetpack/CameraX简单使用/">
         <h2 class="post-title">
                                  
-            设计模式之责任链模式
+            CameraX简单使用
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            责任链模式是一种对象的行为模式。通俗的说，就是多个处理者对象链成一条链，请求在这条链上传递，知道某个对象处理此请求。
-一个简单的实现示例如下：
-处理方法：
-1234public abstract class ConcreteHandler &#123;   public abstract void handlerRequest(Handler handler);&#125;
-定义处理者：
-1......
+            CameraX实际上还是用的Camera2的代码，但是它对调用API进行了很好的封装，使用起来对比直接Camera2更加的方便。同时使用需要绑定lifecircle，能够自动管理生命周期。
+添加依赖
+1234implementation "androidx.camera:camera-core:1.0.0-rc01"implementation "androidx.camera:camera......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by alonealice on
-            2017-06-21
+            2020-05-20
         </p>
         <div class="tags">
             
-              <a href="/tags/#设计模式" title="设计模式">设计模式</a>
+              <a href="/tags/#Android Jetpack" title="Android Jetpack">Android Jetpack</a>
             
         </div>
     
@@ -444,30 +431,29 @@ greendao 生成代码
 
 <div class="post-preview">
 
-    <a href="/Kotlin/Kotlin基础语法（三）/">
+    <a href="/Android-Jetpack/ViewModel的使用和原理/">
         <h2 class="post-title">
                                  
-            Kotlin基础语法(三)
+            ViewModel的使用和原理
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            继承
-在 Kotlin 中所有类都有一个共同的超类Any，这对于没有超类型声明的类是默认超类，Any与java中的Object不同，它只有equals()、hashCode()和toString()三个方法。
-要声明一个显式的超类型，我们把类型放到类头的冒号之后：
-123open class Base(p: Int)class Derived(p: Int) : Base(p)
-基类在声明时......
+            ViewModel 是一种用来存储和管理UI相关数据的类。同时在配合LiveData 情况下还支持在系统配置发生改变的时候自动对数据进行保存。它可以用来管理Activity和Fragment中的数据，也可以拿来处理Fragment与Fragment之间的通信等。
+ViewModel的使用
+添加依赖
+12implementation 'androidx.appcompat:appcompat:......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by alonealice on
-            2017-06-07
+            2020-05-17
         </p>
         <div class="tags">
             
-              <a href="/tags/#Kotlin" title="Kotlin">Kotlin</a>
+              <a href="/tags/#Android Jetpack" title="Android Jetpack">Android Jetpack</a>
             
         </div>
     
@@ -477,32 +463,30 @@ greendao 生成代码
 
 <div class="post-preview">
 
-    <a href="/Kotlin/Kotlin基础语法（二）/">
+    <a href="/Android-Jetpack/Room的介绍和使用/">
         <h2 class="post-title">
                                  
-            Kotlin基础语法（二）
+            Room数据库的介绍和使用
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            类和对象
-类
-在Kotlin中，类依旧使用class定义，用大括号包裹，不过当类里面没有任何代码时，大括号可以省略。
-构造函数
-Kotlin中可以有一个主构造函数和多个二级构造函数，如下：
-12class A  constructor(name: String)&#123;&#125;
-其中的constructor关键字可以省略。但是如果构造函数有其他声明获取注解，如：private，那么c......
+            介绍
+Room数据库是Google提供的一个ORM库，提供了SQLite的抽象层，以便在充分利用SQLite的同时允许流畅的数据库访问。
+其主要有三个组件：
+@Database：@Database用来注解类，并且注解的类必须是继承自RoomDatabase的抽象类。该类主要作用是创建数据库和创建Daos（data access objects，数据访问对象）。
+@Entity：@Entity......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by alonealice on
-            2017-06-06
+            2020-05-16
         </p>
         <div class="tags">
             
-              <a href="/tags/#Kotlin" title="Kotlin">Kotlin</a>
+              <a href="/tags/#Android Jetpack" title="Android Jetpack">Android Jetpack</a>
             
         </div>
     
@@ -512,29 +496,27 @@ Kotlin中可以有一个主构造函数和多个二级构造函数，如下：
 
 <div class="post-preview">
 
-    <a href="/kotlin/kotlin基础语法（一）/">
+    <a href="/Android-Jetpack/LiveData使用和原理/">
         <h2 class="post-title">
                                  
-            kotlin基础语法（一）
+            LiveData使用和原理
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            自从今年google在开发者大会上宣布，将Kotlin作为Android开发的主要语言后，越来越多的开发者开始关注Kotlin，那么我们就来学习一下Kotlin的基础语法。
-基本类型
-数值类型
-kotlin提供了6种内建数值类型，具体的类型和位宽如下（括号里为位宽）：Int(32)，Float(32)，Double(64)，Long(64)，Short(16)，Byte(8)。这里需要注意的......
+            LiveData是什么
+LiveData 是一个可以保存数据和观察数据变化的组件，主要是被设计用来在ViewModel中保存数据。LiveData是一个可被观察的数据持有者类，这个跟RxJava的Observable有点类似。但与Observable不同，LiveData能够感知到应用程序组件的生命周期变化。因此它能遵守Activity、Fragment、Service等组件的生命周期，这样......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by alonealice on
-            2017-05-31
+            2020-05-13
         </p>
         <div class="tags">
             
-              <a href="/tags/#kotlin" title="kotlin">kotlin</a>
+              <a href="/tags/#Android Jetpack" title="Android Jetpack">Android Jetpack</a>
             
         </div>
     
@@ -587,11 +569,23 @@ kotlin提供了6种内建数值类型，具体的类型和位宽如下（括号�
     <div class="tags">
         
             
+            <a href="/tags/#andfix" title="andfix" rel="1">andfix</a>
+            
+        
+            
             <a href="/tags/#AIDL" title="AIDL" rel="1">AIDL</a>
             
         
             
-            <a href="/tags/#andfix" title="andfix" rel="1">andfix</a>
+            <a href="/tags/#音视频" title="音视频" rel="22">音视频</a>
+            
+        
+            
+            <a href="/tags/#OpenGL" title="OpenGL" rel="8">OpenGL</a>
+            
+        
+            
+            <a href="/tags/#Open GL" title="Open GL" rel="1">Open GL</a>
             
         
             
@@ -615,11 +609,11 @@ kotlin提供了6种内建数值类型，具体的类型和位宽如下（括号�
             
         
             
-            <a href="/tags/#Executors" title="Executors" rel="1">Executors</a>
+            <a href="/tags/#Flutter" title="Flutter" rel="1">Flutter</a>
             
         
             
-            <a href="/tags/#线程池" title="线程池" rel="1">线程池</a>
+            <a href="/tags/#Android Jetpack" title="Android Jetpack" rel="7">Android Jetpack</a>
             
         
             
@@ -628,6 +622,14 @@ kotlin提供了6种内建数值类型，具体的类型和位宽如下（括号�
         
             
             <a href="/tags/#源码阅读" title="源码阅读" rel="8">源码阅读</a>
+            
+        
+            
+            <a href="/tags/#Executors" title="Executors" rel="1">Executors</a>
+            
+        
+            
+            <a href="/tags/#线程池" title="线程池" rel="1">线程池</a>
             
         
             
@@ -667,6 +669,10 @@ kotlin提供了6种内建数值类型，具体的类型和位宽如下（括号�
             
         
             
+            <a href="/tags/#动态代理" title="动态代理" rel="1">动态代理</a>
+            
+        
+            
             <a href="/tags/#java反射" title="java反射" rel="1">java反射</a>
             
         
@@ -675,11 +681,11 @@ kotlin提供了6种内建数值类型，具体的类型和位宽如下（括号�
             
         
             
-            <a href="/tags/#动态代理" title="动态代理" rel="1">动态代理</a>
+            <a href="/tags/#java注解" title="java注解" rel="1">java注解</a>
             
         
             
-            <a href="/tags/#java注解" title="java注解" rel="1">java注解</a>
+            <a href="/tags/#WebRtc" title="WebRtc" rel="2">WebRtc</a>
             
         
             
@@ -695,11 +701,11 @@ kotlin提供了6种内建数值类型，具体的类型和位宽如下（括号�
             
         
             
-            <a href="/tags/#NDK" title="NDK" rel="1">NDK</a>
+            <a href="/tags/#tips和坑" title="tips和坑" rel="3">tips和坑</a>
             
         
             
-            <a href="/tags/#tips和坑" title="tips和坑" rel="3">tips和坑</a>
+            <a href="/tags/#NDK" title="NDK" rel="1">NDK</a>
             
         
             
@@ -711,15 +717,11 @@ kotlin提供了6种内建数值类型，具体的类型和位宽如下（括号�
             
         
             
-            <a href="/tags/#音视频" title="音视频" rel="6">音视频</a>
+            <a href="/tags/#Preference" title="Preference" rel="1">Preference</a>
             
         
             
             <a href="/tags/#okhttp" title="okhttp" rel="1">okhttp</a>
-            
-        
-            
-            <a href="/tags/#Preference" title="Preference" rel="1">Preference</a>
             
         
             
@@ -779,23 +781,23 @@ kotlin提供了6种内建数值类型，具体的类型和位宽如下（括号�
     <ul>
       
         <li>
-          <a href="/音视频/WebRtc入门/">WebRtc 入门</a>
+          <a href="/Flutter/Flutter入门：第一个Flutter程序/">Flutter入门：第一个Flutter应用</a>
         </li>
       
         <li>
-          <a href="/音视频/MediaExtractor和MediaMuxer/">MediaExtractor和MediaMuxer</a>
+          <a href="/音视频/WebRtc/WebRtc连接过程/">WebRtc 建联过程</a>
         </li>
       
         <li>
-          <a href="/音视频/MediaCodec基础/">MediaCodec基础</a>
+          <a href="/音视频/OpenGL/Android OpenGL的简单使用（9）：纹理/">Android OpenGL的简单使用（9）：纹理</a>
         </li>
       
         <li>
-          <a href="/音视频/RTP和RTCP/">RTP和RTCP</a>
+          <a href="/音视频/OpenGL/Android OpenGL的简单使用（8）：材质和光照/">Android OpenGL的简单使用（8）：材质和光照</a>
         </li>
       
         <li>
-          <a href="/音视频/H265的原理/">H265的原理</a>
+          <a href="/音视频/OpenGL/Android OpenGL的简单使用（7）：添加颜色/">Android OpenGL的简单使用（7）：添加颜色</a>
         </li>
       
     </ul>
@@ -810,7 +812,7 @@ kotlin提供了6种内建数值类型，具体的类型和位宽如下（括号�
         
     <h5>ARCHIVES</h5>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">3</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">3</span></li></ul>
     </div>
 
         <hr>
@@ -852,7 +854,7 @@ kotlin提供了6种内建数值类型，具体的类型和位宽如下（括号�
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; alonealice 2020 
+                    Copyright &copy; alonealice 2021 
                     <br>
                     Theme by <a href="http://beantech.org">BeanTech</a> 
                     <span style="display: inline-block; margin: 0 5px;">

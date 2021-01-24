@@ -134,13 +134,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archive/">Archives</a>
                         </li>
                         
@@ -149,6 +142,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -211,28 +211,33 @@
 
 <div class="post-preview">
 
-    <a href="/ndk/jni学习笔记/">
+    <a href="/Rxjava/Rxjava常用操作符/">
         <h2 class="post-title">
                                  
-            NDK学习笔记(一)
+            Rxjava常用操作符
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            在Android开发中，使用NDK开发越来越重要。如何在android studio中使用NDK开发，这里不再介绍，可以参考第一个ndk程序。在程序运行起来之后，接下来主要是要讲讲这个方法中相关代码的含义。
-第一个程序分析
-首先是引入了jni.h和string.h的头文件，作为jni的程序，引入jni的相关内容是必须的，同时，因为里面还用到了string的内容，所以也引入了string的头文......
+            创建操作符
+just操作符
+1Observable observable=Observable.just(10,2);
+依次会调用onNext(10)和onNext(2)；
+interval操作符
+按照固定时间间隔发送整数序列的Observable(从0开始)。
+1Observable observable=Observable.interval(10,TimeUnit.SECONDS);
+......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by alonealice on
-            2016-12-24
+            2017-07-27
         </p>
         <div class="tags">
             
-              <a href="/tags/#ndk" title="ndk">ndk</a>
+              <a href="/tags/#Rxjava" title="Rxjava">Rxjava</a>
             
         </div>
     
@@ -242,24 +247,261 @@
 
 <div class="post-preview">
 
-    <a href="/源码阅读/ThreadLocal解析/">
+    <a href="/Android进阶之光/读书笔记/《Android进阶之光》读书笔记(五)/">
         <h2 class="post-title">
                                  
-            ThreadLocal解析
+            《Android进阶之光》读书笔记(五)
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            ThreadLocal是一个关于创建线程局部变量的类，为解决多线程程序的并发问题提供了一种新的思路。使用ThreadLocal创建的变量只能被当前线程访问，其他线程则无法访问和修改。那它内部是如何实现的呢？
-ThreadLocal对外提供三个方法：set、get和remove，那我们一次来看一下这几个方法。
-1234567891011121314151617public void set(T......
+            设计模式六大原则
+1.单一职责原则：就一个类而言，应该仅有一个引起它变化的原因。
+人话：我们不应该让一个类承担过多的责任，责任越多，耦合就越多，一个职责的变化会抑制或削弱其他职责的能力。
+2.开放封闭原则：类、模块、函数等应该是可以扩展的，但是不可修改。
+人话：我们在面对需求改变的时候要尽可能的保证相对稳定，尽量通过拓展的方式来实现变化，而不是通过修改原有代码的方式。
+3.里氏替换原则：所有......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by alonealice on
-            2016-12-07
+            2017-07-25
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#读书笔记" title="读书笔记">读书笔记</a>
+            
+              <a href="/tags/#Android进阶之光" title="Android进阶之光">Android进阶之光</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/Android进阶之光/读书笔记/《Android进阶之光》读书笔记（四）/">
+        <h2 class="post-title">
+                                 
+            《Android进阶之光》读书笔记(四)
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            网络分层
+1.物理层：负责比特流在节点间的传输，即负责物理传输。
+2.数据链路层：主要功能是在不可靠的物理线路上进行数据的可靠传输。它将从网络层收到的数据分割成特定的可被物理层传输的帧。
+3.网络层：该层决定如何将数据从发生方路由到接收方
+4.传输层：该层为两台主机上的应用程序提供端到端的通信，主要有两个传输协议；TCP和UDP。
+5.应用层：应用层就是规定应用程序的数据格式的，主要协议有H......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by alonealice on
+            2017-07-24
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#读书笔记" title="读书笔记">读书笔记</a>
+            
+              <a href="/tags/#Android进阶之光" title="Android进阶之光">Android进阶之光</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/tips和坑/记录那些经常用却又打死记不住的代码/">
+        <h2 class="post-title">
+                                 
+            记录那些经常用却又打死记不住的代码(一)
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            在开发过程中，总会遇到很多其实经常写，但又死活记不住(也许是本人比较笨)，每次都需要google的一些代码。这篇文章就是记录那些代码，以方便以后快速找到。
+跳转到系统图库页面
+123Intent albumIntent = new Intent(Intent.ACTION_PICK);albumIntent.setDataAndType(MediaStore.Images.Media.EXT......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by alonealice on
+            2017-07-20
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#tips和坑" title="tips和坑">tips和坑</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/Android进阶之光/读书笔记/《Android进阶之光》读书笔记（三）/">
+        <h2 class="post-title">
+                                 
+            《Android进阶之光》读书笔记（三）
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            多线程
+线程基础
+继承是操作系统结构的基础，是程序在一个数据集合上运行的过程，是系统进行资源分配和调度的基本单位。进程可以被看做程序的实体，同样，它也是线程的容器。
+线程是操作系统调度的最小单元，也叫做轻量级进程。
+使用多线程的原因：使用多线程可以减少程序的响应时间；与进程相比，线程的创建和切换开销更小，同时在数据共享方面效率更高；多cpu或者多核计算机本身就支持多线程，多进程可以提高CPU......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by alonealice on
+            2017-07-18
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#读书笔记" title="读书笔记">读书笔记</a>
+            
+              <a href="/tags/#Android进阶之光" title="Android进阶之光">Android进阶之光</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/Android进阶之光/读书笔记/《Android进阶之光》读书笔记（二）/">
+        <h2 class="post-title">
+                                 
+            《Android进阶之光》读书笔记(二)
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            View体系和自定义View
+点击事件坐标系
+getX():获取点击事件距离控件左边的距离，即视图坐标
+getY():获取点击事件距离控件左边的距离，即视图坐标
+getRawX():获取点击事件距离整个屏幕左边的距离，即绝对坐标
+getRawY():获取点击事件距离整个屏幕顶边的距离，即绝对坐标
+View的滑动
+Android View移动的6中方法：layout()，offsetLeftA......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by alonealice on
+            2017-07-17
+        </p>
+        <div class="tags">
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/Android进阶之光/读书笔记/Android《进阶之光》读书笔记（一）/">
+        <h2 class="post-title">
+                                 
+            《Android进阶之光》读书笔记（一）
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            最近买了一本《Android进阶之光》，看了之后确实有很多之前不了解或是不熟悉的知识，所以记个笔记，以便之后更好的巩固和复习。
+Android5.0新特性
+RecyclerView分割线
+RecyclerView在设置分割线的时候需要自定义（我之前在使用时一般都是直接在布局文件中放根线）。自定义RecyclerView的分割线时，需要创建一个class并且继承RecyclerView.Ite......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by alonealice on
+            2017-07-14
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#读书笔记" title="读书笔记">读书笔记</a>
+            
+              <a href="/tags/#Android进阶之光" title="Android进阶之光">Android进阶之光</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/tips和坑/android开发小tip与踩过的坑（持续更新）/">
+        <h2 class="post-title">
+                                 
+            android开发小tip与踩过的坑（持续更新）
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            这篇文章主要是记录自己在开发过程中遇到的一些小tip，别看这些东西很细微，有时候可以解决大麻烦，有些对于开发非常重要。还有就是自己曾经踩过的坑，我觉得都有必要记录下来。这些坑虽然不是每个人都会踩(有些确实是自己太笨了才踩的)，但是既然我踩了，那可能还会有人踩，这样既惊醒自己，也可帮助他人。文章内容持续更新，也没有具体的分类，遇到一个添加一个。
+greendao 生成代码
+很多人都用过gree......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by alonealice on
+            2017-07-11
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#tips和坑" title="tips和坑">tips和坑</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/源码阅读/BottomNavigationView分析/">
+        <h2 class="post-title">
+                                 
+            BottomNavigationView分析
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            Bottom-Navigation是谷歌官方发布的android底部状态栏，它的动画效果非常的漂亮，看起来非常的让人赏心悦目。为了能够拥有相同的用户体验，google对它有着严格的设计标准，具体的要求和实例请看：官方文档。同时，谷歌还推出了BottomNavigationView来实现这种设计。那下面就来看看BottomNavigationView是如何实现的。
+简单使用
+通过BottomN......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by alonealice on
+            2017-07-03
         </p>
         <div class="tags">
             
@@ -273,261 +515,31 @@ ThreadLocal对外提供三个方法：set、get和remove，那我们一次来看
 
 <div class="post-preview">
 
-    <a href="/源码阅读/LocalBroadcastManager源码分析/">
+    <a href="/okhttp/源码阅读/Okhttp源码分析/">
         <h2 class="post-title">
                                  
-            LocalBroadcastManager源码分析
+            okhttp源码分析（一）
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            当我们在发送广播时，有时会遇到这样的问题，就是我不想让该广播被其他应用接收，或者我的广播接收器不想接收其他的应用的广播，这该怎么做呢？解决的方案有很多中，比如可以自定义广播的权限；比如可以给intent设置package等。但是这些方法，一旦应用被反编译，就完全无法保障其他应用再来发冒充我们的广播了。在Android系统中，有一个LocalBroadcastManager类，就是专门来解决广......
+            OkHttp是一款优秀的HTTP框架，它支持get请求和post请求，支持基于Http的文件上传和下载，支持加载图片，支持下载文件透明的GZIP压缩，支持响应缓存避免重复的网络请求，支持使用连接池来降低响应延迟问题。
+基本用例
+首先看一下它的基本使用：(具体的使用方法请看官方文档)
+12345OkHttpClient client = new OkHttpClient();      Req......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by alonealice on
-            2016-11-21
+            2017-06-22
         </p>
         <div class="tags">
             
               <a href="/tags/#源码阅读" title="源码阅读">源码阅读</a>
             
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/Effective-Java/读书笔记/Effective-java读书笔记(3)/">
-        <h2 class="post-title">
-                                 
-            Effective java读书笔记(3)
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            尽量不要使用原生态类型
-首先，我们要知道什么是原生态类型。每一个泛型都定义一个原生态类型，比如List它的原生态类型就是List。那为什么又尽量不要使用呢？因为使用它可能会照成类型不安全。比如：
-123public void add(List list,String string)&#123;  list.add(string);&#125;
-如果调用方法时是new Person().add......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by alonealice on
-            2016-11-07
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#Effective Java" title="Effective Java">Effective Java</a>
-            
-              <a href="/tags/#读书笔记" title="读书笔记">读书笔记</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/Effective-Java/读书笔记/Effective-Java读书笔记(2)/">
-        <h2 class="post-title">
-                                 
-            Effective Java读书笔记(2)
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            覆盖equals方法时的通用约定
-1.自反性：对于任何非null的对象x，x.equals(x)一定是true
-2.对称性：对于任何非null对象x，y，x.equals(y)为true时，y.equals(x)也一定为true
-3.传递性：x.equals(y)等于true，y.equals(z)也为true，那么x.equals(z)也一定为true
-4.一致性：在没有修改两个对象信息的......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by alonealice on
-            2016-11-07
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#Effective Java" title="Effective Java">Effective Java</a>
-            
-              <a href="/tags/#读书笔记" title="读书笔记">读书笔记</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/Effective-Java/读书笔记/Effective-Java读书笔记(1)/">
-        <h2 class="post-title">
-                                 
-            Effective Java读书笔记(1)
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            用静态工厂方法代替构造器
-优势：
-1.静态工厂方法有名字，可以增强阅读性，可以强化与其他静态工厂方法的区别。
-2.静态工厂方法在返回对象时可以返回静态对象，不需要每次都创建新对象。
-3.静态工厂方法可以返回原对象类型的子类型对象。
-缺点：类如果没有公有的或者受保护的构造器，就不能被子类化。
-遇到多个构造参数是用构建器
-优势：
-1.代码的可读性更高（看起来更高级）
-2.可以有多个可变参数
-示例......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by alonealice on
-            2016-11-04
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#Effective Java" title="Effective Java">Effective Java</a>
-            
-              <a href="/tags/#读书笔记" title="读书笔记">读书笔记</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/Executors/线程池/ExecutorsExecutor 框架与线程池的使用/">
-        <h2 class="post-title">
-                                 
-            Executor 框架与线程池
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            Executor 框架是 Java 5 中引入的，其内部使用了线程池机制，通过该框架来控制线程的启动、执行和关闭，可以简化并发编程的操作。通过 Executor 来启动线程比使用 Thread 的 start 方法更好。首先是能够降低资源消耗。通过重复利用已创建的线程降低线程创建和销毁造成的消耗。其次能够提高响应速度。当任务到达时，任务可以不需要等到线程创建就能立即执行。最后还能提高线程的可......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by alonealice on
-            2016-11-04
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#Executors" title="Executors">Executors</a>
-            
-              <a href="/tags/#线程池" title="线程池">线程池</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/http/http断点下载/">
-        <h2 class="post-title">
-                                 
-            http断点下载
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            断点续传，就是从文件已经下载的地方继续下载。这在下载比较大的文件时是一个非常有用的功能，实现断点下载的主要技术点有两个：一是多线程下载数据后，实时记录各个线程下载的数据量，二是从网络上分段下载数据。
-下面我就简单的讲讲文件断点下载的简单思路：
-首先，需要先使用HttpURLConnection，连接链接，获取文件的大小。
-12345HttpURLConnection conn= (HttpU......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by alonealice on
-            2016-10-27
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#http" title="http">http</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/正则表达式/java正则表达式使用/">
-        <h2 class="post-title">
-                                 
-            java正则表达式语法大全
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            正则表达式是一种专门的语法模式来匹配或找到其他字符串或字符串集，可以用来搜索编辑或是操纵文本和数据。
-java中要使用它主要需要用到以下两个类：
-Pattern类:一个 Pattern 对象是正则表达式编译表示。 Pattern 类没有提供公共的构造函数。要创建一个 Pattern 对象，你必须首先调用他的公用静态编译方法来获得 Pattern 对象。这些方法的第一个参数是正则表达式。
-Ma......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by alonealice on
-            2016-10-25
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#正则表达式" title="正则表达式">正则表达式</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/java注解/java注解的使用/">
-        <h2 class="post-title">
-                                 
-            java注解的使用
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            java注解是JDK1.5及以后版本引入的一个特性，与类、接口、枚举是在同一个层次。它可以声明在包、类、字段、方法、局部变量、方法参数等的前面，用来对这些元素进行说明，注释。
-java注解可用于创建文档，跟踪代码中的依赖性，甚至执行基本编译时检查。注解是以‘@注解名’在代码中存在的，根据注解参数的个数，注解可以分为：标记注解、单值注解、完整注解三类。它们都不会直接影响到程序的语义，只是作为注......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by alonealice on
-            2016-10-23
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#java注解" title="java注解">java注解</a>
+              <a href="/tags/#okhttp" title="okhttp">okhttp</a>
             
         </div>
     
@@ -580,11 +592,23 @@ java注解可用于创建文档，跟踪代码中的依赖性，甚至执行基�
     <div class="tags">
         
             
+            <a href="/tags/#andfix" title="andfix" rel="1">andfix</a>
+            
+        
+            
             <a href="/tags/#AIDL" title="AIDL" rel="1">AIDL</a>
             
         
             
-            <a href="/tags/#andfix" title="andfix" rel="1">andfix</a>
+            <a href="/tags/#音视频" title="音视频" rel="22">音视频</a>
+            
+        
+            
+            <a href="/tags/#OpenGL" title="OpenGL" rel="8">OpenGL</a>
+            
+        
+            
+            <a href="/tags/#Open GL" title="Open GL" rel="1">Open GL</a>
             
         
             
@@ -608,11 +632,11 @@ java注解可用于创建文档，跟踪代码中的依赖性，甚至执行基�
             
         
             
-            <a href="/tags/#Executors" title="Executors" rel="1">Executors</a>
+            <a href="/tags/#Flutter" title="Flutter" rel="1">Flutter</a>
             
         
             
-            <a href="/tags/#线程池" title="线程池" rel="1">线程池</a>
+            <a href="/tags/#Android Jetpack" title="Android Jetpack" rel="7">Android Jetpack</a>
             
         
             
@@ -621,6 +645,14 @@ java注解可用于创建文档，跟踪代码中的依赖性，甚至执行基�
         
             
             <a href="/tags/#源码阅读" title="源码阅读" rel="8">源码阅读</a>
+            
+        
+            
+            <a href="/tags/#Executors" title="Executors" rel="1">Executors</a>
+            
+        
+            
+            <a href="/tags/#线程池" title="线程池" rel="1">线程池</a>
             
         
             
@@ -660,6 +692,10 @@ java注解可用于创建文档，跟踪代码中的依赖性，甚至执行基�
             
         
             
+            <a href="/tags/#动态代理" title="动态代理" rel="1">动态代理</a>
+            
+        
+            
             <a href="/tags/#java反射" title="java反射" rel="1">java反射</a>
             
         
@@ -668,11 +704,11 @@ java注解可用于创建文档，跟踪代码中的依赖性，甚至执行基�
             
         
             
-            <a href="/tags/#动态代理" title="动态代理" rel="1">动态代理</a>
+            <a href="/tags/#java注解" title="java注解" rel="1">java注解</a>
             
         
             
-            <a href="/tags/#java注解" title="java注解" rel="1">java注解</a>
+            <a href="/tags/#WebRtc" title="WebRtc" rel="2">WebRtc</a>
             
         
             
@@ -688,11 +724,11 @@ java注解可用于创建文档，跟踪代码中的依赖性，甚至执行基�
             
         
             
-            <a href="/tags/#NDK" title="NDK" rel="1">NDK</a>
+            <a href="/tags/#tips和坑" title="tips和坑" rel="3">tips和坑</a>
             
         
             
-            <a href="/tags/#tips和坑" title="tips和坑" rel="3">tips和坑</a>
+            <a href="/tags/#NDK" title="NDK" rel="1">NDK</a>
             
         
             
@@ -704,15 +740,11 @@ java注解可用于创建文档，跟踪代码中的依赖性，甚至执行基�
             
         
             
-            <a href="/tags/#音视频" title="音视频" rel="6">音视频</a>
+            <a href="/tags/#Preference" title="Preference" rel="1">Preference</a>
             
         
             
             <a href="/tags/#okhttp" title="okhttp" rel="1">okhttp</a>
-            
-        
-            
-            <a href="/tags/#Preference" title="Preference" rel="1">Preference</a>
             
         
             
@@ -772,23 +804,23 @@ java注解可用于创建文档，跟踪代码中的依赖性，甚至执行基�
     <ul>
       
         <li>
-          <a href="/音视频/WebRtc入门/">WebRtc 入门</a>
+          <a href="/Flutter/Flutter入门：第一个Flutter程序/">Flutter入门：第一个Flutter应用</a>
         </li>
       
         <li>
-          <a href="/音视频/MediaExtractor和MediaMuxer/">MediaExtractor和MediaMuxer</a>
+          <a href="/音视频/WebRtc/WebRtc连接过程/">WebRtc 建联过程</a>
         </li>
       
         <li>
-          <a href="/音视频/MediaCodec基础/">MediaCodec基础</a>
+          <a href="/音视频/OpenGL/Android OpenGL的简单使用（9）：纹理/">Android OpenGL的简单使用（9）：纹理</a>
         </li>
       
         <li>
-          <a href="/音视频/RTP和RTCP/">RTP和RTCP</a>
+          <a href="/音视频/OpenGL/Android OpenGL的简单使用（8）：材质和光照/">Android OpenGL的简单使用（8）：材质和光照</a>
         </li>
       
         <li>
-          <a href="/音视频/H265的原理/">H265的原理</a>
+          <a href="/音视频/OpenGL/Android OpenGL的简单使用（7）：添加颜色/">Android OpenGL的简单使用（7）：添加颜色</a>
         </li>
       
     </ul>
@@ -803,7 +835,7 @@ java注解可用于创建文档，跟踪代码中的依赖性，甚至执行基�
         
     <h5>ARCHIVES</h5>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">3</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">3</span></li></ul>
     </div>
 
         <hr>
@@ -845,7 +877,7 @@ java注解可用于创建文档，跟踪代码中的依赖性，甚至执行基�
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; alonealice 2020 
+                    Copyright &copy; alonealice 2021 
                     <br>
                     Theme by <a href="http://beantech.org">BeanTech</a> 
                     <span style="display: inline-block; margin: 0 5px;">

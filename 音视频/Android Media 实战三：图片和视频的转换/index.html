@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="不懂要会问，打脸要立正">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Android Media 实战三：图片和视频的转换 - alonealice | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://alonealice.com/音视频/Android Media 实战三：图片和视频的转换/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/article_bg.jpeg')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#音视频" title="音视频">音视频</a>
+                            
+                        </div>
+                        <h1>Android Media 实战三：图片和视频的转换</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by alonealice on
+                            2020-11-01
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">alonealice</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>使用mediacodec可以将图片和视频进行相互的转换，将图片合成视频，获取将视频中截取出图片：</p>
+<h4 id="图片合成视频">图片合成视频</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">createImages</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Bitmap bitmap1 = BitmapFactory.decodeResource(getResources(), R.drawable.bg4);</span><br><span class="line">    Bitmap bitmap2 = BitmapFactory.decodeResource(getResources(), R.drawable.bg2);</span><br><span class="line">    Bitmap bitmap3 = BitmapFactory.decodeResource(getResources(), R.drawable.bg3);</span><br><span class="line">    Bitmap bitmap4 = BitmapFactory.decodeResource(getResources(), R.drawable.bg4);</span><br><span class="line">    pool.release(bitmap1);</span><br><span class="line">    pool.release(bitmap2);</span><br><span class="line">    pool.release(bitmap3);</span><br><span class="line">    pool.release(bitmap4);</span><br><span class="line">    currentBitmap = pool.acquire();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>获取到对应的图片，并存到队列中。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        mediaCodec = MediaCodec.createEncoderByType(MediaFormat.MIMETYPE_VIDEO_AVC);</span><br><span class="line">        <span class="comment">//创建生成MP4初始化对象</span></span><br><span class="line">        mediaMuxer = <span class="keyword">new</span> MediaMuxer(getSaveVideoPath(), MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">    colorFormat = getColorFormat();</span><br><span class="line">    MediaFormat mediaFormat = MediaFormat.createVideoFormat(MediaFormat.MIMETYPE_VIDEO_AVC, width, height);</span><br><span class="line">    mediaFormat.setInteger(MediaFormat.KEY_COLOR_FORMAT, colorFormat);</span><br><span class="line">    mediaFormat.setInteger(MediaFormat.KEY_BIT_RATE, <span class="number">4</span> * width * height);</span><br><span class="line">    mediaFormat.setInteger(MediaFormat.KEY_FRAME_RATE, <span class="number">30</span>);</span><br><span class="line">    mediaFormat.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    mediaCodec.configure(mediaFormat, <span class="keyword">null</span>, <span class="keyword">null</span>, MediaCodec.CONFIGURE_FLAG_ENCODE);</span><br><span class="line">    mediaCodec.start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>mediaCodec、MediaMuxer创建和初始化的方法</p>
+<p>相应的获取ColorFormat的方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getColorFormat</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> colorFormat = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span>[] formats = <span class="keyword">this</span>.getMediaCodecList();</span><br><span class="line"></span><br><span class="line">    lab:</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> format : formats) &#123;</span><br><span class="line">        <span class="keyword">switch</span> (format) &#123;</span><br><span class="line">            <span class="keyword">case</span> MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420SemiPlanar: <span class="comment">// yuv420sp</span></span><br><span class="line">            <span class="keyword">case</span> MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420Planar: <span class="comment">// yuv420p</span></span><br><span class="line">            <span class="keyword">case</span> MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420PackedSemiPlanar: <span class="comment">// yuv420psp</span></span><br><span class="line">            <span class="keyword">case</span> MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420PackedPlanar: <span class="comment">// yuv420pp</span></span><br><span class="line">                colorFormat = format;</span><br><span class="line">                <span class="keyword">break</span> lab;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (colorFormat &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        colorFormat = MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420SemiPlanar;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> colorFormat;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] getMediaCodecList() &#123;</span><br><span class="line">    <span class="comment">//获取解码器列表</span></span><br><span class="line">    <span class="keyword">int</span> numCodecs = MediaCodecList.getCodecCount();</span><br><span class="line">    MediaCodecInfo codecInfo = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; numCodecs &amp;&amp; codecInfo == <span class="keyword">null</span>; i++) &#123;</span><br><span class="line">        MediaCodecInfo info =</span><br><span class="line">                MediaCodecList.getCodecInfoAt(i);</span><br><span class="line">        <span class="keyword">if</span> (!info.isEncoder()) &#123;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        String[] types = info.getSupportedTypes();</span><br><span class="line">        <span class="keyword">boolean</span> found = <span class="keyword">false</span>;</span><br><span class="line">        <span class="comment">//轮训所要的解码器</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; types.length &amp;&amp; !found; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (types[j].equals(<span class="string">"video/avc"</span>)) &#123;</span><br><span class="line">                found = <span class="keyword">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!found) &#123;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        codecInfo = info;</span><br><span class="line">    &#125;</span><br><span class="line">    Log.d(TAG, <span class="string">"found"</span> + codecInfo.getName() + <span class="string">"supporting"</span> + <span class="string">" video/avc"</span>);</span><br><span class="line">    MediaCodecInfo.CodecCapabilities capabilities = codecInfo.getCapabilitiesForType(<span class="string">"video/avc"</span>);</span><br><span class="line">    <span class="keyword">return</span> capabilities.colorFormats;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>核心编码的方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">encode</span><span class="params">(Bitmap bitmap)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> TIMEOUT_USEC = <span class="number">10000</span>;</span><br><span class="line">    isRunning = <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">long</span> generateIndex = <span class="number">0</span>;</span><br><span class="line">    MediaCodec.BufferInfo info = <span class="keyword">new</span> MediaCodec.BufferInfo();</span><br><span class="line">    startTime = System.currentTimeMillis();</span><br><span class="line">    <span class="keyword">while</span> (isRunning) &#123;</span><br><span class="line">        <span class="keyword">int</span> inputBufferIndex = mediaCodec.dequeueInputBuffer(TIMEOUT_USEC);</span><br><span class="line">        <span class="keyword">if</span> (inputBufferIndex &gt;= <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">long</span> ptsUsec = computePresentationTime(generateIndex);</span><br><span class="line">            <span class="keyword">if</span> (bitmap == <span class="keyword">null</span>) &#123;</span><br><span class="line">                mediaCodec.queueInputBuffer(inputBufferIndex, <span class="number">0</span>, <span class="number">0</span>, ptsUsec,</span><br><span class="line">                        MediaCodec.BUFFER_FLAG_END_OF_STREAM);</span><br><span class="line">                isRunning = <span class="keyword">false</span>;</span><br><span class="line">                drainEncoder(<span class="keyword">true</span>, info);</span><br><span class="line">                codeFinish();</span><br><span class="line">                <span class="keyword">new</span> Handler(getMainLooper()).post(() -&gt; Toast.makeText(ImageToVideoActivity.<span class="keyword">this</span>, <span class="string">"合成成功"</span>, Toast.LENGTH_SHORT).show());</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">byte</span>[] data = getNV12(getSize(bitmap.getWidth()), getSize(bitmap.getHeight()), bitmap);</span><br><span class="line">                <span class="comment">//有效的空的缓存区</span></span><br><span class="line">                ByteBuffer inputBuffer;</span><br><span class="line">                inputBuffer = mediaCodec.getInputBuffers()[inputBufferIndex];</span><br><span class="line">                inputBuffer.clear();</span><br><span class="line">                inputBuffer.put(data);</span><br><span class="line">                <span class="comment">//将数据放到编码队列</span></span><br><span class="line">                mediaCodec.queueInputBuffer(inputBufferIndex, <span class="number">0</span>, data.length, ptsUsec, <span class="number">0</span>);</span><br><span class="line">                drainEncoder(<span class="keyword">false</span>, info);</span><br><span class="line">                bitmap = getCurrentBitmap();</span><br><span class="line">            &#125;</span><br><span class="line">            generateIndex++;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            Log.i(TAG, <span class="string">"input buffer not available"</span>);</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                Thread.sleep(<span class="number">10</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>将bitmap转化为YUV420SP的数据，同时获取mediaCodec的InputBuffer，并输入数据。</p>
+<p>转化YUV420SP的代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">byte</span>[] getNV12(<span class="keyword">int</span> inputWidth, <span class="keyword">int</span> inputHeight, Bitmap scaled) &#123;</span><br><span class="line">    <span class="keyword">int</span>[] argb = <span class="keyword">new</span> <span class="keyword">int</span>[inputWidth * inputHeight];</span><br><span class="line">    <span class="comment">//Log.i(TAG, "scaled : " + scaled);</span></span><br><span class="line">    scaled.getPixels(argb, <span class="number">0</span>, inputWidth, <span class="number">0</span>, <span class="number">0</span>, inputWidth, inputHeight);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">byte</span>[] yuv = <span class="keyword">new</span> <span class="keyword">byte</span>[inputWidth * inputHeight * <span class="number">3</span> / <span class="number">2</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">switch</span> (colorFormat) &#123;</span><br><span class="line">        <span class="keyword">case</span> MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420SemiPlanar: <span class="comment">// yuv420sp</span></span><br><span class="line">            encodeYUV420SP(yuv, argb, inputWidth, inputHeight);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420Planar: <span class="comment">// yuv420p</span></span><br><span class="line">            encodeYUV420P(yuv, argb, inputWidth, inputHeight);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420PackedSemiPlanar: <span class="comment">// yuv420psp</span></span><br><span class="line">            encodeYUV420PSP(yuv, argb, inputWidth, inputHeight);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420PackedPlanar: <span class="comment">// yuv420pp</span></span><br><span class="line">            encodeYUV420PP(yuv, argb, inputWidth, inputHeight);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> yuv;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">encodeYUV420SP</span><span class="params">(<span class="keyword">byte</span>[] yuv420sp, <span class="keyword">int</span>[] argb, <span class="keyword">int</span> width, <span class="keyword">int</span> height)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> frameSize = width * height;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> yIndex = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> uvIndex = frameSize;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> a, R, G, B, Y, U, V;</span><br><span class="line">    <span class="keyword">int</span> index = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; height; j++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; width; i++) &#123;</span><br><span class="line">            a = (argb[index] &amp; <span class="number">0xff000000</span>) &gt;&gt; <span class="number">24</span>; <span class="comment">// a is not used obviously</span></span><br><span class="line">            R = (argb[index] &amp; <span class="number">0xff0000</span>) &gt;&gt; <span class="number">16</span>;</span><br><span class="line">            G = (argb[index] &amp; <span class="number">0xff00</span>) &gt;&gt; <span class="number">8</span>;</span><br><span class="line">            B = (argb[index] &amp; <span class="number">0xff</span>) &gt;&gt; <span class="number">0</span>;</span><br><span class="line">            Y = ((<span class="number">66</span> * R + <span class="number">129</span> * G + <span class="number">25</span> * B + <span class="number">128</span>) &gt;&gt; <span class="number">8</span>) + <span class="number">16</span>;</span><br><span class="line">            V = ((-<span class="number">38</span> * R - <span class="number">74</span> * G + <span class="number">112</span> * B + <span class="number">128</span>) &gt;&gt; <span class="number">8</span>) + <span class="number">128</span>; <span class="comment">// Previously U</span></span><br><span class="line">            U = ((<span class="number">112</span> * R - <span class="number">94</span> * G - <span class="number">18</span> * B + <span class="number">128</span>) &gt;&gt; <span class="number">8</span>) + <span class="number">128</span>; <span class="comment">// Previously V</span></span><br><span class="line"></span><br><span class="line">            yuv420sp[yIndex++] = (<span class="keyword">byte</span>) ((Y &lt; <span class="number">0</span>) ? <span class="number">0</span> : ((Y &gt; <span class="number">255</span>) ? <span class="number">255</span> : Y));</span><br><span class="line">            <span class="keyword">if</span> (j % <span class="number">2</span> == <span class="number">0</span> &amp;&amp; index % <span class="number">2</span> == <span class="number">0</span>) &#123;</span><br><span class="line">                yuv420sp[uvIndex++] = (<span class="keyword">byte</span>) ((V &lt; <span class="number">0</span>) ? <span class="number">0</span> : ((V &gt; <span class="number">255</span>) ? <span class="number">255</span> : V));</span><br><span class="line">                yuv420sp[uvIndex++] = (<span class="keyword">byte</span>) ((U &lt; <span class="number">0</span>) ? <span class="number">0</span> : ((U &gt; <span class="number">255</span>) ? <span class="number">255</span> : U));</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            index++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>合成视频的核心类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">drainEncoder</span><span class="params">(<span class="keyword">boolean</span> endOfStream, MediaCodec.BufferInfo bufferInfo)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> TIMEOUT_USEC = <span class="number">10000</span>;</span><br><span class="line"></span><br><span class="line">    ByteBuffer[] buffers =  mediaCodec.getOutputBuffers();;</span><br><span class="line">    <span class="keyword">if</span> (endOfStream) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            mediaCodec.signalEndOfInputStream();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">        <span class="keyword">int</span> encoderStatus = mediaCodec.dequeueOutputBuffer(bufferInfo, TIMEOUT_USEC);</span><br><span class="line">        <span class="keyword">if</span> (encoderStatus == MediaCodec.INFO_TRY_AGAIN_LATER) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!endOfStream) &#123;</span><br><span class="line">                <span class="keyword">break</span>; <span class="comment">// out of while</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                Log.i(TAG, <span class="string">"no output available, spinning to await EOS"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (encoderStatus == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED) &#123;</span><br><span class="line">            <span class="keyword">if</span> (mMuxerStarted) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"format changed twice"</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            MediaFormat mediaFormat = mediaCodec.getOutputFormat();</span><br><span class="line">            mTrackIndex = mediaMuxer.addTrack(mediaFormat);</span><br><span class="line">            mediaMuxer.start();</span><br><span class="line">            mMuxerStarted = <span class="keyword">true</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (encoderStatus == MediaCodec.INFO_OUTPUT_BUFFERS_CHANGED) &#123;</span><br><span class="line">            <span class="comment">//数据变化，更新数据</span></span><br><span class="line">            buffers = mediaCodec.getOutputBuffers();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (encoderStatus &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            Log.i(TAG, <span class="string">"unexpected result from encoder.dequeueOutputBuffer: "</span> + encoderStatus);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            ByteBuffer outputBuffer;</span><br><span class="line">            outputBuffer = buffers[encoderStatus];</span><br><span class="line">            <span class="keyword">if</span> (outputBuffer == <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"encoderOutputBuffer "</span></span><br><span class="line">                        + encoderStatus + <span class="string">" was null"</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> ((bufferInfo.flags &amp; MediaCodec.BUFFER_FLAG_CODEC_CONFIG) != <span class="number">0</span>) &#123;</span><br><span class="line">                Log.d(TAG, <span class="string">"ignoring BUFFER_FLAG_CODEC_CONFIG"</span>);</span><br><span class="line">                bufferInfo.size = <span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (bufferInfo.size != <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (!mMuxerStarted) &#123;</span><br><span class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"muxer hasn't started"</span>);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="comment">// adjust the ByteBuffer values to match BufferInfo</span></span><br><span class="line">                outputBuffer.position(bufferInfo.offset);</span><br><span class="line">                outputBuffer.limit(bufferInfo.offset + bufferInfo.size);</span><br><span class="line"></span><br><span class="line">                Log.d(TAG, <span class="string">"BufferInfo: "</span> + bufferInfo.offset + <span class="string">","</span></span><br><span class="line">                        + bufferInfo.size + <span class="string">","</span></span><br><span class="line">                        + bufferInfo.presentationTimeUs);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    mediaMuxer.writeSampleData(mTrackIndex, outputBuffer, bufferInfo);</span><br><span class="line">                    Log.e(TAG, <span class="string">"写入数据数据"</span>);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                    Log.i(TAG, <span class="string">"Too many frames"</span>);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">            mediaCodec.releaseOutputBuffer(encoderStatus, <span class="keyword">false</span>);</span><br><span class="line">            <span class="keyword">if</span> ((bufferInfo.flags &amp; MediaCodec.BUFFER_FLAG_END_OF_STREAM) != <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (!endOfStream) &#123;</span><br><span class="line">                    Log.i(TAG, <span class="string">"reached end of stream unexpectedly"</span>);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    Log.i(TAG, <span class="string">"end of stream reached"</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">break</span>; <span class="comment">// out of while</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>获取到输出的OutputBuffer，并通过mediaMuxer写入到文件。</p>
+<p>最后结束之后需要将mediaMuxer和mediacodec关闭（重要）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">codeFinish</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    isRunning = <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">if</span> (mediaCodec != <span class="keyword">null</span>) &#123;</span><br><span class="line">        mediaCodec.stop();</span><br><span class="line">        mediaCodec.release();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (mediaMuxer != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (mMuxerStarted) &#123;</span><br><span class="line">                mediaMuxer.stop();</span><br><span class="line">                mediaMuxer.release();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="视频截取图片">视频截取图片</h4>
+<p>如果已经获取到对应的视频，可以直接通过MetadataRetriever获取到视频的具体某一帧：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">MetadataRetriever retriever = <span class="keyword">new</span> MediaMetadataRetriever();</span><br><span class="line">		retriever.setDataSource(dataPath);</span><br><span class="line">		<span class="comment">// 取得视频的长度(单位为毫秒)</span></span><br><span class="line">		String time = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);</span><br><span class="line">		<span class="comment">// 取得视频的长度(单位为秒)</span></span><br><span class="line">		<span class="keyword">int</span> seconds = Integer.valueOf(time) / <span class="number">1000</span>;</span><br><span class="line">		<span class="comment">// 得到每一秒时刻的bitmap比如第一秒,第二秒</span></span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= seconds; i++) &#123;</span><br><span class="line">			Bitmap bitmap = retriever.getFrameAtTime(i*<span class="number">1000</span>*<span class="number">1000</span>,MediaMetadataRetriever.OPTION_CLOSEST_SYNC);</span><br><span class="line">			String path = Environment.getExternalStorageDirectory()+ File.separator + i + <span class="string">".jpg"</span>;</span><br><span class="line">			FileOutputStream fos = <span class="keyword">null</span>;</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				fos = <span class="keyword">new</span> FileOutputStream(path);</span><br><span class="line">				bitmap.compress(CompressFormat.JPEG, <span class="number">80</span>, fos);</span><br><span class="line">				fos.close();</span><br><span class="line">			&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br></pre></td></tr></table></figure>
+<p>如果是摄像机预览的情况，可以在<a href="%E9%9F%B3%E8%A7%86%E9%A2%91%E7%9A%84%E5%BD%95%E5%88%B62"></a>的基础上，添加截屏功能：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">mPreviewCallback = (bytes, camera) -&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (mIsRecording) &#123;</span><br><span class="line">        Frame frame = <span class="keyword">new</span> Frame();</span><br><span class="line">        frame.mData = bytes;</span><br><span class="line">        frame.mTime = System.nanoTime() / <span class="number">1000</span>;</span><br><span class="line">        <span class="keyword">if</span> (frame.mTime - mPreviewImgTime &gt; <span class="number">1000</span> * <span class="number">1000</span>) &#123;</span><br><span class="line">            mPreviewImgTime = frame.mTime;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//将预览的nv21数据传递给编码器</span></span><br><span class="line">        mVideoEncoder.addFrame(bytes);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (startScreenshot) &#123;</span><br><span class="line">            saveBitmap(decodeToBitMap(bytes, camera));</span><br><span class="line">            startScreenshot = <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Bitmap <span class="title">decodeToBitMap</span><span class="params">(<span class="keyword">byte</span>[] data, Camera _camera)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (data == <span class="keyword">null</span> || _camera == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    Camera.Size size = _camera.getParameters().getPreviewSize();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        YuvImage image = <span class="keyword">new</span> YuvImage(data, ImageFormat.NV21, size.width,</span><br><span class="line">                size.height, <span class="keyword">null</span>);</span><br><span class="line">        <span class="keyword">if</span> (image != <span class="keyword">null</span>) &#123;</span><br><span class="line">            ByteArrayOutputStream stream = <span class="keyword">new</span> ByteArrayOutputStream();</span><br><span class="line">            image.compressToJpeg(<span class="keyword">new</span> Rect(<span class="number">0</span>, <span class="number">0</span>, size.width, size.height),</span><br><span class="line">                    <span class="number">80</span>, stream);</span><br><span class="line">            Bitmap bmp = BitmapFactory.decodeByteArray(</span><br><span class="line">                    stream.toByteArray(), <span class="number">0</span>, stream.size());</span><br><span class="line"></span><br><span class="line">            stream.close();</span><br><span class="line">            <span class="keyword">return</span> bmp;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception ex) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在PreviewCallback中将byte[]转化为bitmap。</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/音视频/WebRtc/WebRtc入门/" data-toggle="tooltip" data-placement="top" title="WebRtc 入门">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/音视频/Android Media 实战二：音视频的录制2/" data-toggle="tooltip" data-placement="top" title="Android Media 实战二：音视频的录制(二)">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#图片合成视频"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x56FE;&#x7247;&#x5408;&#x6210;&#x89C6;&#x9891;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#视频截取图片"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x89C6;&#x9891;&#x622A;&#x53D6;&#x56FE;&#x7247;</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#音视频" title="音视频">音视频</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/earthwo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; alonealice 2021 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://www.huweihuang.com">胡伟煌</a> |
+                    <br> 
+                    <a href="http://www.beian.miit.gov.cn">浙ICP备17033688号</a>   
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://alonealice.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://alonealice.com/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

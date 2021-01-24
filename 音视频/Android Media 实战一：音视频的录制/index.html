@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="不懂要会问，打脸要立正">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Android Media 实战一：音视频的录制(一) - alonealice | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://alonealice.com/音视频/Android Media 实战一：音视频的录制/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/article_bg.jpeg')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#音视频" title="音视频">音视频</a>
+                            
+                        </div>
+                        <h1>Android Media 实战一：音视频的录制(一)</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by alonealice on
+                            2020-11-01
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">alonealice</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h4 id="相机预览">相机预览</h4>
+<p>创建一个CameraGLSurfaceView并继承自GLSurfaceView，同时在构造方法中初始化openGl环境。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">CameraGLSurfaceView</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(context);</span><br><span class="line">    init(context);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">CameraGLSurfaceView</span><span class="params">(Context context, AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(context, attrs);</span><br><span class="line">    init(context);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//初始化opengl环境</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.context = context;</span><br><span class="line">    surfaceRenderer = <span class="keyword">new</span> SurfaceRenderer(<span class="keyword">this</span>);</span><br><span class="line">    <span class="comment">//GLES 2.0, API &gt;= 8</span></span><br><span class="line">    setEGLContextClientVersion(<span class="number">2</span>);</span><br><span class="line">    setRenderer(surfaceRenderer);</span><br><span class="line">    <span class="comment">// 设置RENDERMODE_WHEN_DIRTY可以减少性能消耗</span></span><br><span class="line">    <span class="comment">//setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中的SurfaceRenderer实现接口GLSurfaceView.Renderer和 SurfaceTexture.OnFrameAvailableListener。</p>
+<p>设置相机的初始化代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">startPreview</span><span class="params">(<span class="keyword">int</span> width, <span class="keyword">int</span> height)</span> </span>&#123;</span><br><span class="line">    initCamera(width, height);</span><br><span class="line">    <span class="keyword">if</span> (camera == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    setVideoSize(camera.getParameters().getPreviewSize().width, camera.getParameters().getPreviewSize().height);</span><br><span class="line">    SurfaceTexture surfaceTexture = surfaceRenderer.getSurfaceTexture();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        surfaceTexture.setDefaultBufferSize(camera.getParameters().getPreviewSize().width, camera.getParameters().getPreviewSize().height);</span><br><span class="line">        <span class="comment">//相机和opengl纹理绑定</span></span><br><span class="line">        camera.setPreviewTexture(surfaceTexture);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (camera != <span class="keyword">null</span>) &#123;</span><br><span class="line">        camera.startPreview();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initCamera</span><span class="params">(<span class="keyword">int</span> width, <span class="keyword">int</span> height)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (camera == <span class="keyword">null</span>) &#123;</span><br><span class="line">        camera = android.hardware.Camera.open(<span class="number">0</span>);</span><br><span class="line">        Camera.Parameters parameters = camera.getParameters();</span><br><span class="line">        <span class="comment">//设置视频模式对焦</span></span><br><span class="line">        parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//设置帧率范围</span></span><br><span class="line">        List&lt;<span class="keyword">int</span>[]&gt; supportedPreviewFpsRange = parameters.getSupportedPreviewFpsRange();</span><br><span class="line">        parameters.setPreviewFpsRange(supportedPreviewFpsRange.get(<span class="number">0</span>)[<span class="number">0</span>], supportedPreviewFpsRange.get(<span class="number">0</span>)[<span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line">        parameters.setRecordingHint(<span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">        Camera.Size closestSupportedSize = getClosestSupportedSize(parameters.getSupportedPreviewSizes(), width, height);</span><br><span class="line">        parameters.setPreviewSize(closestSupportedSize.width, closestSupportedSize.height);</span><br><span class="line"></span><br><span class="line">        Camera.Size closestPictureSize = getClosestSupportedSize(parameters.getSupportedPictureSizes(), width, height);</span><br><span class="line">        parameters.setPictureSize(closestPictureSize.width, closestPictureSize.height);</span><br><span class="line">        setRotation(parameters);</span><br><span class="line">        camera.setParameters(parameters);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">setRotation</span><span class="params">(<span class="keyword">final</span> Camera.Parameters params)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> rotation = display.getRotation();</span><br><span class="line">    <span class="keyword">int</span> degrees = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">switch</span> (rotation) &#123;</span><br><span class="line">        <span class="keyword">case</span> Surface.ROTATION_0:</span><br><span class="line">            degrees = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> Surface.ROTATION_90:</span><br><span class="line">            degrees = <span class="number">90</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> Surface.ROTATION_180:</span><br><span class="line">            degrees = <span class="number">180</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> Surface.ROTATION_270:</span><br><span class="line">            degrees = <span class="number">270</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">final</span> Camera.CameraInfo info = <span class="keyword">new</span> android.hardware.Camera.CameraInfo();</span><br><span class="line">    android.hardware.Camera.getCameraInfo(<span class="number">0</span>, info);</span><br><span class="line">    isFront = (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT);</span><br><span class="line">    <span class="keyword">if</span> (isFront) &#123; <span class="comment">// 前置摄像头</span></span><br><span class="line">        degrees = (info.orientation + degrees) % <span class="number">360</span>;</span><br><span class="line">        degrees = (<span class="number">360</span> - degrees) % <span class="number">360</span>;  <span class="comment">// reverse</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;  <span class="comment">// 后置摄像头</span></span><br><span class="line">        degrees = (info.orientation - degrees + <span class="number">360</span>) % <span class="number">360</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    camera.setDisplayOrientation(degrees);</span><br><span class="line">    mRotation = degrees;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//获取与尺寸最接近的摄像头size</span></span><br><span class="line"><span class="keyword">private</span> Camera.<span class="function">Size <span class="title">getClosestSupportedSize</span><span class="params">(List&lt;Camera.Size&gt; supportedSizes, <span class="keyword">final</span> <span class="keyword">int</span> requestedWidth, <span class="keyword">final</span> <span class="keyword">int</span> requestedHeight)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (Camera.Size) Collections.min(supportedSizes, <span class="keyword">new</span> Comparator&lt;Camera.Size&gt;() &#123;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">diff</span><span class="params">(<span class="keyword">final</span> Camera.Size size)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> Math.abs(requestedWidth - size.width) + Math.abs(requestedHeight - size.height);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span><span class="params">(<span class="keyword">final</span> Camera.Size lhs, <span class="keyword">final</span> Camera.Size rhs)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> diff(lhs) - diff(rhs);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//设置视频尺寸</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setVideoSize</span><span class="params">(<span class="keyword">final</span> <span class="keyword">int</span> width, <span class="keyword">final</span> <span class="keyword">int</span> height)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> ((mRotation % <span class="number">180</span>) == <span class="number">0</span>) &#123;</span><br><span class="line">        mVideoWidth = width;</span><br><span class="line">        mVideoHeight = height;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        mVideoWidth = height;</span><br><span class="line">        mVideoHeight = width;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//调整OpenGL视口</span></span><br><span class="line">    queueEvent(() -&gt; surfaceRenderer.updateViewport());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里的这些都是简单的相机参数的初始化，不细讲。</p>
+<p>有一个重要的点，在相机参数设置完成后，在SurfaceRenderer获取到surfaceTexture，并将相机和surfaceTexture进行绑定。那现在来看看在SurfaceRenderer重的实现。</p>
+<p>SurfaceRenderer实现接口GLSurfaceView.Renderer和SurfaceTexture.OnFrameAvailableListener，里面有几个重要的方法实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSurfaceCreated</span><span class="params">(GL10 gl, EGLConfig config)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 摄像头渲染需要 OES_EGL_image_external extension</span></span><br><span class="line">    <span class="keyword">final</span> String extensions = GLES20.glGetString(GLES20.GL_EXTENSIONS); <span class="comment">// API &gt;= 8</span></span><br><span class="line">    <span class="keyword">if</span> (!extensions.contains(<span class="string">"OES_EGL_image_external"</span>))</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"This system does not support OES_EGL_image_external."</span>);</span><br><span class="line"></span><br><span class="line">    textureId = GLDrawer2D.initTextureId();</span><br><span class="line">    surfaceTexture = <span class="keyword">new</span> SurfaceTexture(textureId);</span><br><span class="line">    surfaceTexture.setOnFrameAvailableListener(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">    GLES20.glClearColor(<span class="number">1.0f</span>, <span class="number">1.0f</span>, <span class="number">0.0f</span>, <span class="number">1.0f</span>);</span><br><span class="line">    mDrawer = <span class="keyword">new</span> GLDrawer2D();</span><br><span class="line">    mDrawer.setMatrix(mMvpMatrix, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在onSurfaceCreated中会检查环境，同时会创建TextureId，并根据TextureId创建SurfaceTexture，同时创建GLDrawer2D用以绘制显示画面。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSurfaceChanged</span><span class="params">(GL10 gl, <span class="keyword">int</span> width, <span class="keyword">int</span> height)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (width == <span class="number">0</span> || height == <span class="number">0</span>) <span class="keyword">return</span>;</span><br><span class="line">    updateViewport();</span><br><span class="line">    cameraGLSurfaceView.startPreview(width, height);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在onSurfaceChanged中用以更新容器，同时调用cameraGLSurfaceView，开始预览。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDrawFrame</span><span class="params">(GL10 gl)</span> </span>&#123;</span><br><span class="line">    GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);</span><br><span class="line">    <span class="keyword">if</span> (mIsNeedUpdateTexture) &#123;</span><br><span class="line">        mIsNeedUpdateTexture = <span class="keyword">false</span>;</span><br><span class="line">        <span class="comment">//更新纹理（摄像头已经绑定该SurfaceTexture）</span></span><br><span class="line">        surfaceTexture.updateTexImage();</span><br><span class="line">        <span class="comment">// 获取纹理变换矩阵</span></span><br><span class="line">        surfaceTexture.getTransformMatrix(mSurfaceTextureMatrix);</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">if</span> (mDrawer != <span class="keyword">null</span>) &#123;</span><br><span class="line">        mDrawer.draw(textureId, mSurfaceTextureMatrix);</span><br><span class="line">    &#125;</span><br><span class="line">   ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>预览开始后会多次调用onDrawFrame方法，在这里需要更新纹理，同时调用mDrawer方法绘制内容。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 获取视窗，即需要从opengl的画布中截出一片区域用于显示内容</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateViewport</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> width = cameraGLSurfaceView.getWidth();</span><br><span class="line">    <span class="keyword">int</span> height = cameraGLSurfaceView.getHeight();</span><br><span class="line">    GLES20.glViewport(<span class="number">0</span>, <span class="number">0</span>, width, height);</span><br><span class="line">    GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> videoWidth = cameraGLSurfaceView.getVideoWidth();</span><br><span class="line">    <span class="keyword">int</span> videoHeight = cameraGLSurfaceView.getVideoHeight();</span><br><span class="line">    <span class="keyword">if</span> (videoWidth == <span class="number">0</span> || videoHeight == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    Matrix.setIdentityM(mMvpMatrix, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">if</span> (mDrawer != <span class="keyword">null</span>)</span><br><span class="line">        mDrawer.setMatrix(mMvpMatrix, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>整个预览的逻辑流程：</p>
+<p>1.在CameraGLSurfaceView中先初始化OpenGL的环境，并创建SurfaceRenderer绑定到GLSurfaceView；</p>
+<p>2.SurfaceRenderer 回调方法onSurfaceCreated，当中创建textureId，并用textureId创建SurfaceTexture，同时创建GLDrawer2D；</p>
+<p>3.SurfaceRenderer 回调方法onSurfaceChanged，在当中从OpenGL的画布中截出一片区域用于显示内容，同时调用CameraGLSurfaceView开始预览；</p>
+<p>4.在CameraGLSurfaceView中初始化相机参数，同时从SurfaceRenderer获取到SurfaceTexture，并绑定到相机，然后开启预览；</p>
+<h4 id="视频编码器">视频编码器</h4>
+<p>创建一个MediaEncoder并实现Callable</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">MediaEncoder</span><span class="params">(MMuxer mMuxer, MediaType type)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.mMuxer = mMuxer;</span><br><span class="line">    mMediaType = type;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> MediaType &#123;</span><br><span class="line">        VIDEO,</span><br><span class="line">        AUDIO</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中的MMuxer主要用于音视频的合成。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    mBufferInfo = <span class="keyword">new</span> MediaCodec.BufferInfo();</span><br><span class="line">    prepare();</span><br><span class="line">    mIsInit = <span class="keyword">true</span>;</span><br><span class="line">    setRecording(<span class="keyword">true</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>里面的核心方法output：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">output</span><span class="params">(<span class="keyword">boolean</span> isEos)</span> </span>&#123;</span><br><span class="line">    ByteBuffer[] outputBuffers = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">//获取当前的index</span></span><br><span class="line">    <span class="keyword">int</span> outputIndex = mMediaCodec.dequeueOutputBuffer(mBufferInfo, TIMEOUT_USEC);</span><br><span class="line">    outputBuffers = mMediaCodec.getOutputBuffers();</span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">        <span class="comment">//通道未准备好，等一会</span></span><br><span class="line">        <span class="keyword">if</span> (outputIndex == MediaCodec.INFO_TRY_AGAIN_LATER) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!isEos) &#123;</span><br><span class="line">                count++;</span><br><span class="line">                <span class="keyword">if</span> (count &gt;= <span class="number">5</span>) &#123;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (outputIndex == MediaCodec.INFO_OUTPUT_BUFFERS_CHANGED) &#123;</span><br><span class="line">            <span class="comment">//数据变化，更新数据</span></span><br><span class="line">            outputBuffers = mMediaCodec.getOutputBuffers();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (outputIndex == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED) &#123;</span><br><span class="line">            <span class="comment">//在音视频混合器中加入视频/音频轨道</span></span><br><span class="line">            addTrack();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            ByteBuffer outputBuffer = outputBuffers[outputIndex];</span><br><span class="line">            <span class="keyword">if</span> (outputBuffer == <span class="keyword">null</span>) &#123;</span><br><span class="line">                Log.e(TAG, <span class="string">"output buffer null"</span>);</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> ((mBufferInfo.flags &amp; MediaCodec.BUFFER_FLAG_CODEC_CONFIG) != <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="comment">// The codec config data was pulled out and fed to the muxer when we got</span></span><br><span class="line">                <span class="comment">// the INFO_OUTPUT_FORMAT_CHANGED status.  Ignore it.</span></span><br><span class="line">                mBufferInfo.size = <span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//数据不为空</span></span><br><span class="line">            <span class="keyword">if</span> (mBufferInfo.size != <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="comment">//添加视频轨道</span></span><br><span class="line">                <span class="keyword">if</span> (!mMuxer.isVideoTrackAdd()) &#123;</span><br><span class="line">                    addTrack();</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">//未开始且已经准备好了</span></span><br><span class="line">                <span class="keyword">if</span> (!mMuxer.isStarted() &amp;&amp; mMuxer.isPrepared()) &#123;</span><br><span class="line">                    mMuxer.start();</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (mMuxer.isStarted()) &#123;</span><br><span class="line">                    outputBuffer.position(mBufferInfo.offset);</span><br><span class="line">                    outputBuffer.limit(mBufferInfo.offset + mBufferInfo.size);</span><br><span class="line">                    <span class="comment">// //写入指定轨道的数据</span></span><br><span class="line">                    mMuxer.writeSampleData(mTrackIndex, outputBuffer, mBufferInfo);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            mMediaCodec.releaseOutputBuffer(outputIndex, <span class="keyword">false</span>);</span><br><span class="line">            <span class="keyword">if</span> ((mBufferInfo.flags &amp; MediaCodec.BUFFER_FLAG_END_OF_STREAM) != <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="comment">// 停止编码器</span></span><br><span class="line">                Log.d(TAG, <span class="string">"output: eos coming"</span>);</span><br><span class="line">                mIsRecording = <span class="keyword">false</span>;</span><br><span class="line">                release();</span><br><span class="line">                <span class="keyword">break</span>;      <span class="comment">// out of while</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//取下一帧数据</span></span><br><span class="line">        outputIndex = mMediaCodec.dequeueOutputBuffer(mBufferInfo, TIMEOUT_USEC);</span><br><span class="line">    &#125; <span class="keyword">while</span> (outputIndex &gt;= <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>根据创建的MediaCodec和BufferInfo，获取当前的通道index：outputIndex，同时获取数据缓存池outputBuffers。根据outputIndex的类型，或者添加对应的信道，或者更新数据。开启Muxer合并音视频，同时将数据缓存池outputBuffers定位到对应的位置，在Muxer中写入数据，MediaCodec输入数据，然后获取下一帧的数据，循环。</p>
+<p>其他辅助方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> MediaCodecInfo <span class="title">selectCodec</span><span class="params">(String mimeType)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> numCodecs = MediaCodecList.getCodecCount();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; numCodecs; i++) &#123;</span><br><span class="line">        MediaCodecInfo codecInfo = MediaCodecList.getCodecInfoAt(i);</span><br><span class="line">        <span class="keyword">if</span> (!codecInfo.isEncoder()) &#123;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        String[] types = codecInfo.getSupportedTypes();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; types.length; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (types[j].equalsIgnoreCase(mimeType)) &#123;</span><br><span class="line">                <span class="keyword">return</span> codecInfo;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>添加信道：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">addTrack</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (mMediaType == AUDIO &amp;&amp; mMuxer.isAudioTrackAdd()) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (mMediaType == VIDEO &amp;&amp; mMuxer.isVideoTrackAdd()) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    mMediaFormat = mMediaCodec.getOutputFormat();</span><br><span class="line">    mTrackIndex = mMuxer.addTrack(mMediaFormat, mMediaType);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>再创建一个VideoEncode，继承自MediaEncoder，其主要是定义线程锁，同时可以设置整个视频全是关键帧。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">VideoEncoder</span><span class="params">(MMuxer mMuxer)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(mMuxer, MediaType.VIDEO);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    mLock = <span class="keyword">new</span> ReentrantLock();</span><br><span class="line">    mOutputCondition = mLock.newCondition();</span><br><span class="line">    <span class="keyword">super</span>.init();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//请求关键帧</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">requestKeyFrame</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (isRecording()) &#123;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			Bundle reqKeyCmd = <span class="keyword">new</span> Bundle();</span><br><span class="line">			reqKeyCmd.putInt(MediaCodec.PARAMETER_KEY_REQUEST_SYNC_FRAME, <span class="number">0</span>);</span><br><span class="line">			mMediaCodec.setParameters(reqKeyCmd);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>创建VideoSurfaceEncoder 并继承 VideoEncoder，里面主要是实现其父类未实现的方法，并创建SurfaceEncoderRenderer用以关联编码的OpenGL环境。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> SurfaceEncoderRenderer mRenderer;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> Surface mSurface;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">VideoSurfaceEncoder</span><span class="params">(MMuxer mMuxer, <span class="keyword">int</span> width, <span class="keyword">int</span> height)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(mMuxer);</span><br><span class="line">    mWidth = width;</span><br><span class="line">    mHeight = height;</span><br><span class="line">    mRenderer = <span class="keyword">new</span> SurfaceEncoderRenderer();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>setEglAndStart方法主要用于外部调用开始解码，在ThreadPool会创建一个线程池，并在线程中调用其call方法。同时将之前相机创建的EGLContext和textureId设置给VideoSurfaceEncoder，用以关联两者。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setEglAndStart</span><span class="params">(EGLContext eglContext, <span class="keyword">int</span> textureId)</span> </span>&#123;</span><br><span class="line">    mRenderer.setEglContext(eglContext, textureId, <span class="keyword">this</span>);</span><br><span class="line">    ThreadPool.getInstance().run(<span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在call方法中会进行初始化，并且会循环调用output输出数据</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (!mIsInit) &#123;</span><br><span class="line">        init();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (mIsRecording) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            mLock.lock();</span><br><span class="line">            <span class="comment">//是否停止</span></span><br><span class="line">            <span class="keyword">if</span> (isEos()) &#123;</span><br><span class="line">                mMediaCodec.signalEndOfInputStream();<span class="comment">//signalEndOfInputStream只对surface录制有效</span></span><br><span class="line">                output(<span class="keyword">true</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            mOutputCondition.await();</span><br><span class="line">            output(<span class="keyword">false</span>);</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            mLock.unlock();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//signal此线程</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">singalOutput</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        mLock.lock();</span><br><span class="line">        mOutputCondition.signal();</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        mLock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在init方法中会调用prepare，用以初始化各个参数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> <span class="keyword">static</span> <span class="keyword">final</span> String MIME_TYPE = <span class="string">"video/avc"</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">prepare</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    mTrackIndex = -<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//获取对应的MediaCodecInfo</span></span><br><span class="line">    MediaCodecInfo videoCodecInfo = selectCodec(MIME_TYPE);</span><br><span class="line">    <span class="keyword">if</span> (videoCodecInfo == <span class="keyword">null</span>) &#123;</span><br><span class="line">        Log.e(TAG, <span class="string">"Unable to find an appropriate codec for "</span> + MIME_TYPE);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    MediaFormat format = MediaFormat.createVideoFormat(MIME_TYPE, mWidth, mHeight);</span><br><span class="line">    format.setInteger(MediaFormat.KEY_COLOR_FORMAT, MediaCodecInfo.CodecCapabilities.COLOR_FormatSurface);  <span class="comment">// API &gt;= 18</span></span><br><span class="line">    format.setInteger(MediaFormat.KEY_BIT_RATE, BIT_RATE);<span class="comment">//设置码率</span></span><br><span class="line">    format.setInteger(MediaFormat.KEY_FRAME_RATE, FRAME_RATE);<span class="comment">//设置帧率</span></span><br><span class="line">    <span class="comment">//设置关键帧频率</span></span><br><span class="line">    <span class="keyword">if</span> (!mIsAllKeyFrame) &#123;</span><br><span class="line">        format.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, IFRAME_INTERVAL);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        format.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, <span class="number">0</span>);<span class="comment">//设置全关键帧</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        mMediaCodec = MediaCodec.createEncoderByType(MIME_TYPE);</span><br><span class="line">        mMediaCodec.configure(format, <span class="keyword">null</span>, <span class="keyword">null</span>, MediaCodec.CONFIGURE_FLAG_ENCODE);</span><br><span class="line">        mSurface = mMediaCodec.createInputSurface();    <span class="comment">// API &gt;= 18</span></span><br><span class="line">        mMediaCodec.start();</span><br><span class="line"></span><br><span class="line">        mRenderer.setSurface(mSurface);</span><br><span class="line">        mRenderer.start();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先根据MIME_TYPE创建对应的MediaCodecInfo，然后创建MediaFormat并设置码率、帧率，再根据MIME_TYPE创建MediaCodec，获取MediaCodec的InputSurface，同时调用SurfaceEncoderRenderer的start方法。</p>
+<p>SurfaceEncoderRenderer中的实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!(mSurface <span class="keyword">instanceof</span> SurfaceView) &amp;&amp; !(mSurface <span class="keyword">instanceof</span> Surface) &amp;&amp; !(mSurface <span class="keyword">instanceof</span> SurfaceHolder) &amp;&amp; !(mSurface <span class="keyword">instanceof</span> SurfaceTexture)) &#123;</span><br><span class="line">        Log.e(TAG, <span class="string">"unsupported surface"</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        ThreadPool.getInstance().run(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (!mIsInitGL)&#123;</span><br><span class="line">        initGL();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (!mIsInitGL)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (mEncoder.isRecording())&#123;</span><br><span class="line">        mLock.lock();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Log.d(TAG, <span class="string">"await~~~~"</span>);</span><br><span class="line">            mDrawCondition.await();</span><br><span class="line">            mEgl.makeCurrent();</span><br><span class="line">            <span class="comment">//makeCurrent表明opengl的操作是在egl环境下</span></span><br><span class="line">            <span class="comment">// clear screen with yellow color so that you can see rendering rectangle</span></span><br><span class="line">            GLES20.glClearColor(<span class="number">1.0f</span>, <span class="number">1.0f</span>, <span class="number">0.0f</span>, <span class="number">1.0f</span>);</span><br><span class="line">            GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);</span><br><span class="line">            mDrawer.setMatrix(mMatrix, <span class="number">16</span>);</span><br><span class="line">            mDrawer.draw(mTextureId, mMatrix);</span><br><span class="line">            mEgl.swapBuffers();</span><br><span class="line">            mEncoder.singalOutput();<span class="comment">//通知编码器线程要输出数据啦</span></span><br><span class="line">            Log.d(TAG, <span class="string">"draw------------textureId="</span> + mTextureId);</span><br><span class="line">        &#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">            mLock.unlock();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initGL</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    mEgl = <span class="keyword">new</span> MEgl();</span><br><span class="line">    mEgl.init(mEglContext, <span class="keyword">false</span>, <span class="keyword">true</span>, mSurface);</span><br><span class="line">    mEgl.makeCurrent();<span class="comment">//drawer必须要在egl.makeCurrent()后初始化，才能保证mDrawer渲染的是egl对应的surface</span></span><br><span class="line">    mDrawer = <span class="keyword">new</span> GLDrawer2D();</span><br><span class="line">    mIsInitGL = <span class="keyword">true</span>;</span><br><span class="line">    Log.d(TAG, <span class="string">"-----init egl opengl -------------"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在线程中执行initGL方法，用以初始化OpenGL相关参数同时绑定MediaCodec的InputSurface。同时循环更新，并通知VideoSurfaceEncoder输出数据。</p>
+<h4 id="音频录制">音频录制</h4>
+<p>音频录制基于之前的MediaEncoder：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ThreadPool.getInstance().run(<span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		init();</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">super</span>.init();</span><br><span class="line">	ThreadPool.getInstance().run(mAudioThread);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在线程中启动，同时启动音频采集线程。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">prepare</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    mTrackIndex = -<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">final</span> MediaCodecInfo audioCodecInfo = selectCodec(MIME_TYPE);</span><br><span class="line">    <span class="keyword">if</span> (audioCodecInfo == <span class="keyword">null</span>) &#123;</span><br><span class="line">        Log.e(TAG, <span class="string">"Unable to find an appropriate codec for "</span> + MIME_TYPE);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">final</span> MediaFormat audioFormat = MediaFormat.createAudioFormat(MIME_TYPE, SAMPLE_RATE, <span class="number">1</span>);</span><br><span class="line">    audioFormat.setInteger(MediaFormat.KEY_AAC_PROFILE, MediaCodecInfo.CodecProfileLevel.AACObjectLC);</span><br><span class="line">    audioFormat.setInteger(MediaFormat.KEY_CHANNEL_MASK, AudioFormat.CHANNEL_IN_MONO);</span><br><span class="line">    audioFormat.setInteger(MediaFormat.KEY_BIT_RATE, BIT_RATE);</span><br><span class="line">    audioFormat.setInteger(MediaFormat.KEY_CHANNEL_COUNT, <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        mMediaCodec = MediaCodec.createEncoderByType(MIME_TYPE);</span><br><span class="line">        mMediaCodec.configure(audioFormat, <span class="keyword">null</span>, <span class="keyword">null</span>, MediaCodec.CONFIGURE_FLAG_ENCODE);</span><br><span class="line">        mMediaCodec.start();</span><br><span class="line">        mAudioThread = <span class="keyword">new</span> AudioThread(<span class="keyword">this</span>);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>init中的prepare方法，跟视频的prepare接近，创建对应的MediaCodecInfo和MediaFormat，同时创建AudioThread。</p>
+<p>AudioThread中的核心方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_URGENT_AUDIO);</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> min_buffer_size = AudioRecord.getMinBufferSize(</span><br><span class="line">                SAMPLE_RATE, AudioFormat.CHANNEL_IN_MONO,</span><br><span class="line">                AudioFormat.ENCODING_PCM_16BIT);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> buffer_size = SAMPLES_PER_FRAME * FRAMES_PER_BUFFER;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (buffer_size &lt; min_buffer_size)</span><br><span class="line">            buffer_size = ((min_buffer_size / SAMPLES_PER_FRAME) + <span class="number">1</span>) * SAMPLES_PER_FRAME * <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">        AudioRecord audioRecord = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> source : AUDIO_SOURCES) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                audioRecord = <span class="keyword">new</span> AudioRecord(source, SAMPLE_RATE, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT, buffer_size);</span><br><span class="line">                <span class="keyword">if</span> (audioRecord.getState() != AudioRecord.STATE_INITIALIZED)</span><br><span class="line">                    audioRecord = <span class="keyword">null</span>;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (<span class="keyword">final</span> Exception e) &#123;</span><br><span class="line">                audioRecord = <span class="keyword">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (audioRecord == <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    <span class="keyword">if</span> (mAudioEncoder.isRecording()) &#123;</span><br><span class="line">                        Log.v(TAG, <span class="string">"AudioThread:start audio recording"</span>);</span><br><span class="line">                        <span class="keyword">final</span> ByteBuffer buf = ByteBuffer.allocateDirect(SAMPLES_PER_FRAME);</span><br><span class="line">                        <span class="keyword">int</span> readBytes;</span><br><span class="line">                        audioRecord.startRecording();</span><br><span class="line">                        <span class="keyword">try</span> &#123;</span><br><span class="line">                            <span class="keyword">while</span> (mAudioEncoder.isRecording()) &#123;</span><br><span class="line">                                <span class="comment">// read audio data from internal mic</span></span><br><span class="line">                                buf.clear();</span><br><span class="line">                                readBytes = audioRecord.read(buf, SAMPLES_PER_FRAME);</span><br><span class="line">                                <span class="keyword">if</span> (readBytes &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                                    <span class="comment">// set audio data to encoder</span></span><br><span class="line">                                    buf.position(readBytes);</span><br><span class="line">                                    buf.flip();</span><br><span class="line">                                    <span class="comment">//将数据传给编码器编码</span></span><br><span class="line">                                    mAudioEncoder.encodeAudioBuffer(buf, readBytes);</span><br><span class="line">                                &#125;</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                            audioRecord.stop();</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                    audioRecord.release();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span>[] AUDIO_SOURCES = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;</span><br><span class="line">        MediaRecorder.AudioSource.MIC,</span><br><span class="line">        MediaRecorder.AudioSource.DEFAULT,</span><br><span class="line">        MediaRecorder.AudioSource.CAMCORDER,</span><br><span class="line">        MediaRecorder.AudioSource.VOICE_COMMUNICATION,</span><br><span class="line">        MediaRecorder.AudioSource.VOICE_RECOGNITION,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>首先是获取buffer_size，其次遍历所有的输入source并创建AudioRecord。同时调用startRecording开始录音，读取数据后再调用AudioEncoder.encodeAudioBuffer将数据进行保存。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">encodeAudioBuffer</span><span class="params">(ByteBuffer buffer, <span class="keyword">int</span> length, <span class="keyword">boolean</span> isEos)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!isRecording()) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">final</span> ByteBuffer[] inputBuffers = mMediaCodec.getInputBuffers();</span><br><span class="line">    <span class="keyword">while</span> (isRecording()) &#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> inputBufferIndex = mMediaCodec.dequeueInputBuffer(TIMEOUT_USEC);</span><br><span class="line">        <span class="keyword">if</span> (inputBufferIndex &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">final</span> ByteBuffer inputBuffer = inputBuffers[inputBufferIndex];</span><br><span class="line">            inputBuffer.clear();</span><br><span class="line">            <span class="keyword">if</span> (buffer != <span class="keyword">null</span>) &#123;</span><br><span class="line">                inputBuffer.put(buffer);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (isEos) &#123;</span><br><span class="line">                mMediaCodec.queueInputBuffer(inputBufferIndex, <span class="number">0</span>, <span class="number">0</span>, getPTS(), MediaCodec.BUFFER_FLAG_END_OF_STREAM);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                mMediaCodec.queueInputBuffer(inputBufferIndex, <span class="number">0</span>, length, getPTS(), <span class="number">0</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            output(isEos);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (inputBufferIndex == MediaCodec.INFO_TRY_AGAIN_LATER) &#123;</span><br><span class="line">            <span class="comment">// wait for MediaCodec encoder is ready to encode</span></span><br><span class="line">            <span class="comment">// nothing to do here because MediaCodec#dequeueInputBuffer(TIMEOUT_USEC)</span></span><br><span class="line">            <span class="comment">// will wait for maximum TIMEOUT_USEC(10msec) on each call</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>encodeAudioBuffer方法中将输入的数据加到MediaCodec中，然后调用output将数据合并。</p>
+<h4 id="启动编码器">启动编码器</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDrawFrame</span><span class="params">(GL10 gl)</span> </span>&#123;</span><br><span class="line">    GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);</span><br><span class="line">    <span class="keyword">if</span> (mIsNeedUpdateTexture) &#123;</span><br><span class="line">        mIsNeedUpdateTexture = <span class="keyword">false</span>;</span><br><span class="line">        <span class="comment">//更新纹理（摄像头已经绑定该SurfaceTexture）</span></span><br><span class="line">        surfaceTexture.updateTexImage();</span><br><span class="line">        <span class="comment">// 获取纹理变换矩阵</span></span><br><span class="line">        surfaceTexture.getTransformMatrix(mSurfaceTextureMatrix);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//是否需要录制</span></span><br><span class="line">    <span class="keyword">if</span> (mIsNeedRecord) &#123;</span><br><span class="line">        <span class="keyword">if</span> (mVideoEncoder == <span class="keyword">null</span>) &#123;</span><br><span class="line">            MMuxer mMuxer = <span class="keyword">new</span> MMuxer(getSaveVideoPath());</span><br><span class="line">            mVideoEncoder = <span class="keyword">new</span> VideoSurfaceEncoder(mMuxer, cameraGLSurfaceView.getVideoWidth(), cameraGLSurfaceView.getVideoHeight());</span><br><span class="line">            mAudioEncoder = <span class="keyword">new</span> AudioEncoder(mMuxer);</span><br><span class="line">            mVideoEncoder.setAllKeyFrame(<span class="keyword">false</span>);</span><br><span class="line">            mVideoEncoder.setEglAndStart(EGL14.eglGetCurrentContext(), textureId);</span><br><span class="line">            mAudioEncoder.start();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (mVideoEncoder != <span class="keyword">null</span> &amp;&amp; mVideoEncoder.isPrepared() &amp;&amp; mIsRecordCurrFrame) &#123;</span><br><span class="line">            mVideoEncoder.render(mSurfaceTextureMatrix, mMvpMatrix);</span><br><span class="line">        &#125;</span><br><span class="line">        mIsRecordCurrFrame = !mIsRecordCurrFrame;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (mDrawer != <span class="keyword">null</span>) &#123;</span><br><span class="line">        mDrawer.draw(textureId, mSurfaceTextureMatrix);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (mIsStopRecorder &amp;&amp; mVideoEncoder != <span class="keyword">null</span> &amp;&amp; mAudioEncoder != <span class="keyword">null</span>) &#123;</span><br><span class="line">        mVideoEncoder.eos();</span><br><span class="line">        mAudioEncoder.eos();</span><br><span class="line">        mIsNeedRecord = <span class="keyword">false</span>;</span><br><span class="line">        mVideoEncoder = <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在SurfaceRenderer的onDrawFrame中，创建MMuxer、VideoSurfaceEncoder、AudioEncoder等，每次画面更新后调用render更新输出数据。</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/音视频/Android Media 实战二：音视频的录制2/" data-toggle="tooltip" data-placement="top" title="Android Media 实战二：音视频的录制(二)">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/音视频/音频管理AudioManager使用/" data-toggle="tooltip" data-placement="top" title="音频管理AudioManager使用">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#相机预览"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x76F8;&#x673A;&#x9884;&#x89C8;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#视频编码器"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x89C6;&#x9891;&#x7F16;&#x7801;&#x5668;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#音频录制"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">&#x97F3;&#x9891;&#x5F55;&#x5236;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#启动编码器"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">&#x542F;&#x52A8;&#x7F16;&#x7801;&#x5668;</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#音视频" title="音视频">音视频</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/earthwo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; alonealice 2021 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://www.huweihuang.com">胡伟煌</a> |
+                    <br> 
+                    <a href="http://www.beian.miit.gov.cn">浙ICP备17033688号</a>   
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://alonealice.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://alonealice.com/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

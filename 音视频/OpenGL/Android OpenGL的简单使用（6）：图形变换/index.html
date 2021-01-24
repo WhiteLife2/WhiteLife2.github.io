@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="不懂要会问，打脸要立正">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Android OpenGL的简单使用（6）：图图形变换 - alonealice | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://alonealice.com/音视频/OpenGL/Android OpenGL的简单使用（6）：图形变换/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/article_bg.jpeg')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#音视频" title="音视频">音视频</a>
+                            
+                              <a class="tag" href="/tags/#OpenGL" title="OpenGL">OpenGL</a>
+                            
+                        </div>
+                        <h1>Android OpenGL的简单使用（6）：图图形变换</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by alonealice on
+                            2020-12-26
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">alonealice</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>OpenGL中的图像变换主要用四种：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1. 视角（Viewing）变换</span><br><span class="line"></span><br><span class="line">2. 模型（Modeling）变换</span><br><span class="line"></span><br><span class="line">3. 投影（Projection）变换</span><br><span class="line"></span><br><span class="line">4. 视窗（Viewport）变换</span><br></pre></td></tr></table></figure>
+<h3 id="视角变换">视角变换</h3>
+<p>视角变换相当于人拿着一台照相机在观察物体，照相机在移动，从不同的位置来观察。具体的有以下三种变换：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- Translate    平移变换</span><br><span class="line">- Rotate       旋转变换</span><br><span class="line">- Scale        缩放变换</span><br></pre></td></tr></table></figure>
+<h4 id="平移变换">平移变换</h4>
+<p>在之前绘制的图形的代码的基础上，添加以下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//设置为单位矩阵</span><br><span class="line">gl.glLoadIdentity();</span><br><span class="line">gl.glTranslatef(0.5f, 0f, 0f);</span><br></pre></td></tr></table></figure>
+<p>在平移变换之前，需调用glLoadIdentity才能进行变换，不加时图像不会显示。同时，在两句代码在onDrawFrame的任何位置，包括在清屏前都是没有影响的。</p>
+<h4 id="旋转变换">旋转变换</h4>
+<p>调用glRotatef(float angle, float x, float y, float z)传入4个参数，角度和x、y、z坐标。此时一定要注意旋转的角度,角度为正表示逆时针。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gl.glLoadIdentity();</span><br><span class="line">gl.glRotatef(<span class="number">40</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+<p>这里的x，y和z不是旋转的坐标点，而是向量点，即以（0，0，0）和（1，0，0）为一条线作为旋转的轴，轴的方向向（1，0，0），图像按这个轴进行旋转。旋转的方法遵循安培定则，即右手螺旋定则。用右手大拇指指向轴的正方向，其余手指卷曲的方向为旋转的方向。</p>
+<p>glLoadIdentity在旋转中也不能少，不能会每次刷新时都会一直旋转，导致图像一直在移动。</p>
+<h4 id="缩放变换">缩放变换</h4>
+<p>调用glScalef(float x, float y, float z)进行缩放,三个参数为缩放比例，缩放之前的坐标乘以缩放比例即可。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gl.glLoadIdentity();</span><br><span class="line">gl.glScalef(<span class="number">0.5f</span>,<span class="number">0.5f</span>, <span class="number">0.5f</span>);</span><br></pre></td></tr></table></figure>
+<p>glLoadIdentity的规则跟平移时一样。</p>
+<h4 id="组合变换">组合变换</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gl.glLoadIdentity();</span><br><span class="line">gl.glScalef(<span class="number">0.5f</span>, <span class="number">0.5f</span>, <span class="number">0f</span>);</span><br><span class="line">gl.glTranslatef(<span class="number">0.5f</span>, <span class="number">0.5f</span>, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>这边有个很关键的点，先平移后缩放，跟先缩放后平移效果是不一样的，而且实际变换的顺序跟逻辑执行的顺序刚好相反</strong>。</p>
+<h4 id="重置矩阵">重置矩阵</h4>
+<p>如果想重置矩阵为没有任何变换之前，调用glLoadIdentity()</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gl.glLoadIdentity();</span><br></pre></td></tr></table></figure>
+<h4 id="保存-恢复矩阵">保存、恢复矩阵</h4>
+<p>调用glPushMatrix保存当前矩阵，调用glPopMatrix恢复当前矩阵。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//保存当前矩阵</span><br><span class="line">gl.glPushMatrix();</span><br><span class="line">//重置矩阵</span><br><span class="line">gl.glLoadIdentity();</span><br><span class="line"></span><br><span class="line">//恢复矩阵</span><br><span class="line">gl.glPopMatrix();</span><br></pre></td></tr></table></figure>
+<p>保留矩阵相当于把当前的矩阵记录了下来，在保留矩阵之后做的任何变换，在恢复矩阵时都是无效的，依旧会是保留时的矩阵数据。</p>
+<h3 id="模型变换">模型变换</h3>
+<p>模型变换相当于是相机不动，而观察的物体在做移动，产生的效果跟视角变换是一样的。</p>
+<h4 id="投影变换">投影变换</h4>
+<p>投影变换相当于观察物体是照相机的远近具体在发生变换。</p>
+<p>投影变换会定义一个视锥(viewing volume)，视锥有两个作用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- 物体如何投影到屏幕（透视投影或者正侧投影）</span><br><span class="line">- 裁剪场景的区域大小</span><br></pre></td></tr></table></figure>
+<p>OpenGL ES可以使用两种不同的投影变换：透视投影（Perspective Projection）和正侧投影（Orthographic Projection）。</p>
+<h4 id="透视投影">透视投影</h4>
+<p>透视投影 ，就像我们眼睛看一个物体，近大远小。 如下图：</p>
+<p><img src="https://img-blog.csdn.net/20160805112613338" alt=""></p>
+<p>从照相机(View Point)望去,由left、top、bottom、right四条线组成的面(也就是near面)和最远处的面(也就是far面)组成了一个椎体,这个椎体叫View volumn。</p>
+<p>裁剪就是把Viewing Volume之外的都裁剪掉，这样可以提高绘图性能。</p>
+<p>public void glFrustumf(float left,float right,float bottom,float top,float near,float far)</p>
+<p>也可以用GLU.gluPerspective(fovy, aspect, zNear, zFar)方法,fovy是竖直方向也就是Y方向的夹角,aspect是near面的宽高比，即top的长度除以left长度。</p>
+<h4 id="正侧投影">正侧投影</h4>
+<p>正侧投影 ，View Volumn椎体不变，一直是一个长方体,无论距离怎么改变，投影都不变。相当于透视投影，眼睛是一个点，而正侧投影，眼睛是一个面。</p>
+<p><img src="https://img-blog.csdn.net/20160805175153272" alt=""></p>
+<p>定义正侧投影的方法如下,传入6个参数</p>
+<p>public void glOrthof(float left, float right,float bottom,float top,float near,float far)</p>
+<h4 id="视窗变换">视窗变换</h4>
+<p>视窗变换相当于物体和相机都没有变换，但是出来的效果之后，显示这个的载体发生了变化。</p>
+<p>把像素按照比例转化后显示到屏幕上,这就是视窗（Viewport）变换,分两步</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- 设置窗口的位置和大小————glViewport(<span class="keyword">int</span> x, <span class="keyword">int</span> y, <span class="keyword">int</span> width, <span class="keyword">int</span> height)</span><br><span class="line">- 设置观察的位置和角度————GLU.gluLookAt(gl, eyeX, eyeY, eyeZ,  centerX, centerY, centerZ,  upX, upY, upZ)</span><br><span class="line"><span class="number">123</span></span><br></pre></td></tr></table></figure>
+<p>第一种就是onSurfaceChanged</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSurfaceChanged</span><span class="params">(GL10 gl, <span class="keyword">int</span> width, <span class="keyword">int</span> height)</span> </span>&#123;</span><br><span class="line">	<span class="comment">// 设置窗口大小</span></span><br><span class="line">	gl.glViewport(<span class="number">0</span>, <span class="number">0</span>, width  , height);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="设置观察的位置和角度">设置观察的位置和角度</h4>
+<p>GLU.gluLookAt(gl, eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- eye理解为照相机或者你的眼睛，默认位置在原点(0,0,0)</span><br><span class="line">- center是观察物体的坐标,从eye到center的向量就是观察的方向</span><br><span class="line">- up默认为Y轴正方向，可以理解为眼睛到头顶的方向，比如改成(0,-1,0)那就是倒立着观察了</span><br></pre></td></tr></table></figure>
+<p>默认情况下，一个物体的观察坐标是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GLU.gluLookAt(gl, 0f, 0f, 0f,  0f, 0f, -1f,  0f, 1f, 0f);</span><br></pre></td></tr></table></figure>
+<p>即眼睛和物体都在x和y的原点，z轴上，眼睛在0，物体在-1，而y轴也是正着的。</p>
+<p>如果改为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GLU.gluLookAt(gl, 0f, 0f, 0f, 0f, 0f, -1f, 1f, 0f, 0f)</span><br></pre></td></tr></table></figure>
+<p>就相当于侧着头看，而且是沿着x轴的正方向看。</p>
+<p>实际的效果是，如果在屏幕的左上角绘制一个图像，那么侧着看的话，图像就在屏幕的左下方了。</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/音视频/OpenGL/Android OpenGL的简单使用（7）：添加颜色/" data-toggle="tooltip" data-placement="top" title="Android OpenGL的简单使用（7）：添加颜色">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/音视频/OpenGL/Android OpenGL的简单使用（5）：多点、线、面的绘制/" data-toggle="tooltip" data-placement="top" title="Android OpenGL的简单使用（5）：多点、线、面的绘制">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#视角变换"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x89C6;&#x89D2;&#x53D8;&#x6362;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#平移变换"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">&#x5E73;&#x79FB;&#x53D8;&#x6362;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#旋转变换"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">&#x65CB;&#x8F6C;&#x53D8;&#x6362;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#缩放变换"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">&#x7F29;&#x653E;&#x53D8;&#x6362;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#组合变换"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">&#x7EC4;&#x5408;&#x53D8;&#x6362;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#重置矩阵"><span class="toc-nav-number">1.5.</span> <span class="toc-nav-text">&#x91CD;&#x7F6E;&#x77E9;&#x9635;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#保存-恢复矩阵"><span class="toc-nav-number">1.6.</span> <span class="toc-nav-text">&#x4FDD;&#x5B58;&#x3001;&#x6062;&#x590D;&#x77E9;&#x9635;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#模型变换"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x6A21;&#x578B;&#x53D8;&#x6362;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#投影变换"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">&#x6295;&#x5F71;&#x53D8;&#x6362;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#透视投影"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">&#x900F;&#x89C6;&#x6295;&#x5F71;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#正侧投影"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text">&#x6B63;&#x4FA7;&#x6295;&#x5F71;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#视窗变换"><span class="toc-nav-number">2.4.</span> <span class="toc-nav-text">&#x89C6;&#x7A97;&#x53D8;&#x6362;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#设置观察的位置和角度"><span class="toc-nav-number">2.5.</span> <span class="toc-nav-text">&#x8BBE;&#x7F6E;&#x89C2;&#x5BDF;&#x7684;&#x4F4D;&#x7F6E;&#x548C;&#x89D2;&#x5EA6;</span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#音视频" title="音视频">音视频</a>
+                        
+                          <a class="tag" href="/tags/#OpenGL" title="OpenGL">OpenGL</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/earthwo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; alonealice 2021 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://www.huweihuang.com">胡伟煌</a> |
+                    <br> 
+                    <a href="http://www.beian.miit.gov.cn">浙ICP备17033688号</a>   
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://alonealice.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://alonealice.com/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

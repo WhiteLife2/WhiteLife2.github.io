@@ -134,13 +134,6 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archive/">Archives</a>
                         </li>
                         
@@ -149,6 +142,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -211,29 +211,33 @@
 
 <div class="post-preview">
 
-    <a href="/WebView/android-WebView优化分析/">
+    <a href="/音视频/Open-GL/Android OpenGL的简单使用（1）：GlSurface的搭建/">
         <h2 class="post-title">
                                  
-            android WebView优化
+            Android OpenGL的简单使用（1）：GlSurface的搭建
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            在android使用WebView去显示页面时，有一个很严重的问题就是慢。这个慢会导致页面白屏时间或者等待时间过长，严重影响用户体验。
-在WebView加载页面的过程中，主要有这么几个步骤：WebView初始化，建立连接，获取数据，页面框架渲染，JS加载、解析。那么我们依次来看看这些环节有哪些可以优化的地方可以加快WebView的页面显示。
-WebView初始化
-App中打开WebView的......
+            OpenGL ES 的主要使用流程，可以概括如下：
+
+在 Android 中，使用 OpenGL 最简单的办法便是使用官方提供的 GLSurfaceView 组件。其功能主要有：
+
+管理一个 surface，这个 surface 就是一块特殊的内存，能直接排版到 android 的视图 view 上。
+管理一个 EGL display，它能让 opengl 把内容渲染到上述的 surface......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by alonealice on
-            2017-12-19
+            2020-12-24
         </p>
         <div class="tags">
             
-              <a href="/tags/#WebView" title="WebView">WebView</a>
+              <a href="/tags/#音视频" title="音视频">音视频</a>
+            
+              <a href="/tags/#Open GL" title="Open GL">Open GL</a>
             
         </div>
     
@@ -243,29 +247,31 @@ App中打开WebView的......
 
 <div class="post-preview">
 
-    <a href="/WebView/WebView缓存原理/">
+    <a href="/音视频/OpenGL ES 和 EGL 介绍/">
         <h2 class="post-title">
                                  
-            WebView缓存简述
+            OpenGL ES 和 EGL 介绍
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            WebView缓存在日常的使用中非常重要，它不仅能使用户能够在离线的情况下依旧可以使用它，更重要的是，它可以加快网页的加载速度，减少服务器的负载。
-WebView主要包括两类缓存，一类是浏览器自带的网页数据缓存，这是所有的浏览器都支持的、由HTTP协议定义的缓存；另一类是H5缓存，这是由web页面的开发者设置的。
-浏览器自带的网页数据缓存
-浏览器缓存机制是通过HTTP协议Header里的Ca......
+            OpenGL ES
+OpenGL ES 是 OpenGL 三维图形API的子集，针对手机、PDA和游戏主机等嵌入式设备而设计，OpenGL 的结构可以从逻辑上划分为下面 3 个部分：图元、缓冲区、光栅化。
+图元
+在 OpenGL 的世界里，我们只能画点、线、三角形这三种基本图形，而其它复杂的图形都可以通过三角形来组成。所以这里的图元指的就是这三种基础图形：
+
+点：点存在于三维空间，坐标用（x......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by alonealice on
-            2017-12-19
+            2020-12-22
         </p>
         <div class="tags">
             
-              <a href="/tags/#WebView" title="WebView">WebView</a>
+              <a href="/tags/#音视频" title="音视频">音视频</a>
             
         </div>
     
@@ -275,29 +281,31 @@ WebView主要包括两类缓存，一类是浏览器自带的网页数据缓存�
 
 <div class="post-preview">
 
-    <a href="/WebView/WebView与Js交互/">
+    <a href="/音视频/WebRtc/WebRtc入门/">
         <h2 class="post-title">
                                  
-            WebView与Js交互
+            WebRtc 入门
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            在日常开发中我们经常会使用WebView，尤其是那些动态化要求很高的页面。而在使用WebView的过程中，又会有很多的问题。比如说WebView加载慢，内存消耗大以及和原生代码交互的问题。这篇文章就来简单讲讲WebView与Native交互的问题。
-Native于 JavaScript 交互
-java Native代码与 JavaScript 交互主要有3中方法：
-1.使用系统方法 addJ......
+            WebRTC，即web实时通信技术，是一个由Google发起的实时通讯解决方案，其中包含视频音频采集，编解码，数据传输，音视频展示等功能，我们可以通过技术快速地构建出一个音视频通讯应用。它支持跨平台，包括linux、windows、mac、android等。
+WebRTC连接过程
+
+1.连接双方（Peer）通过第三方服务器来交换（Signalling）各自的SessionDescriptio......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by alonealice on
-            2017-12-19
+            2020-11-03
         </p>
         <div class="tags">
             
-              <a href="/tags/#WebView" title="WebView">WebView</a>
+              <a href="/tags/#音视频" title="音视频">音视频</a>
+            
+              <a href="/tags/#WebRtc" title="WebRtc">WebRtc</a>
             
         </div>
     
@@ -307,28 +315,28 @@ java Native代码与 JavaScript 交互主要有3中方法：
 
 <div class="post-preview">
 
-    <a href="/ConstraintLayout/ConstraintLayout-1-1新功能/">
+    <a href="/音视频/Android Media 实战三：图片和视频的转换/">
         <h2 class="post-title">
                                  
-            ConstraintLayout 1.1新功能
+            Android Media 实战三：图片和视频的转换
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            在ConstraintLayout初步探究中简单的介绍了ConstraintLayout的几个实用的属性，那些都是基于1.0.2的版本的功能。今年的google开发者大会，google为我们带来了新的ConstraintLayout。那么新版的ConstraintLayout又有哪些新的功能呢。
-首先，本文基于的版本为1.1.0-beta3.
-引用该版本：compile 'com.andro......
+            使用mediacodec可以将图片和视频进行相互的转换，将图片合成视频，获取将视频中截取出图片：
+图片合成视频
+1234567891011private void createImages() &#123;    Bitmap bitmap1 = BitmapFactory.decodeResource(getResources(), R.drawable.bg4);    Bitmap b......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by alonealice on
-            2017-12-18
+            2020-11-01
         </p>
         <div class="tags">
             
-              <a href="/tags/#ConstraintLayout" title="ConstraintLayout">ConstraintLayout</a>
+              <a href="/tags/#音视频" title="音视频">音视频</a>
             
         </div>
     
@@ -338,29 +346,28 @@ java Native代码与 JavaScript 交互主要有3中方法：
 
 <div class="post-preview">
 
-    <a href="/ConstraintLayout/ConstraintLayout初步探究/">
+    <a href="/音视频/Android Media 实战二：音视频的录制2/">
         <h2 class="post-title">
                                  
-            ConstraintLayout初步探究
+            Android Media 实战二：音视频的录制(二)
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            ConstraintLayout是这两年Google新推出的一个布局，俗称约束布局。相比于之前常用的线性布局和相对布局，ConstraintLayout能够使用的场景更多，能更好的见地页面的布局层级，提升页面的渲染性能。
-目前稳定版本是1.0.2，本文后面的内容也都是基于该版本。
-基本相对位置属性
-ConstraintLayout有多个相对位置属性，满足开发者在构建界面的需要，主要使用的如下......
+            预览
+在页面中添加SurfaceView，同时添加SurfaceHolder.Callback：
+123mSurfaceView = (SurfaceView) findViewById(R.id.surface_view);mSurfaceHolder = mSurfaceView.getHolder();mSurfaceHolder.addCallback(mSurfaceCallbac......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by alonealice on
-            2017-12-18
+            2020-11-01
         </p>
         <div class="tags">
             
-              <a href="/tags/#ConstraintLayout" title="ConstraintLayout">ConstraintLayout</a>
+              <a href="/tags/#音视频" title="音视频">音视频</a>
             
         </div>
     
@@ -370,30 +377,28 @@ ConstraintLayout有多个相对位置属性，满足开发者在构建界面的�
 
 <div class="post-preview">
 
-    <a href="/tips和坑/记录那些经常用却又打死记不住的代码-持续更新/">
+    <a href="/音视频/Android Media 实战一：音视频的录制/">
         <h2 class="post-title">
                                  
-            记录那些经常用却又打死记不住的代码(持续更新)
+            Android Media 实战一：音视频的录制(一)
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            时间固定格式转Long
-123SimpleDateFormat simpleDateFormat = new SimpleDateFormat(style);Date date = simpleDateFormat.parse(time);return date.getTime();
-组合属性动画
-方法1：
-12345PropertyValuesHolder holder1=Property......
+            相机预览
+创建一个CameraGLSurfaceView并继承自GLSurfaceView，同时在构造方法中初始化openGl环境。
+123456789101112131415161718192021public CameraGLSurfaceView(Context context) &#123;    super(context);    init(context);&#125;publ......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by alonealice on
-            2017-08-02
+            2020-11-01
         </p>
         <div class="tags">
             
-              <a href="/tags/#tips和坑" title="tips和坑">tips和坑</a>
+              <a href="/tags/#音视频" title="音视频">音视频</a>
             
         </div>
     
@@ -403,33 +408,33 @@ ConstraintLayout有多个相对位置属性，满足开发者在构建界面的�
 
 <div class="post-preview">
 
-    <a href="/Rxjava/Rxjava常用操作符/">
+    <a href="/音视频/音频管理AudioManager使用/">
         <h2 class="post-title">
                                  
-            Rxjava常用操作符
+            音频管理AudioManager使用
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            创建操作符
-just操作符
-1Observable observable=Observable.just(10,2);
-依次会调用onNext(10)和onNext(2)；
-interval操作符
-按照固定时间间隔发送整数序列的Observable(从0开始)。
-1Observable observable=Observable.interval(10,TimeUnit.SECONDS);
-......
+            AudioManager主要是用来控制声音的音量和响铃模式。
+获取音量
+获取AudioManager：
+12//获取系统的Audio管理者AudioManager mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+可以调节音量的声音分类：
+
+STREAM_VOICE_CALL：通话声音
+STREAM......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by alonealice on
-            2017-07-27
+            2020-10-31
         </p>
         <div class="tags">
             
-              <a href="/tags/#Rxjava" title="Rxjava">Rxjava</a>
+              <a href="/tags/#音视频" title="音视频">音视频</a>
             
         </div>
     
@@ -439,33 +444,33 @@ interval操作符
 
 <div class="post-preview">
 
-    <a href="/Android进阶之光/读书笔记/《Android进阶之光》读书笔记(五)/">
+    <a href="/音视频/Android Media API 的介绍（2）/">
         <h2 class="post-title">
                                  
-            《Android进阶之光》读书笔记(五)
+            Android Media API 的介绍（2）
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            设计模式六大原则
-1.单一职责原则：就一个类而言，应该仅有一个引起它变化的原因。
-人话：我们不应该让一个类承担过多的责任，责任越多，耦合就越多，一个职责的变化会抑制或削弱其他职责的能力。
-2.开放封闭原则：类、模块、函数等应该是可以扩展的，但是不可修改。
-人话：我们在面对需求改变的时候要尽可能的保证相对稳定，尽量通过拓展的方式来实现变化，而不是通过修改原有代码的方式。
-3.里氏替换原则：所有......
+            MediaFormat
+封装描述媒体数据格式的信息，无论是音频还是视频。媒体数据的格式被指定为字符串/值对。
+KEY_MIME：格式的类型
+KEY_MAX_INPUT_SIZE：可选，输入数据缓冲区的最大大小
+KEY_BIT_RATE：仅编码器，所需比特率（以比特/秒为单位）
+视频格式具有以下键：
+KEY_WIDTH：描述视频格式的内容的宽度的键。
+KEY_HEIGHT：描述视频格式的内容的......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by alonealice on
-            2017-07-25
+            2020-10-30
         </p>
         <div class="tags">
             
-              <a href="/tags/#读书笔记" title="读书笔记">读书笔记</a>
-            
-              <a href="/tags/#Android进阶之光" title="Android进阶之光">Android进阶之光</a>
+              <a href="/tags/#音视频" title="音视频">音视频</a>
             
         </div>
     
@@ -475,33 +480,27 @@ interval操作符
 
 <div class="post-preview">
 
-    <a href="/Android进阶之光/读书笔记/《Android进阶之光》读书笔记（四）/">
+    <a href="/音视频/Android Media API 的介绍（1）/">
         <h2 class="post-title">
                                  
-            《Android进阶之光》读书笔记(四)
+            Android Media API 的介绍（1）
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            网络分层
-1.物理层：负责比特流在节点间的传输，即负责物理传输。
-2.数据链路层：主要功能是在不可靠的物理线路上进行数据的可靠传输。它将从网络层收到的数据分割成特定的可被物理层传输的帧。
-3.网络层：该层决定如何将数据从发生方路由到接收方
-4.传输层：该层为两台主机上的应用程序提供端到端的通信，主要有两个传输协议；TCP和UDP。
-5.应用层：应用层就是规定应用程序的数据格式的，主要协议有H......
+            Android系统已经提供了对视音频的强大支持，这边先介绍几个和视音频相关的类，通过这几个类的组合使用，可以实现很多音视频处理的相关功能，下面就对这几个类进行简单介绍。
+12345678MediaMetadataRetriever:：用来获取视频的相关信息，例如视频宽高、时长、旋转角度、码率等等。MediaExtractor:：视音频分离器，将一些格式的视频分离出视频轨道和音频轨道。Medi......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by alonealice on
-            2017-07-24
+            2020-10-27
         </p>
         <div class="tags">
             
-              <a href="/tags/#读书笔记" title="读书笔记">读书笔记</a>
-            
-              <a href="/tags/#Android进阶之光" title="Android进阶之光">Android进阶之光</a>
+              <a href="/tags/#音视频" title="音视频">音视频</a>
             
         </div>
     
@@ -511,28 +510,29 @@ interval操作符
 
 <div class="post-preview">
 
-    <a href="/tips和坑/记录那些经常用却又打死记不住的代码/">
+    <a href="/音视频/MediaCodec基础/">
         <h2 class="post-title">
                                  
-            记录那些经常用却又打死记不住的代码(一)
+            MediaCodec基础
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            在开发过程中，总会遇到很多其实经常写，但又死活记不住(也许是本人比较笨)，每次都需要google的一些代码。这篇文章就是记录那些代码，以方便以后快速找到。
-跳转到系统图库页面
-123Intent albumIntent = new Intent(Intent.ACTION_PICK);albumIntent.setDataAndType(MediaStore.Images.Media.EXT......
+            MediaCodec是一个Codec，通过硬件加速解码和编码。
+MediaCodec 的作用是处理输入的数据生成输出数据。首先生成一个输入数据缓冲区，将数据填入缓冲区提供给 codec，codec 会采用异步的方式处理这些输入的数据，然后将填满输出缓冲区提供给消费者，消费者消费完后将缓冲区返还给 codec。
+MediaCodec的数据
+MediaCodec 接受三种数据格式：压缩数据，原始......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by alonealice on
-            2017-07-20
+            2020-10-26
         </p>
         <div class="tags">
             
-              <a href="/tags/#tips和坑" title="tips和坑">tips和坑</a>
+              <a href="/tags/#音视频" title="音视频">音视频</a>
             
         </div>
     
@@ -585,11 +585,23 @@ interval操作符
     <div class="tags">
         
             
+            <a href="/tags/#andfix" title="andfix" rel="1">andfix</a>
+            
+        
+            
             <a href="/tags/#AIDL" title="AIDL" rel="1">AIDL</a>
             
         
             
-            <a href="/tags/#andfix" title="andfix" rel="1">andfix</a>
+            <a href="/tags/#音视频" title="音视频" rel="22">音视频</a>
+            
+        
+            
+            <a href="/tags/#OpenGL" title="OpenGL" rel="8">OpenGL</a>
+            
+        
+            
+            <a href="/tags/#Open GL" title="Open GL" rel="1">Open GL</a>
             
         
             
@@ -613,11 +625,11 @@ interval操作符
             
         
             
-            <a href="/tags/#Executors" title="Executors" rel="1">Executors</a>
+            <a href="/tags/#Flutter" title="Flutter" rel="1">Flutter</a>
             
         
             
-            <a href="/tags/#线程池" title="线程池" rel="1">线程池</a>
+            <a href="/tags/#Android Jetpack" title="Android Jetpack" rel="7">Android Jetpack</a>
             
         
             
@@ -626,6 +638,14 @@ interval操作符
         
             
             <a href="/tags/#源码阅读" title="源码阅读" rel="8">源码阅读</a>
+            
+        
+            
+            <a href="/tags/#Executors" title="Executors" rel="1">Executors</a>
+            
+        
+            
+            <a href="/tags/#线程池" title="线程池" rel="1">线程池</a>
             
         
             
@@ -665,6 +685,10 @@ interval操作符
             
         
             
+            <a href="/tags/#动态代理" title="动态代理" rel="1">动态代理</a>
+            
+        
+            
             <a href="/tags/#java反射" title="java反射" rel="1">java反射</a>
             
         
@@ -673,11 +697,11 @@ interval操作符
             
         
             
-            <a href="/tags/#动态代理" title="动态代理" rel="1">动态代理</a>
+            <a href="/tags/#java注解" title="java注解" rel="1">java注解</a>
             
         
             
-            <a href="/tags/#java注解" title="java注解" rel="1">java注解</a>
+            <a href="/tags/#WebRtc" title="WebRtc" rel="2">WebRtc</a>
             
         
             
@@ -693,11 +717,11 @@ interval操作符
             
         
             
-            <a href="/tags/#NDK" title="NDK" rel="1">NDK</a>
+            <a href="/tags/#tips和坑" title="tips和坑" rel="3">tips和坑</a>
             
         
             
-            <a href="/tags/#tips和坑" title="tips和坑" rel="3">tips和坑</a>
+            <a href="/tags/#NDK" title="NDK" rel="1">NDK</a>
             
         
             
@@ -709,15 +733,11 @@ interval操作符
             
         
             
-            <a href="/tags/#音视频" title="音视频" rel="6">音视频</a>
+            <a href="/tags/#Preference" title="Preference" rel="1">Preference</a>
             
         
             
             <a href="/tags/#okhttp" title="okhttp" rel="1">okhttp</a>
-            
-        
-            
-            <a href="/tags/#Preference" title="Preference" rel="1">Preference</a>
             
         
             
@@ -777,23 +797,23 @@ interval操作符
     <ul>
       
         <li>
-          <a href="/音视频/WebRtc入门/">WebRtc 入门</a>
+          <a href="/Flutter/Flutter入门：第一个Flutter程序/">Flutter入门：第一个Flutter应用</a>
         </li>
       
         <li>
-          <a href="/音视频/MediaExtractor和MediaMuxer/">MediaExtractor和MediaMuxer</a>
+          <a href="/音视频/WebRtc/WebRtc连接过程/">WebRtc 建联过程</a>
         </li>
       
         <li>
-          <a href="/音视频/MediaCodec基础/">MediaCodec基础</a>
+          <a href="/音视频/OpenGL/Android OpenGL的简单使用（9）：纹理/">Android OpenGL的简单使用（9）：纹理</a>
         </li>
       
         <li>
-          <a href="/音视频/RTP和RTCP/">RTP和RTCP</a>
+          <a href="/音视频/OpenGL/Android OpenGL的简单使用（8）：材质和光照/">Android OpenGL的简单使用（8）：材质和光照</a>
         </li>
       
         <li>
-          <a href="/音视频/H265的原理/">H265的原理</a>
+          <a href="/音视频/OpenGL/Android OpenGL的简单使用（7）：添加颜色/">Android OpenGL的简单使用（7）：添加颜色</a>
         </li>
       
     </ul>
@@ -808,7 +828,7 @@ interval操作符
         
     <h5>ARCHIVES</h5>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">3</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">3</span></li></ul>
     </div>
 
         <hr>
@@ -850,7 +870,7 @@ interval操作符
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; alonealice 2020 
+                    Copyright &copy; alonealice 2021 
                     <br>
                     Theme by <a href="http://beantech.org">BeanTech</a> 
                     <span style="display: inline-block; margin: 0 5px;">
