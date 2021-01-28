@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="不懂要会问，打脸要立正">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Flutter入门：路由、包和资源 - alonealice | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://alonealice.com/Flutter/Flutter入门：路由、包和资源/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/article_bg.jpeg')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Flutter" title="Flutter">Flutter</a>
+                            
+                        </div>
+                        <h1>Flutter入门：路由、包和资源</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by alonealice on
+                            2021-01-05
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">alonealice</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h3 id="路由">路由</h3>
+<p>路由管理，就是管理页面之间如何跳转，通常也可被称为导航管理。Flutter中的路由管理和原生开发类似，无论是Android还是iOS，导航管理都会维护一个路由栈，路由入栈(push)操作对应打开一个新页面，路由出栈(pop)操作对应页面关闭操作，而路由管理主要是指如何来管理路由栈。</p>
+<p>距离：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NewRoute</span> <span class="keyword">extends</span> <span class="title">StatelessWidget</span> </span>&#123;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> Scaffold(</span><br><span class="line">      appBar: AppBar(</span><br><span class="line">        title: Text(<span class="string">"New route"</span>),</span><br><span class="line">      ),</span><br><span class="line">      body: Center(</span><br><span class="line">        child: Text(<span class="string">"This is new route"</span>),</span><br><span class="line">      ),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">FlatButton(</span><br><span class="line">         child: Text(<span class="string">"open new route"</span>),</span><br><span class="line">         textColor: Colors.blue,</span><br><span class="line">         onPressed: () &#123;</span><br><span class="line">          <span class="comment">//导航到新路由   </span></span><br><span class="line">          Navigator.push( context,</span><br><span class="line">           MaterialPageRoute(builder: (context) &#123;</span><br><span class="line">              <span class="keyword">return</span> NewRoute();</span><br><span class="line">           &#125;));</span><br><span class="line">          &#125;,</span><br><span class="line">         ),</span><br></pre></td></tr></table></figure>
+<h4 id="materialpageroute">MaterialPageRoute</h4>
+<p>MaterialPageRoute可以针对不同平台，实现与平台页面切换动画风格一致的路由切换动画：</p>
+<ul>
+<li>对于Android，当打开新页面时，新的页面会从屏幕底部滑动到屏幕顶部；当关闭页面时，当前页面会从屏幕顶部滑动到屏幕底部后消失，同时上一个页面会显示到屏幕上。</li>
+<li>对于iOS，当打开页面时，新的页面会从屏幕右侧边缘一致滑动到屏幕左边，直到新页面全部显示到屏幕上，而上一个页面则会从当前屏幕滑动到屏幕左侧而消失；当关闭页面时，正好相反，当前页面会从屏幕右侧滑出，同时上一个页面会从屏幕左侧滑入。</li>
+</ul>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">MaterialPageRoute(&#123;</span><br><span class="line">    WidgetBuilder builder,</span><br><span class="line">    RouteSettings settings,</span><br><span class="line">    <span class="built_in">bool</span> maintainState = <span class="keyword">true</span>,</span><br><span class="line">    <span class="built_in">bool</span> fullscreenDialog = <span class="keyword">false</span>,</span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>builder</code> 是一个WidgetBuilder类型的回调函数，它的作用是构建路由页面的具体内容，返回值是一个widget。我们通常要实现此回调，返回新路由的实例。</li>
+<li><code>settings</code> 包含路由的配置信息，如路由名称、是否初始路由（首页）。</li>
+<li><code>maintainState</code>：默认情况下，当入栈一个新路由时，原来的路由仍然会被保存在内存中，如果想在路由没用的时候释放其所占用的所有资源，可以设置<code>maintainState</code>为false。</li>
+<li><code>fullscreenDialog</code>表示新的路由页面是否是一个全屏的模态对话框，在iOS中，如果<code>fullscreenDialog</code>为<code>true</code>，新页面将会从屏幕底部滑入（而不是水平方向）。</li>
+</ul>
+<h4 id="navigator">Navigator</h4>
+<p><code>Navigator</code>是一个路由管理的组件，它提供了打开和退出路由页方法。</p>
+<p>**push：**将给定的路由入栈（即打开新的页面），返回值是一个<code>Future</code>对象，用以接收新路由出栈（即关闭）时的返回数据。</p>
+<p>**pop：**将栈顶路由出栈，<code>result</code>为页面关闭时返回给上一个页面的数据。</p>
+<p><code>Navigator</code> 还有很多其它方法，如<code>Navigator.replace</code>、<code>Navigator.popUntil</code>等</p>
+<p>Navigator.push(BuildContext context, Route route)<code>等价于</code>Navigator.of(context).push(Route route)</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> Center(</span><br><span class="line">      child: RaisedButton(</span><br><span class="line">        onPressed: () <span class="keyword">async</span> &#123;</span><br><span class="line">          <span class="comment">// 打开`TipRoute`，并等待返回结果</span></span><br><span class="line">          <span class="keyword">var</span> result = <span class="keyword">await</span> Navigator.push(</span><br><span class="line">            context,</span><br><span class="line">            MaterialPageRoute(</span><br><span class="line">              builder: (context) &#123;</span><br><span class="line">                <span class="keyword">return</span> TipRoute(</span><br><span class="line">                  <span class="comment">// 路由参数</span></span><br><span class="line">                  text: <span class="string">"我是提示xxxx"</span>,</span><br><span class="line">                );</span><br><span class="line">              &#125;,</span><br><span class="line">            ),</span><br><span class="line">          );</span><br><span class="line">          <span class="comment">//输出`TipRoute`路由返回结果</span></span><br><span class="line">          <span class="built_in">print</span>(<span class="string">"路由返回值: $result"</span>);</span><br><span class="line">        &#125;,</span><br><span class="line">        child: Text(<span class="string">"打开提示页"</span>),</span><br><span class="line">      ),</span><br><span class="line">    );</span><br></pre></td></tr></table></figure>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">TipRoute(&#123;</span><br><span class="line">    Key key,</span><br><span class="line">    <span class="meta">@required</span> <span class="keyword">this</span>.text,  <span class="comment">// 接收一个text参数</span></span><br><span class="line">  &#125;) : <span class="keyword">super</span>(key: key);</span><br><span class="line">  <span class="keyword">final</span> <span class="built_in">String</span> text;</span><br></pre></td></tr></table></figure>
+<p>TipRoute会传入一个text值。</p>
+<h4 id="命名路由">命名路由</h4>
+<p>所谓“命名路由”（Named Route）即有名字的路由，我们可以先给路由起一个名字，然后就可以通过路由名字直接打开新的路由了，这为路由管理带来了一种直观、简单的方式。</p>
+<h5 id="注册路由表">注册路由表</h5>
+<p>路由表的注册方式很简单，然后在<code>MyApp</code>类的<code>build</code>方法中找到<code>MaterialApp</code>，添加<code>routes</code>属性，代码如下：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">MaterialApp(</span><br><span class="line">  title: <span class="string">'Flutter Demo'</span>,</span><br><span class="line">  initialRoute:<span class="string">"/"</span>, <span class="comment">//名为"/"的路由作为应用的home(首页)</span></span><br><span class="line">  theme: ThemeData(</span><br><span class="line">    primarySwatch: Colors.blue,</span><br><span class="line">  ),</span><br><span class="line">  <span class="comment">//注册路由表</span></span><br><span class="line">  routes:&#123;</span><br><span class="line">   <span class="string">"new_page"</span>:(context) =&gt; NewRoute(),</span><br><span class="line">   <span class="string">"/"</span>:(context) =&gt; MyHomePage(title: <span class="string">'Flutter Demo Home Page'</span>), <span class="comment">//注册首页路由</span></span><br><span class="line">  &#125; </span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>注册首页只需在路由表中注册一下首页路由，然后将其名字作为<code>MaterialApp</code>的<code>initialRoute</code>属性值即可，该属性决定应用的初始路由页是哪一个命名路由。</p>
+<h5 id="通过路由名打开新路由页">通过路由名打开新路由页</h5>
+<p>要通过路由名称来打开新路由，可以使用<code>Navigator</code> 的<code>pushNamed</code>方法：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Future pushNamed(BuildContext context, <span class="built_in">String</span> routeName,&#123;<span class="built_in">Object</span> arguments&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">onPressed: () &#123;</span><br><span class="line">  Navigator.pushNamed(context, <span class="string">"new_page"</span>);</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<h5 id="命名路由参数传递">命名路由参数传递</h5>
+<p>在路由页通过<code>RouteSetting</code>对象获取路由参数：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">EchoRoute</span> <span class="keyword">extends</span> <span class="title">StatelessWidget</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="comment">//获取路由参数  </span></span><br><span class="line">    <span class="keyword">var</span> args=ModalRoute.of(context).settings.arguments;</span><br><span class="line">    <span class="comment">//...省略无关代码</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在打开路由时传递参数</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Navigator.of(context).pushNamed(<span class="string">"new_page"</span>, arguments: <span class="string">"hi"</span>);</span><br></pre></td></tr></table></figure>
+<h5 id="适配">适配</h5>
+<p>如果路由注册时需要参数：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">MaterialApp(</span><br><span class="line">  ... <span class="comment">//省略无关代码</span></span><br><span class="line">  routes: &#123;</span><br><span class="line">   <span class="string">"tip2"</span>: (context)&#123;</span><br><span class="line">     <span class="keyword">return</span> TipRoute(text: ModalRoute.of(context).settings.arguments);</span><br><span class="line">   &#125;,</span><br><span class="line"> &#125;, </span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<h5 id="路由生成钩子">路由生成钩子</h5>
+<p>用<code>Navigator.pushNamed(...)</code>打开命名路由时，如果指定的路由名在路由表中已注册，则会调用路由表中的<code>builder</code>函数来生成路由组件；如果路由表中没有注册，才会调用<code>onGenerateRoute</code>来生成路由。<code>onGenerateRoute</code>回调签名如下：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Route&lt;<span class="keyword">dynamic</span>&gt; <span class="built_in">Function</span>(RouteSettings settings)</span><br></pre></td></tr></table></figure>
+<p>有了<code>onGenerateRoute</code>回调，要实现上面控制页面权限的功能就非常容易：我们放弃使用路由表，取而代之的是提供一个<code>onGenerateRoute</code>回调，然后在该回调中进行统一的权限控制，如：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">MaterialApp(</span><br><span class="line">  ... <span class="comment">//省略无关代码</span></span><br><span class="line">  onGenerateRoute:(RouteSettings settings)&#123;</span><br><span class="line">      <span class="keyword">return</span> MaterialPageRoute(builder: (context)&#123;</span><br><span class="line">           <span class="built_in">String</span> routeName = settings.name;</span><br><span class="line">       <span class="comment">// 如果访问的路由页需要登录，但当前未登录，则直接返回登录页路由，</span></span><br><span class="line">       <span class="comment">// 引导用户登录；其它情况则正常打开路由。</span></span><br><span class="line">     &#125;</span><br><span class="line">   );</span><br><span class="line">  &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>这种方式可以在启动每个路由时都统一处理操作。</p>
+<h3 id="包管理">包管理</h3>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">flutter_in_action</span></span><br><span class="line"><span class="attr">description:</span> <span class="string">First</span> <span class="string">Flutter</span> <span class="string">application.</span></span><br><span class="line"></span><br><span class="line"><span class="attr">version:</span> <span class="number">1.0</span><span class="number">.0</span><span class="string">+1</span></span><br><span class="line"></span><br><span class="line"><span class="attr">dependencies:</span></span><br><span class="line"><span class="attr">  flutter:</span></span><br><span class="line"><span class="attr">    sdk:</span> <span class="string">flutter</span></span><br><span class="line"><span class="attr">  cupertino_icons:</span> <span class="string">^0.1.2</span></span><br><span class="line"></span><br><span class="line"><span class="attr">dev_dependencies:</span></span><br><span class="line"><span class="attr">  flutter_test:</span></span><br><span class="line"><span class="attr">    sdk:</span> <span class="string">flutter</span></span><br><span class="line"></span><br><span class="line"><span class="attr">flutter:</span></span><br><span class="line"><span class="attr">  uses-material-design:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>各个字段的意义：</p>
+<ul>
+<li><code>name</code>：应用或包名称。</li>
+<li><code>description</code>: 应用或包的描述、简介。</li>
+<li><code>version</code>：应用或包的版本号。</li>
+<li><code>dependencies</code>：应用或包依赖的其它包或插件。</li>
+<li><code>dev_dependencies</code>：开发环境依赖的工具包（而不是flutter应用本身依赖的包）。</li>
+<li><code>flutter</code>：flutter相关的配置选项。</li>
+</ul>
+<h4 id="pub仓库">Pub仓库</h4>
+<p>Pub是Google官方的Dart Packages仓库</p>
+<p>添加到依赖项列表：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">dependencies:</span></span><br><span class="line"><span class="attr">  flutter:</span></span><br><span class="line"><span class="attr">    sdk:</span> <span class="string">flutter</span></span><br><span class="line"></span><br><span class="line"><span class="attr">  cupertino_icons:</span> <span class="string">^0.1.0</span></span><br><span class="line">  <span class="comment"># 新添加的依赖</span></span><br><span class="line"><span class="attr">  english_words:</span> <span class="string">^3.1.3</span></span><br></pre></td></tr></table></figure>
+<p>添加完之后一般需要下载：单击右上角的 <strong>Packages get</strong> 。</p>
+<p>引入包：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'package:english_words/english_words.dart'</span>;</span><br></pre></td></tr></table></figure>
+<p>使用包：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> wordPair = <span class="keyword">new</span> WordPair.random();</span><br></pre></td></tr></table></figure>
+<h4 id="其它依赖方式">其它依赖方式</h4>
+<h5 id="依赖本地包">依赖本地包</h5>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">dependencies:</span></span><br><span class="line"><span class="attr">    pkg1:</span></span><br><span class="line"><span class="attr">        path:</span> <span class="string">../../code/pkg1</span></span><br></pre></td></tr></table></figure>
+<p>路径可以是相对的，也可以是绝对的。</p>
+<h5 id="依赖git">依赖Git</h5>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">dependencies:</span></span><br><span class="line"><span class="attr">  pkg1:</span></span><br><span class="line"><span class="attr">    git:</span></span><br><span class="line"><span class="attr">      url:</span> <span class="attr">git://github.com/xxx/pkg1.git</span></span><br></pre></td></tr></table></figure>
+<p>上面假定包位于Git存储库的根目录中。如果不是这种情况，可以使用path参数指定相对位置，例如：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">dependencies:</span></span><br><span class="line"><span class="attr">  package1:</span></span><br><span class="line"><span class="attr">    git:</span></span><br><span class="line"><span class="attr">      url:</span> <span class="attr">git://github.com/flutter/packages.git</span></span><br><span class="line"><span class="attr">      path:</span> <span class="string">packages/package1</span></span><br></pre></td></tr></table></figure>
+<h3 id="资源管理">资源管理</h3>
+<p>Flutter APP安装包中会包含代码和 assets（资源）两部分。Assets是会打包到程序安装包中的，可在运行时访问。常见类型的assets包括静态数据（例如JSON文件）、配置文件、图标和图片（JPEG，WebP，GIF，动画WebP / GIF，PNG，BMP和WBMP）等。</p>
+<h4 id="指定-assets">指定 assets</h4>
+<p>Flutter也使用<a href="https://www.dartlang.org/tools/pub/pubspec" target="_blank" rel="noopener"><code>pubspec.yaml</code></a>文件来管理应用程序所需的资源，举个例子:</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">flutter:</span></span><br><span class="line"><span class="attr">  assets:</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">assets/my_icon.png</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">assets/background.png</span></span><br></pre></td></tr></table></figure>
+<p><code>assets</code>指定应包含在应用程序中的文件，asset的实际目录可以是任意文件夹</p>
+<h4 id="asset-变体">Asset 变体</h4>
+<p>在<code>pubspec.yaml</code>的assets部分中指定asset路径时，构建过程中，会在相邻子目录中查找具有相同名称的任何文件。这些文件随后会与指定的asset一起被包含在asset bundle中。</p>
+<p>例如，如果应用程序目录中有以下文件:</p>
+<ul>
+<li>…/pubspec.yaml</li>
+<li>…/graphics/my_icon.png</li>
+<li>…/graphics/background.png</li>
+<li>…/graphics/dark/background.png</li>
+<li>…etc.</li>
+</ul>
+<p>然后<code>pubspec.yaml</code>文件中只需包含:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">flutter:</span><br><span class="line">  assets:</span><br><span class="line">    - graphics/background.png</span><br></pre></td></tr></table></figure>
+<p>那么这两个<code>graphics/background.png</code>和<code>graphics/dark/background.png</code> 都将包含在您的asset bundle中。前者被认为是<em>main asset</em> （主资源），后者被认为是一种变体（variant）。在选择匹配当前设备分辨率的图片时，Flutter会使用到asset变体。</p>
+<h4 id="加载-assets">加载 assets</h4>
+<h5 id="加载文本assets">加载文本assets</h5>
+<ul>
+<li>通过<a href="https://docs.flutter.io/flutter/services/rootBundle.html" target="_blank" rel="noopener"><code>rootBundle</code></a> 对象加载：每个Flutter应用程序都有一个<a href="https://docs.flutter.io/flutter/services/rootBundle.html" target="_blank" rel="noopener"><code>rootBundle</code></a>对象， 通过它可以轻松访问主资源包，直接使用<code>package:flutter/services.dart</code>中全局静态的<code>rootBundle</code>对象来加载asset即可。</li>
+<li>通过 <a href="https://docs.flutter.io/flutter/widgets/DefaultAssetBundle-class.html" target="_blank" rel="noopener"><code>DefaultAssetBundle</code></a> 加载：建议使用 <a href="https://docs.flutter.io/flutter/widgets/DefaultAssetBundle-class.html" target="_blank" rel="noopener"><code>DefaultAssetBundle</code></a> 来获取当前BuildContext的AssetBundle。 这种方法不是使用应用程序构建的默认asset bundle，而是使父级widget在运行时动态替换的不同的AssetBundle，这对于本地化或测试场景很有用。</li>
+</ul>
+<p>通常，可以使用<code>DefaultAssetBundle.of()</code>在应用运行时来间接加载asset（例如JSON文件），而在widget上下文之外，或其它<code>AssetBundle</code>句柄不可用时，可以使用<code>rootBundle</code>直接加载这些asset，例如：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'dart:async'</span> show Future;</span><br><span class="line"><span class="keyword">import</span> <span class="string">'package:flutter/services.dart'</span> show rootBundle;</span><br><span class="line"></span><br><span class="line">Future&lt;<span class="built_in">String</span>&gt; loadAsset() <span class="keyword">async</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">await</span> rootBundle.loadString(<span class="string">'assets/config.json'</span>);</span><br></pre></td></tr></table></figure>
+<h5 id="加载图片">加载图片</h5>
+<p><a href="https://docs.flutter.io/flutter/painting/AssetImage-class.html" target="_blank" rel="noopener"><code>AssetImage</code></a> 可以将asset的请求逻辑映射到最接近当前设备像素比例（dpi）的asset。为了使这种映射起作用，必须根据特定的目录结构来保存asset：</p>
+<ul>
+<li>…/image.png</li>
+<li>…/<strong>M</strong>x/image.png</li>
+<li>…/<strong>N</strong>x/image.png</li>
+<li>…etc.</li>
+</ul>
+<p>其中M和N是数字标识符，对应于其中包含的图像的分辨率，也就是说，它们指定不同设备像素比例的图片。</p>
+<p>主资源默认对应于1.0倍的分辨率图片。看一个例子：</p>
+<ul>
+<li>…/my_icon.png</li>
+<li>…/2.0x/my_icon.png</li>
+<li>…/3.0x/my_icon.png</li>
+</ul>
+<p>1.8的设备上，会选择2.0x，2.7的设备上会选择3.0x</p>
+<p>加载示例：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Widget build(BuildContext context) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> DecoratedBox(</span><br><span class="line">    decoration: <span class="keyword">new</span> BoxDecoration(</span><br><span class="line">      image: <span class="keyword">new</span> DecorationImage(</span><br><span class="line">        image: <span class="keyword">new</span> AssetImage(<span class="string">'graphics/background.png'</span>),</span><br><span class="line">      ),</span><br><span class="line">    ),</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以使用<code>Image.asset()</code>方法：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Widget build(BuildContext context) &#123;</span><br><span class="line">  <span class="keyword">return</span> Image.asset(<span class="string">'graphics/background.png'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="依赖包中的资源图片">依赖包中的资源图片</h4>
+<p>要加载依赖包中的图像，必须给<code>AssetImage</code>提供<code>package</code>参数。</p>
+<p>例如，假设您的应用程序依赖于一个名为“my_icons”的包，它具有如下目录结构：</p>
+<ul>
+<li>…/pubspec.yaml</li>
+<li>…/icons/heart.png</li>
+<li>…/icons/1.5x/heart.png</li>
+<li>…/icons/2.0x/heart.png</li>
+<li>…etc.</li>
+</ul>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> AssetImage(<span class="string">'icons/heart.png'</span>, package: <span class="string">'my_icons'</span>)</span><br></pre></td></tr></table></figure>
+<p>或</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> Image.asset(<span class="string">'icons/heart.png'</span>, package: <span class="string">'my_icons'</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="打包包中的-assets">打包包中的 assets</h4>
+<p>如果在<code>pubspec.yaml</code>文件中声明了期望的资源，它将会打包到相应的package中。特别是，包本身使用的资源必须在<code>pubspec.yaml</code>中指定。</p>
+<p>包也可以选择在其<code>lib/</code>文件夹中包含未在其<code>pubspec.yaml</code>文件中声明的资源。在这种情况下，对于要打包的图片，应用程序必须在<code>pubspec.yaml</code>中指定包含哪些图像。 例如，一个名为“fancy_backgrounds”的包，可能包含以下文件：</p>
+<ul>
+<li>…/lib/backgrounds/background1.png</li>
+<li>…/lib/backgrounds/background2.png</li>
+<li>…/lib/backgrounds/background3.png</li>
+</ul>
+<p>要包含第一张图像，必须在<code>pubspec.yaml</code>的assets部分中声明它：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">flutter:</span><br><span class="line">  assets:</span><br><span class="line">    - packages/fancy_backgrounds/backgrounds/background1.png</span><br></pre></td></tr></table></figure>
+<h4 id="特定平台-assets">特定平台 assets</h4>
+<h5 id="设置app图标">设置APP图标</h5>
+<p>更新Flutter应用程序启动图标的方式与在本机Android或iOS应用程序中更新启动图标的方式相同。</p>
+<h5 id="更新启动页">更新启动页</h5>
+<p>与在本机Android或iOS应用程序中更新启动图标的方式相同。</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/Flutter/Flutter入门：功能组件和动画/" data-toggle="tooltip" data-placement="top" title="Flutter入门：功能组件和动画">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/Flutter/Flutter入门：Flutter 的常用Widget/" data-toggle="tooltip" data-placement="top" title="Flutter入门：Flutter 的常用Widget">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#路由"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x8DEF;&#x7531;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#materialpageroute"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">MaterialPageRoute</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#navigator"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">Navigator</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#命名路由"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">&#x547D;&#x540D;&#x8DEF;&#x7531;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#注册路由表"><span class="toc-nav-number">1.3.1.</span> <span class="toc-nav-text">&#x6CE8;&#x518C;&#x8DEF;&#x7531;&#x8868;</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#通过路由名打开新路由页"><span class="toc-nav-number">1.3.2.</span> <span class="toc-nav-text">&#x901A;&#x8FC7;&#x8DEF;&#x7531;&#x540D;&#x6253;&#x5F00;&#x65B0;&#x8DEF;&#x7531;&#x9875;</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#命名路由参数传递"><span class="toc-nav-number">1.3.3.</span> <span class="toc-nav-text">&#x547D;&#x540D;&#x8DEF;&#x7531;&#x53C2;&#x6570;&#x4F20;&#x9012;</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#适配"><span class="toc-nav-number">1.3.4.</span> <span class="toc-nav-text">&#x9002;&#x914D;</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#路由生成钩子"><span class="toc-nav-number">1.3.5.</span> <span class="toc-nav-text">&#x8DEF;&#x7531;&#x751F;&#x6210;&#x94A9;&#x5B50;</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#包管理"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x5305;&#x7BA1;&#x7406;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#pub仓库"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">Pub&#x4ED3;&#x5E93;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#其它依赖方式"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">&#x5176;&#x5B83;&#x4F9D;&#x8D56;&#x65B9;&#x5F0F;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#依赖本地包"><span class="toc-nav-number">2.2.1.</span> <span class="toc-nav-text">&#x4F9D;&#x8D56;&#x672C;&#x5730;&#x5305;</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#依赖git"><span class="toc-nav-number">2.2.2.</span> <span class="toc-nav-text">&#x4F9D;&#x8D56;Git</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#资源管理"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">&#x8D44;&#x6E90;&#x7BA1;&#x7406;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#指定-assets"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">&#x6307;&#x5B9A; assets</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#asset-变体"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text">Asset &#x53D8;&#x4F53;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#加载-assets"><span class="toc-nav-number">3.3.</span> <span class="toc-nav-text">&#x52A0;&#x8F7D; assets</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#加载文本assets"><span class="toc-nav-number">3.3.1.</span> <span class="toc-nav-text">&#x52A0;&#x8F7D;&#x6587;&#x672C;assets</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#加载图片"><span class="toc-nav-number">3.3.2.</span> <span class="toc-nav-text">&#x52A0;&#x8F7D;&#x56FE;&#x7247;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#依赖包中的资源图片"><span class="toc-nav-number">3.4.</span> <span class="toc-nav-text">&#x4F9D;&#x8D56;&#x5305;&#x4E2D;&#x7684;&#x8D44;&#x6E90;&#x56FE;&#x7247;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#打包包中的-assets"><span class="toc-nav-number">3.5.</span> <span class="toc-nav-text">&#x6253;&#x5305;&#x5305;&#x4E2D;&#x7684; assets</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#特定平台-assets"><span class="toc-nav-number">3.6.</span> <span class="toc-nav-text">&#x7279;&#x5B9A;&#x5E73;&#x53F0; assets</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#设置app图标"><span class="toc-nav-number">3.6.1.</span> <span class="toc-nav-text">&#x8BBE;&#x7F6E;APP&#x56FE;&#x6807;</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#更新启动页"><span class="toc-nav-number">3.6.2.</span> <span class="toc-nav-text">&#x66F4;&#x65B0;&#x542F;&#x52A8;&#x9875;</span></a></li></ol></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Flutter" title="Flutter">Flutter</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/earthwo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; alonealice 2021 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://www.huweihuang.com">胡伟煌</a> |
+                    <br> 
+                    <a href="http://www.beian.miit.gov.cn">浙ICP备17033688号</a>   
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://alonealice.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://alonealice.com/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

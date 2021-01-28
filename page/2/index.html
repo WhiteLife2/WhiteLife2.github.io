@@ -71,7 +71,7 @@
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('http://blog.alonealice.com/blog_bg.jpg') 
+            background-image: url('/img/header_img/blog_bg.jpg') 
             /*config*/
         
     }
@@ -141,14 +141,14 @@
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
@@ -208,6 +208,211 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/音视频/OpenGL/Android OpenGL的简单使用（7）：添加颜色/">
+        <h2 class="post-title">
+                                 
+            Android OpenGL的简单使用（7）：添加颜色
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            添加颜色的种类有两种：
+12- Flat coloring             单色- Smooth coloring           平滑着色
+单色
+单色就是单一的颜色,调用 glColor4f(float red, float green, float blue, float alpha)方法传入红、绿、蓝、透明度四个参数,取值0~1f。
+1gl.glColor4f(0f, 1f......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by alonealice on
+            2020-12-27
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#音视频" title="音视频">音视频</a>
+            
+              <a href="/tags/#OpenGL" title="OpenGL">OpenGL</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/音视频/OpenGL/Android OpenGL的简单使用（6）：图形变换/">
+        <h2 class="post-title">
+                                 
+            Android OpenGL的简单使用（6）：图图形变换
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            OpenGL中的图像变换主要用四种：
+12345671. 视角（Viewing）变换2. 模型（Modeling）变换3. 投影（Projection）变换4. 视窗（Viewport）变换
+视角变换
+视角变换相当于人拿着一台照相机在观察物体，照相机在移动，从不同的位置来观察。具体的有以下三种变换：
+123- Translate    平移变换- Rotate       旋转变换- Sca......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by alonealice on
+            2020-12-26
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#音视频" title="音视频">音视频</a>
+            
+              <a href="/tags/#OpenGL" title="OpenGL">OpenGL</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/音视频/OpenGL/Android OpenGL的简单使用（5）：多点、线、面的绘制/">
+        <h2 class="post-title">
+                                 
+            Android OpenGL的简单使用（5）：多点、线、面的绘制
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            在绘制点的基础上，我们可以拓展来绘制多个点、线和面。在OpenGL ES中，面特指一个三角形。绘制调用glDrawArrays(int mode, int first, int count)方法。
+mode的参数：
+1234567- GL_POINTS ————绘制独立的点- GL_LINE_STRIP————绘制连续的线段,不封闭- GL_LINE_LOOP————绘制连续的线段,封闭- ......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by alonealice on
+            2020-12-26
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#音视频" title="音视频">音视频</a>
+            
+              <a href="/tags/#OpenGL" title="OpenGL">OpenGL</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/音视频/OpenGL/Android OpenGL的简单使用（4）：深度测试/">
+        <h2 class="post-title">
+                                 
+            Android OpenGL的简单使用（4）：深度测试
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            深度和深度测试
+深度其实就是该像素点在3d世界中距离摄象机的距离 ， 深度值越大，则离摄像机越远。摄像机可能放在坐标系的任何位置，不能简单地说像素的z坐标越大或越小就是越靠近摄像机。
+在不使用深度测试的时候，如果我们先绘制一个距离较近的物体，再绘制距离较远的物体，则距离远的物体因为后绘制，会把距离近的物体覆盖掉，这样的效果并不是我们所希望的。比如下图中的A、B，先绘制A，再绘制B，A就有一部......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by alonealice on
+            2020-12-25
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#音视频" title="音视频">音视频</a>
+            
+              <a href="/tags/#OpenGL" title="OpenGL">OpenGL</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/音视频/OpenGL/Android OpenGL的简单使用（3）：常用API/">
+        <h2 class="post-title">
+                                 
+            Android OpenGL的简单使用（3）：常用API
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            缓冲区
+OpenGL ES 中存在着三种缓冲区
+123颜色缓冲区（COLOR_BUFFER） ————也叫帧缓冲区（FRAME_BUFFER），包含了颜色索引或者RGBA颜色数据- 深度缓冲区（DEPTH_BUFFER） ————存储每个像素的深度值，当启动深度测试时，片段像素深度值和深度缓冲区深度值进行比较，决定片段哪些像素点数据可以替换到颜色缓冲区中- 模板缓冲区 （STENCIL_BU......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by alonealice on
+            2020-12-25
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#音视频" title="音视频">音视频</a>
+            
+              <a href="/tags/#OpenGL" title="OpenGL">OpenGL</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/音视频/OpenGL/Android OpenGL的简单使用（2）：点的绘制/">
+        <h2 class="post-title">
+                                 
+            Android OpenGL的简单使用（2）：点的绘制
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            使用OpenGL在屏幕上绘制一个点：
+首先是需要创建一个GLSurfaceView.Renderer：
+1class PointRenderer implements GLSurfaceView.Renderer
+然后是需要有一个点的左边：
+12//顶点数组private float[] mArray = &#123;0f, 0f, 0f&#125;;
+同时根据这点的坐标创建一个浮点的缓冲数......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by alonealice on
+            2020-12-25
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#音视频" title="音视频">音视频</a>
+            
+              <a href="/tags/#OpenGL" title="OpenGL">OpenGL</a>
+            
+        </div>
+    
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -344,202 +549,6 @@ WebRTC连接过程
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/音视频/Android Media 实战二：音视频的录制2/">
-        <h2 class="post-title">
-                                 
-            Android Media 实战二：音视频的录制(二)
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            预览
-在页面中添加SurfaceView，同时添加SurfaceHolder.Callback：
-123mSurfaceView = (SurfaceView) findViewById(R.id.surface_view);mSurfaceHolder = mSurfaceView.getHolder();mSurfaceHolder.addCallback(mSurfaceCallbac......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by alonealice on
-            2020-11-01
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#音视频" title="音视频">音视频</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/音视频/Android Media 实战一：音视频的录制/">
-        <h2 class="post-title">
-                                 
-            Android Media 实战一：音视频的录制(一)
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            相机预览
-创建一个CameraGLSurfaceView并继承自GLSurfaceView，同时在构造方法中初始化openGl环境。
-123456789101112131415161718192021public CameraGLSurfaceView(Context context) &#123;    super(context);    init(context);&#125;publ......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by alonealice on
-            2020-11-01
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#音视频" title="音视频">音视频</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/音视频/音频管理AudioManager使用/">
-        <h2 class="post-title">
-                                 
-            音频管理AudioManager使用
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            AudioManager主要是用来控制声音的音量和响铃模式。
-获取音量
-获取AudioManager：
-12//获取系统的Audio管理者AudioManager mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-可以调节音量的声音分类：
-
-STREAM_VOICE_CALL：通话声音
-STREAM......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by alonealice on
-            2020-10-31
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#音视频" title="音视频">音视频</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/音视频/Android Media API 的介绍（2）/">
-        <h2 class="post-title">
-                                 
-            Android Media API 的介绍（2）
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            MediaFormat
-封装描述媒体数据格式的信息，无论是音频还是视频。媒体数据的格式被指定为字符串/值对。
-KEY_MIME：格式的类型
-KEY_MAX_INPUT_SIZE：可选，输入数据缓冲区的最大大小
-KEY_BIT_RATE：仅编码器，所需比特率（以比特/秒为单位）
-视频格式具有以下键：
-KEY_WIDTH：描述视频格式的内容的宽度的键。
-KEY_HEIGHT：描述视频格式的内容的......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by alonealice on
-            2020-10-30
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#音视频" title="音视频">音视频</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/音视频/Android Media API 的介绍（1）/">
-        <h2 class="post-title">
-                                 
-            Android Media API 的介绍（1）
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            Android系统已经提供了对视音频的强大支持，这边先介绍几个和视音频相关的类，通过这几个类的组合使用，可以实现很多音视频处理的相关功能，下面就对这几个类进行简单介绍。
-12345678MediaMetadataRetriever:：用来获取视频的相关信息，例如视频宽高、时长、旋转角度、码率等等。MediaExtractor:：视音频分离器，将一些格式的视频分离出视频轨道和音频轨道。Medi......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by alonealice on
-            2020-10-27
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#音视频" title="音视频">音视频</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/音视频/MediaCodec基础/">
-        <h2 class="post-title">
-                                 
-            MediaCodec基础
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            MediaCodec是一个Codec，通过硬件加速解码和编码。
-MediaCodec 的作用是处理输入的数据生成输出数据。首先生成一个输入数据缓冲区，将数据填入缓冲区提供给 codec，codec 会采用异步的方式处理这些输入的数据，然后将填满输出缓冲区提供给消费者，消费者消费完后将缓冲区返还给 codec。
-MediaCodec的数据
-MediaCodec 接受三种数据格式：压缩数据，原始......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by alonealice on
-            2020-10-26
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#音视频" title="音视频">音视频</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -585,10 +594,6 @@ MediaCodec 接受三种数据格式：压缩数据，原始......
     <div class="tags">
         
             
-            <a href="/tags/#andfix" title="andfix" rel="1">andfix</a>
-            
-        
-            
             <a href="/tags/#AIDL" title="AIDL" rel="1">AIDL</a>
             
         
@@ -597,7 +602,7 @@ MediaCodec 接受三种数据格式：压缩数据，原始......
             
         
             
-            <a href="/tags/#OpenGL" title="OpenGL" rel="8">OpenGL</a>
+            <a href="/tags/#andfix" title="andfix" rel="1">andfix</a>
             
         
             
@@ -605,7 +610,19 @@ MediaCodec 接受三种数据格式：压缩数据，原始......
             
         
             
+            <a href="/tags/#OpenGL" title="OpenGL" rel="8">OpenGL</a>
+            
+        
+            
             <a href="/tags/#Android8.0" title="Android8.0" rel="1">Android8.0</a>
+            
+        
+            
+            <a href="/tags/#Android Jetpack" title="Android Jetpack" rel="7">Android Jetpack</a>
+            
+        
+            
+            <a href="/tags/#C语言" title="C语言" rel="4">C语言</a>
             
         
             
@@ -613,7 +630,7 @@ MediaCodec 接受三种数据格式：压缩数据，原始......
             
         
             
-            <a href="/tags/#C语言" title="C语言" rel="4">C语言</a>
+            <a href="/tags/#http" title="http" rel="2">http</a>
             
         
             
@@ -625,27 +642,19 @@ MediaCodec 接受三种数据格式：压缩数据，原始......
             
         
             
-            <a href="/tags/#Flutter" title="Flutter" rel="1">Flutter</a>
-            
-        
-            
-            <a href="/tags/#Android Jetpack" title="Android Jetpack" rel="7">Android Jetpack</a>
-            
-        
-            
-            <a href="/tags/#http" title="http" rel="2">http</a>
-            
-        
-            
-            <a href="/tags/#源码阅读" title="源码阅读" rel="8">源码阅读</a>
-            
-        
-            
             <a href="/tags/#Executors" title="Executors" rel="1">Executors</a>
             
         
             
             <a href="/tags/#线程池" title="线程池" rel="1">线程池</a>
+            
+        
+            
+            <a href="/tags/#Flutter" title="Flutter" rel="7">Flutter</a>
+            
+        
+            
+            <a href="/tags/#源码阅读" title="源码阅读" rel="8">源码阅读</a>
             
         
             
@@ -658,6 +667,10 @@ MediaCodec 接受三种数据格式：压缩数据，原始......
         
             
             <a href="/tags/#Retrofit" title="Retrofit" rel="2">Retrofit</a>
+            
+        
+            
+            <a href="/tags/#WebRtc" title="WebRtc" rel="2">WebRtc</a>
             
         
             
@@ -685,11 +698,11 @@ MediaCodec 接受三种数据格式：压缩数据，原始......
             
         
             
-            <a href="/tags/#动态代理" title="动态代理" rel="1">动态代理</a>
+            <a href="/tags/#java反射" title="java反射" rel="1">java反射</a>
             
         
             
-            <a href="/tags/#java反射" title="java反射" rel="1">java反射</a>
+            <a href="/tags/#动态代理" title="动态代理" rel="1">动态代理</a>
             
         
             
@@ -698,10 +711,6 @@ MediaCodec 接受三种数据格式：压缩数据，原始......
         
             
             <a href="/tags/#java注解" title="java注解" rel="1">java注解</a>
-            
-        
-            
-            <a href="/tags/#WebRtc" title="WebRtc" rel="2">WebRtc</a>
             
         
             
@@ -717,11 +726,11 @@ MediaCodec 接受三种数据格式：压缩数据，原始......
             
         
             
-            <a href="/tags/#tips和坑" title="tips和坑" rel="3">tips和坑</a>
+            <a href="/tags/#NDK" title="NDK" rel="1">NDK</a>
             
         
             
-            <a href="/tags/#NDK" title="NDK" rel="1">NDK</a>
+            <a href="/tags/#tips和坑" title="tips和坑" rel="3">tips和坑</a>
             
         
             
@@ -733,11 +742,11 @@ MediaCodec 接受三种数据格式：压缩数据，原始......
             
         
             
-            <a href="/tags/#Preference" title="Preference" rel="1">Preference</a>
+            <a href="/tags/#okhttp" title="okhttp" rel="1">okhttp</a>
             
         
             
-            <a href="/tags/#okhttp" title="okhttp" rel="1">okhttp</a>
+            <a href="/tags/#Preference" title="Preference" rel="1">Preference</a>
             
         
             
@@ -797,23 +806,23 @@ MediaCodec 接受三种数据格式：压缩数据，原始......
     <ul>
       
         <li>
-          <a href="/Flutter/Flutter入门：第一个Flutter程序/">Flutter入门：第一个Flutter应用</a>
+          <a href="/Flutter/Flutter入门：文件和网络/">Flutter入门：文件和网络</a>
         </li>
       
         <li>
-          <a href="/音视频/WebRtc/WebRtc连接过程/">WebRtc 建联过程</a>
+          <a href="/Flutter/Flutter入门：自定义组件和事件/">Flutter入门：自定义组件和事件</a>
         </li>
       
         <li>
-          <a href="/音视频/OpenGL/Android OpenGL的简单使用（9）：纹理/">Android OpenGL的简单使用（9）：纹理</a>
+          <a href="/Flutter/Flutter入门：功能组件和动画/">Flutter入门：功能组件和动画</a>
         </li>
       
         <li>
-          <a href="/音视频/OpenGL/Android OpenGL的简单使用（8）：材质和光照/">Android OpenGL的简单使用（8）：材质和光照</a>
+          <a href="/Flutter/Flutter入门：路由、包和资源/">Flutter入门：路由、包和资源</a>
         </li>
       
         <li>
-          <a href="/音视频/OpenGL/Android OpenGL的简单使用（7）：添加颜色/">Android OpenGL的简单使用（7）：添加颜色</a>
+          <a href="/Flutter/Flutter入门：Flutter 的常用Widget/">Flutter入门：Flutter 的常用Widget</a>
         </li>
       
     </ul>
@@ -828,7 +837,7 @@ MediaCodec 接受三种数据格式：压缩数据，原始......
         
     <h5>ARCHIVES</h5>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">3</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">3</span></li></ul>
     </div>
 
         <hr>

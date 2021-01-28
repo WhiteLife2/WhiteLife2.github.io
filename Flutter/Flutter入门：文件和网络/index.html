@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="不懂要会问，打脸要立正">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Flutter入门：文件和网络 - alonealice | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://alonealice.com/Flutter/Flutter入门：文件和网络/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/article_bg.jpeg')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Flutter" title="Flutter">Flutter</a>
+                            
+                        </div>
+                        <h1>Flutter入门：文件和网络</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by alonealice on
+                            2021-01-08
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">alonealice</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h3 id="文件操作">文件操作</h3>
+<p>Dart的IO库包含了文件读写的相关类，它属于Dart语法标准的一部分，所以通过Dart IO库，无论是Dart VM下的脚本还是Flutter，都是通过Dart IO库来操作文件的，不过和Dart VM相比，Flutter有一个重要差异是文件系统路径不同，这是因为Dart VM是运行在PC或服务器操作系统下，而Flutter是运行在移动操作系统中，他们的文件系统会有一些差异。</p>
+<h4 id="app目录">APP目录</h4>
+<p>Android和iOS的应用存储目录不同，<a href="https://pub.dartlang.org/packages/path_provider" target="_blank" rel="noopener"><code>PathProvider</code></a> 插件提供了一种平台透明的方式来访问设备文件系统上的常用位置。该类当前支持访问两个文件系统位置：</p>
+<ul>
+<li><strong>临时目录:</strong> 可以使用 <code>getTemporaryDirectory()</code> 来获取临时目录； 系统可随时清除的临时目录（缓存）。在iOS上，这对应于<a href="https://developer.apple.com/reference/foundation/1409211-nstemporarydirectory" target="_blank" rel="noopener"><code>NSTemporaryDirectory()</code></a> 返回的值。在Android上，这是<a href="https://developer.android.com/reference/android/content/Context.html#getCacheDir()" target="_blank" rel="noopener"><code>getCacheDir()</code></a>返回的值。</li>
+<li><strong>文档目录:</strong> 可以使用<code>getApplicationDocumentsDirectory()</code>来获取应用程序的文档目录，该目录用于存储只有自己可以访问的文件。只有当应用程序被卸载时，系统才会清除该目录。在iOS上，这对应于<code>NSDocumentDirectory</code>。在Android上，这是<code>AppData</code>目录。</li>
+<li><strong>外部存储目录</strong>：可以使用<code>getExternalStorageDirectory()</code>来获取外部存储目录，如SD卡；由于iOS不支持外部目录，所以在iOS下调用该方法会抛出<code>UnsupportedError</code>异常，而在Android下结果是android SDK中<code>getExternalStorageDirectory</code>的返回值。</li>
+</ul>
+<h4 id="示例">示例</h4>
+<ol>
+<li>
+<p>引入PathProvider插件；在<code>pubspec.yaml</code>文件中添加如下声明：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">path_provider:</span> <span class="string">^0.4.1</span></span><br></pre></td></tr></table></figure>
+<p>添加后，执行<code>flutter packages get</code> 获取一下, 版本号可能随着时间推移会发生变化，读者可以使用最新版。</p>
+</li>
+<li>
+<p>实现：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'dart:io'</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">'dart:async'</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">'package:path_provider/path_provider.dart'</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FileOperationRoute</span> <span class="keyword">extends</span> <span class="title">StatefulWidget</span> </span>&#123;</span><br><span class="line">  FileOperationRoute(&#123;Key key&#125;) : <span class="keyword">super</span>(key: key);</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  _FileOperationRouteState createState() =&gt; <span class="keyword">new</span> _FileOperationRouteState();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">_FileOperationRouteState</span> <span class="keyword">extends</span> <span class="title">State</span>&lt;<span class="title">FileOperationRoute</span>&gt; </span>&#123;</span><br><span class="line">  <span class="built_in">int</span> _counter;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="keyword">void</span> initState() &#123;</span><br><span class="line">    <span class="keyword">super</span>.initState();</span><br><span class="line">    <span class="comment">//从文件读取点击次数</span></span><br><span class="line">    _readCounter().then((<span class="built_in">int</span> value) &#123;</span><br><span class="line">      setState(() &#123;</span><br><span class="line">        _counter = value;</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  Future&lt;File&gt; _getLocalFile() <span class="keyword">async</span> &#123;</span><br><span class="line">    <span class="comment">// 获取应用目录</span></span><br><span class="line">    <span class="built_in">String</span> dir = (<span class="keyword">await</span> getApplicationDocumentsDirectory()).path;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> File(<span class="string">'$dir/counter.txt'</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  Future&lt;<span class="built_in">int</span>&gt; _readCounter() <span class="keyword">async</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      File file = <span class="keyword">await</span> _getLocalFile();</span><br><span class="line">      <span class="comment">// 读取点击次数（以字符串）</span></span><br><span class="line">      <span class="built_in">String</span> contents = <span class="keyword">await</span> file.readAsString();</span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">int</span>.parse(contents);</span><br><span class="line">    &#125; on FileSystemException &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  Future&lt;<span class="built_in">Null</span>&gt; _incrementCounter() <span class="keyword">async</span> &#123;</span><br><span class="line">    setState(() &#123;</span><br><span class="line">      _counter++;</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="comment">// 将点击次数以字符串类型写到文件中</span></span><br><span class="line">    <span class="keyword">await</span> (<span class="keyword">await</span> _getLocalFile()).writeAsString(<span class="string">'$_counter'</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Scaffold(</span><br><span class="line">      appBar: <span class="keyword">new</span> AppBar(title: <span class="keyword">new</span> Text(<span class="string">'文件操作'</span>)),</span><br><span class="line">      body: <span class="keyword">new</span> Center(</span><br><span class="line">        child: <span class="keyword">new</span> Text(<span class="string">'点击了 $_counter 次'</span>),</span><br><span class="line">      ),</span><br><span class="line">      floatingActionButton: <span class="keyword">new</span> FloatingActionButton(</span><br><span class="line">        onPressed: _incrementCounter,</span><br><span class="line">        tooltip: <span class="string">'Increment'</span>,</span><br><span class="line">        child: <span class="keyword">new</span> Icon(Icons.add),</span><br><span class="line">      ),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="网络请求">网络请求</h3>
+<h4 id="httpclient">HttpClient</h4>
+<p>Dart IO库中提供了用于发起Http请求的一些类，我们可以直接使用<code>HttpClient</code>来发起请求。使用<code>HttpClient</code>发起请求分为五步：</p>
+<ol>
+<li>
+<p>创建一个<code>HttpClient</code>：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HttpClient httpClient = <span class="keyword">new</span> HttpClient();</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>打开Http连接，设置请求头：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HttpClientRequest request = <span class="keyword">await</span> httpClient.getUrl(uri);</span><br></pre></td></tr></table></figure>
+<p>这一步可以使用任意Http Method，如<code>httpClient.post(...)</code>、<code>httpClient.delete(...)</code>等。如果包含Query参数，可以在构建uri时添加，如：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Uri</span> uri=<span class="built_in">Uri</span>(scheme: <span class="string">"https"</span>, host: <span class="string">"flutterchina.club"</span>, queryParameters: &#123;</span><br><span class="line">    <span class="string">"xx"</span>:<span class="string">"xx"</span>,</span><br><span class="line">    <span class="string">"yy"</span>:<span class="string">"dd"</span></span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+<p>通过<code>HttpClientRequest</code>可以设置请求header，如：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">request.headers.add(<span class="string">"user-agent"</span>, <span class="string">"test"</span>);</span><br></pre></td></tr></table></figure>
+<p>如果是post或put等可以携带请求体方法，可以通过HttpClientRequest对象发送request body，如：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">String</span> payload=<span class="string">"..."</span>;</span><br><span class="line">request.add(utf8.encode(payload)); </span><br><span class="line"><span class="comment">//request.addStream(_inputStream); //可以直接添加输入流</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>等待连接服务器：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HttpClientResponse response = <span class="keyword">await</span> request.close();</span><br></pre></td></tr></table></figure>
+<p>这一步完成后，请求信息就已经发送给服务器了，返回一个<code>HttpClientResponse</code>对象，它包含响应头（header）和响应流(响应体的Stream)，接下来就可以通过读取响应流来获取响应内容。</p>
+</li>
+<li>
+<p>读取响应内容：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">String</span> responseBody = <span class="keyword">await</span> response.transform(utf8.decoder).join();</span><br></pre></td></tr></table></figure>
+<p>我们通过读取响应流来获取服务器返回的数据，在读取时我们可以设置编码格式，这里是utf8。</p>
+</li>
+<li>
+<p>请求结束，关闭<code>HttpClient</code>：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">httpClient.close();</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>关闭client后，通过该client发起的所有请求都会中止。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'dart:convert'</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">'dart:io'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HttpTestRoute</span> <span class="keyword">extends</span> <span class="title">StatefulWidget</span> </span>&#123;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  _HttpTestRouteState createState() =&gt; <span class="keyword">new</span> _HttpTestRouteState();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">_HttpTestRouteState</span> <span class="keyword">extends</span> <span class="title">State</span>&lt;<span class="title">HttpTestRoute</span>&gt; </span>&#123;</span><br><span class="line">  <span class="built_in">bool</span> _loading = <span class="keyword">false</span>;</span><br><span class="line">  <span class="built_in">String</span> _text = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> ConstrainedBox(</span><br><span class="line">      constraints: BoxConstraints.expand(),</span><br><span class="line">      child: SingleChildScrollView(</span><br><span class="line">        child: Column(</span><br><span class="line">          children: &lt;Widget&gt;[</span><br><span class="line">            RaisedButton(</span><br><span class="line">                child: Text(<span class="string">"获取百度首页"</span>),</span><br><span class="line">                onPressed: _loading ? <span class="keyword">null</span> : () <span class="keyword">async</span> &#123;</span><br><span class="line">                  setState(() &#123;</span><br><span class="line">                    _loading = <span class="keyword">true</span>;</span><br><span class="line">                    _text = <span class="string">"正在请求..."</span>;</span><br><span class="line">                  &#125;);</span><br><span class="line">                  <span class="keyword">try</span> &#123;</span><br><span class="line">                    <span class="comment">//创建一个HttpClient</span></span><br><span class="line">                    HttpClient httpClient = <span class="keyword">new</span> HttpClient();</span><br><span class="line">                    <span class="comment">//打开Http连接</span></span><br><span class="line">                    HttpClientRequest request = <span class="keyword">await</span> httpClient.getUrl(</span><br><span class="line">                        <span class="built_in">Uri</span>.parse(<span class="string">"https://www.baidu.com"</span>));</span><br><span class="line">                    <span class="comment">//使用iPhone的UA</span></span><br><span class="line">                    request.headers.add(<span class="string">"user-agent"</span>, <span class="string">"Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_1 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko) Version/10.0 Mobile/14E304 Safari/602.1"</span>);</span><br><span class="line">                    <span class="comment">//等待连接服务器（会将请求信息发送给服务器）</span></span><br><span class="line">                    HttpClientResponse response = <span class="keyword">await</span> request.close();</span><br><span class="line">                    <span class="comment">//读取响应内容</span></span><br><span class="line">                    _text = <span class="keyword">await</span> response.transform(utf8.decoder).join();</span><br><span class="line">                    <span class="comment">//输出响应头</span></span><br><span class="line">                    <span class="built_in">print</span>(response.headers);</span><br><span class="line"></span><br><span class="line">                    <span class="comment">//关闭client后，通过该client发起的所有请求都会中止。</span></span><br><span class="line">                    httpClient.close();</span><br><span class="line"></span><br><span class="line">                  &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">                    _text = <span class="string">"请求失败：$e"</span>;</span><br><span class="line">                  &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                    setState(() &#123;</span><br><span class="line">                      _loading = <span class="keyword">false</span>;</span><br><span class="line">                    &#125;);</span><br><span class="line">                  &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            ),</span><br><span class="line">            Container(</span><br><span class="line">                width: MediaQuery.of(context).size.width<span class="number">-50.0</span>,</span><br><span class="line">                child: Text(_text.replaceAll(<span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">r"\s"</span>), <span class="string">""</span>))</span><br><span class="line">            )</span><br><span class="line">          ],</span><br><span class="line">        ),</span><br><span class="line">      ),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="httpclient配置">HttpClient配置</h5>
+<p><code>HttpClient</code>有很多属性可以配置，常用的属性列表如下：</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>idleTimeout</td>
+<td>对应请求头中的keep-alive字段值，为了避免频繁建立连接，httpClient在请求结束后会保持连接一段时间，超过这个阈值后才会关闭连接。</td>
+</tr>
+<tr>
+<td>connectionTimeout</td>
+<td>和服务器建立连接的超时，如果超过这个值则会抛出SocketException异常。</td>
+</tr>
+<tr>
+<td>maxConnectionsPerHost</td>
+<td>同一个host，同时允许建立连接的最大数量。</td>
+</tr>
+<tr>
+<td>autoUncompress</td>
+<td>对应请求头中的Content-Encoding，如果设置为true，则请求头中Content-Encoding的值为当前HttpClient支持的压缩算法列表，目前只有&quot;gzip&quot;</td>
+</tr>
+<tr>
+<td>userAgent</td>
+<td>对应请求头中的User-Agent字段。</td>
+</tr>
+</tbody>
+</table>
+<p>可以发现，有些属性只是为了更方便的设置请求头，对于这些属性，你完全可以通过<code>HttpClientRequest</code>直接设置header，不同的是通过<code>HttpClient</code>设置的对整个<code>httpClient</code>都生效，而通过<code>HttpClientRequest</code>设置的只对当前请求生效。</p>
+<h5 id="http请求认证">HTTP请求认证</h5>
+<p>Http协议的认证（Authentication）机制可以用于保护非公开资源。如果Http服务器开启了认证，那么用户在发起请求时就需要携带用户凭据，如果你在浏览器中访问了启用Basic认证的资源时，浏览就会弹出一个登录框</p>
+<p>我们先看看Basic认证的基本过程：</p>
+<ol>
+<li>
+<p>客户端发送http请求给服务器，服务器验证该用户是否已经登录验证过了，如果没有的话， 服务器会返回一个401 Unauthozied给客户端，并且在响应header中添加一个 “WWW-Authenticate” 字段，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">WWW-Authenticate: Basic realm=&quot;admin&quot;</span><br></pre></td></tr></table></figure>
+<p>其中&quot;Basic&quot;为认证方式，realm为用户角色的分组，可以在后台添加分组。</p>
+</li>
+<li>
+<p>客户端得到响应码后，将用户名和密码进行base64编码（格式为用户名:密码），设置请求头Authorization，继续访问 :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Authorization: Basic YXXFISDJFISJFGIJIJG</span><br></pre></td></tr></table></figure>
+<p>服务器验证用户凭据，如果通过就返回资源内容。</p>
+</li>
+</ol>
+<p>Http的方式除了Basic认证之外还有：Digest认证、Client认证、Form Based认证等，目前Flutter的HttpClient只支持Basic和Digest两种认证方式，这两种认证方式最大的区别是发送用户凭据时，对于用户凭据的内容，前者只是简单的通过Base64编码（可逆），而后者会进行哈希运算，相对来说安全一点点，但是为了安全起见，<strong>无论是采用Basic认证还是Digest认证，都应该在Https协议下</strong>，这样可以防止抓包和中间人攻击。</p>
+<p><code>HttpClient</code>关于Http认证的方法和属性：</p>
+<ol>
+<li>
+<p><code>addCredentials(Uri url, String realm, HttpClientCredentials credentials)</code></p>
+<p>该方法用于添加用户凭据,如：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">httpClient.addCredentials(_uri,</span><br><span class="line"> <span class="string">"admin"</span>, </span><br><span class="line">  <span class="keyword">new</span> HttpClientBasicCredentials(<span class="string">"username"</span>,<span class="string">"password"</span>), <span class="comment">//Basic认证凭据</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>如果是Digest认证，可以创建Digest认证凭据：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HttpClientDigestCredentials(<span class="string">"username"</span>,<span class="string">"password"</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>authenticate(Future&lt;bool&gt; f(Uri url, String scheme, String realm))</code></p>
+<p>这是一个setter，类型是一个回调，当服务器需要用户凭据且该用户凭据未被添加时，httpClient会调用此回调，在这个回调当中，一般会调用<code>addCredential()</code>来动态添加用户凭证，例如：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">httpClient.authenticate=(<span class="built_in">Uri</span> url, <span class="built_in">String</span> scheme, <span class="built_in">String</span> realm) <span class="keyword">async</span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(url.host==<span class="string">"xx.com"</span> &amp;&amp; realm==<span class="string">"admin"</span>)&#123;</span><br><span class="line">    httpClient.addCredentials(url,</span><br><span class="line">      <span class="string">"admin"</span>,</span><br><span class="line">      <span class="keyword">new</span> HttpClientBasicCredentials(<span class="string">"username"</span>,<span class="string">"pwd"</span>), </span><br><span class="line">    );</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>一个建议是，如果所有请求都需要认证，那么应该在HttpClient初始化时就调用<code>addCredentials()</code>来添加全局凭证，而不是去动态添加。</p>
+</li>
+</ol>
+<h5 id="代理">代理</h5>
+<p>可以通过<code>findProxy</code>来设置代理策略，例如，我们要将所有请求通过代理服务器（192.168.1.2:8888）发送出去：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> client.findProxy = (uri) &#123;</span><br><span class="line">   <span class="comment">// 如果需要过滤uri，可以手动判断</span></span><br><span class="line">   <span class="keyword">return</span> <span class="string">"PROXY 192.168.1.2:8888"</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><code>findProxy</code> 回调返回值是一个遵循浏览器PAC脚本格式的字符串，详情可以查看API文档，如果不需要代理，返回&quot;DIRECT&quot;即可。</p>
+<p>在APP开发中，很多时候我们需要抓包来调试，而抓包软件(如charles)就是一个代理，这时我们就可以将请求发送到我们的抓包软件，我们就可以在抓包软件中看到请求的数据了。</p>
+<p>有时代理服务器也启用了身份验证，这和http协议的认证是相似的，HttpClient提供了对应的Proxy认证方法和属性：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> authenticateProxy(</span><br><span class="line">    Future&lt;<span class="built_in">bool</span>&gt; f(<span class="built_in">String</span> host, <span class="built_in">int</span> port, <span class="built_in">String</span> scheme, <span class="built_in">String</span> realm));</span><br><span class="line"><span class="keyword">void</span> addProxyCredentials(</span><br><span class="line">    <span class="built_in">String</span> host, <span class="built_in">int</span> port, <span class="built_in">String</span> realm, HttpClientCredentials credentials);</span><br></pre></td></tr></table></figure>
+<p>他们的使用方法和上面“HTTP请求认证”一节中介绍的<code>addCredentials</code>和<code>authenticate</code> 相同，故不再赘述。</p>
+<h5 id="证书校验">证书校验</h5>
+<p>Https中为了防止通过伪造证书而发起的中间人攻击，客户端应该对自签名或非CA颁发的证书进行校验。<code>HttpClient</code>对证书校验的逻辑如下：</p>
+<ol>
+<li>如果请求的Https证书是可信CA颁发的，并且访问host包含在证书的domain列表中(或者符合通配规则)并且证书未过期，则验证通过。</li>
+<li>如果第一步验证失败，但在创建HttpClient时，已经通过SecurityContext将证书添加到证书信任链中，那么当服务器返回的证书在信任链中的话，则验证通过。</li>
+<li>如果1、2验证都失败了，如果用户提供了<code>badCertificateCallback</code>回调，则会调用它，如果回调返回<code>true</code>，则允许继续链接，如果返回<code>false</code>，则终止链接。</li>
+</ol>
+<p>综上所述，我们的证书校验其实就是提供一个<code>badCertificateCallback</code>回调，下面通过一个示例来说明。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">String</span> PEM=<span class="string">"XXXXX"</span>;<span class="comment">//可以从文件读取</span></span><br><span class="line">...</span><br><span class="line">httpClient.badCertificateCallback=(X509Certificate cert, <span class="built_in">String</span> host, <span class="built_in">int</span> port)&#123;</span><br><span class="line">  <span class="keyword">if</span>(cert.pem==PEM)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>; <span class="comment">//证书一致，则允许发送数据</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><code>X509Certificate</code>是证书的标准格式，包含了证书除私钥外所有信息，读者可以自行查阅文档。另外，上面的示例没有校验host，是因为只要服务器返回的证书内容和本地的保存一致就已经能证明是我们的服务器了（而不是中间人），host验证通常是为了防止证书和域名不匹配。</p>
+<p>对于自签名的证书，我们也可以将其添加到本地证书信任链中，这样证书验证时就会自动通过，而不会再走到<code>badCertificateCallback</code>回调中：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SecurityContext sc=<span class="keyword">new</span> SecurityContext();</span><br><span class="line"><span class="comment">//file为证书路径</span></span><br><span class="line">sc.setTrustedCertificates(file);</span><br><span class="line"><span class="comment">//创建一个HttpClient</span></span><br><span class="line">HttpClient httpClient = <span class="keyword">new</span> HttpClient(context: sc);</span><br></pre></td></tr></table></figure>
+<p>注意，通过<code>setTrustedCertificates()</code>设置的证书格式必须为PEM或PKCS12，如果证书格式为PKCS12，则需将证书密码传入，这样则会在代码中暴露证书密码，所以客户端证书校验不建议使用PKCS12格式的证书。</p>
+<h4 id="dio-http库">Dio http库</h4>
+<p>通过上一节介绍，我们可以发现直接使用HttpClient发起网络请求是比较麻烦的，很多事情得我们手动处理，如果再涉及到文件上传/下载、Cookie管理等就会非常繁琐。幸运的是，Dart社区有一些第三方http请求库，用它们来发起http请求将会简单的多。</p>
+<h5 id="引入">引入</h5>
+<p>引入dio:</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">dependencies:</span></span><br><span class="line"><span class="attr">  dio:</span> <span class="string">^x.x.x</span> <span class="comment">#请使用pub上的最新版本</span></span><br></pre></td></tr></table></figure>
+<p>导入并创建dio实例：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'package:dio/dio.dart'</span>;</span><br><span class="line">Dio dio =  Dio();</span><br></pre></td></tr></table></figure>
+<p>接下来就可以通过 dio实例来发起网络请求了，注意，一个dio实例可以发起多个http请求，一般来说，APP只有一个http数据源时，dio应该使用单例模式。</p>
+<h5 id="示例">示例</h5>
+<p>发起 <code>GET</code> 请求 :</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Response response;</span><br><span class="line">response=<span class="keyword">await</span> dio.<span class="keyword">get</span>(<span class="string">"/test?id=12&amp;name=wendu"</span>)</span><br><span class="line"><span class="built_in">print</span>(response.data.toString());</span><br></pre></td></tr></table></figure>
+<p>对于<code>GET</code>请求我们可以将query参数通过对象来传递，上面的代码等同于：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">response=<span class="keyword">await</span> dio.<span class="keyword">get</span>(<span class="string">"/test"</span>,queryParameters:&#123;<span class="string">"id"</span>:<span class="number">12</span>,<span class="string">"name"</span>:<span class="string">"wendu"</span>&#125;)</span><br><span class="line"><span class="built_in">print</span>(response);</span><br></pre></td></tr></table></figure>
+<p>发起一个 <code>POST</code> 请求:</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response=<span class="keyword">await</span> dio.post(<span class="string">"/test"</span>,data:&#123;<span class="string">"id"</span>:<span class="number">12</span>,<span class="string">"name"</span>:<span class="string">"wendu"</span>&#125;)</span><br></pre></td></tr></table></figure>
+<p>发起多个并发请求:</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response= <span class="keyword">await</span> Future.wait([dio.post(<span class="string">"/info"</span>),dio.<span class="keyword">get</span>(<span class="string">"/token"</span>)]);</span><br></pre></td></tr></table></figure>
+<p>下载文件:</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response=<span class="keyword">await</span> dio.download(<span class="string">"https://www.google.com/"</span>,_savePath);</span><br></pre></td></tr></table></figure>
+<p>发送 FormData:</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">FormData formData = <span class="keyword">new</span> FormData.from(&#123;</span><br><span class="line">   <span class="string">"name"</span>: <span class="string">"wendux"</span>,</span><br><span class="line">   <span class="string">"age"</span>: <span class="number">25</span>,</span><br><span class="line">&#125;);</span><br><span class="line">response = <span class="keyword">await</span> dio.post(<span class="string">"/info"</span>, data: formData)</span><br></pre></td></tr></table></figure>
+<p>如果发送的数据是FormData，则dio会将请求header的<code>contentType</code>设为“multipart/form-data”。</p>
+<p>通过FormData上传多个文件:</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">FormData formData = <span class="keyword">new</span> FormData.from(&#123;</span><br><span class="line">   <span class="string">"name"</span>: <span class="string">"wendux"</span>,</span><br><span class="line">   <span class="string">"age"</span>: <span class="number">25</span>,</span><br><span class="line">   <span class="string">"file1"</span>: <span class="keyword">new</span> UploadFileInfo(<span class="keyword">new</span> File(<span class="string">"./upload.txt"</span>), <span class="string">"upload1.txt"</span>),</span><br><span class="line">   <span class="string">"file2"</span>: <span class="keyword">new</span> UploadFileInfo(<span class="keyword">new</span> File(<span class="string">"./upload.txt"</span>), <span class="string">"upload2.txt"</span>),</span><br><span class="line">     <span class="comment">// 支持文件数组上传</span></span><br><span class="line">   <span class="string">"files"</span>: [</span><br><span class="line">      <span class="keyword">new</span> UploadFileInfo(<span class="keyword">new</span> File(<span class="string">"./example/upload.txt"</span>), <span class="string">"upload.txt"</span>),</span><br><span class="line">      <span class="keyword">new</span> UploadFileInfo(<span class="keyword">new</span> File(<span class="string">"./example/upload.txt"</span>), <span class="string">"upload.txt"</span>)</span><br><span class="line">    ]</span><br><span class="line">&#125;);</span><br><span class="line">response = <span class="keyword">await</span> dio.post(<span class="string">"/info"</span>, data: formData)</span><br></pre></td></tr></table></figure>
+<p>值得一提的是，dio内部仍然使用HttpClient发起的请求，所以代理、请求认证、证书校验等和HttpClient是相同的，我们可以在<code>onHttpClientCreate</code>回调中设置，例如：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">(dio.httpClientAdapter <span class="keyword">as</span> DefaultHttpClientAdapter).onHttpClientCreate = (client) &#123;</span><br><span class="line">    <span class="comment">//设置代理 </span></span><br><span class="line">    client.findProxy = (uri) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="string">"PROXY 192.168.1.2:8888"</span>;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="comment">//校验证书</span></span><br><span class="line">    httpClient.badCertificateCallback=(X509Certificate cert, <span class="built_in">String</span> host, <span class="built_in">int</span> port)&#123;</span><br><span class="line">      <span class="keyword">if</span>(cert.pem==PEM)&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">true</span>; <span class="comment">//证书一致，则允许发送数据</span></span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;;   </span><br><span class="line">  &#125;;</span><br></pre></td></tr></table></figure>
+<p>注意，<code>onHttpClientCreate</code>会在当前dio实例内部需要创建HttpClient时调用，所以通过此回调配置HttpClient会对整个dio实例生效，如果你想针对某个应用请求单独的代理或证书校验策略，可以创建一个新的dio实例即可。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">_FutureBuilderRouteState</span> <span class="keyword">extends</span> <span class="title">State</span>&lt;<span class="title">FutureBuilderRoute</span>&gt; </span>&#123;</span><br><span class="line">  Dio _dio = <span class="keyword">new</span> Dio();</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Container(</span><br><span class="line">      alignment: Alignment.center,</span><br><span class="line">      child: FutureBuilder(</span><br><span class="line">          future: _dio.<span class="keyword">get</span>(<span class="string">"https://api.github.com/orgs/flutterchina/repos"</span>),</span><br><span class="line">          builder: (BuildContext context, AsyncSnapshot snapshot) &#123;</span><br><span class="line">            <span class="comment">//请求完成</span></span><br><span class="line">            <span class="keyword">if</span> (snapshot.connectionState == ConnectionState.done) &#123;</span><br><span class="line">              Response response = snapshot.data;</span><br><span class="line">              <span class="comment">//发生错误</span></span><br><span class="line">              <span class="keyword">if</span> (snapshot.hasError) &#123;</span><br><span class="line">                <span class="keyword">return</span> Text(snapshot.error.toString());</span><br><span class="line">              &#125;</span><br><span class="line">              <span class="comment">//请求成功，通过项目信息构建用于显示项目名称的ListView</span></span><br><span class="line">              <span class="keyword">return</span> ListView(</span><br><span class="line">                children: response.data.map&lt;Widget&gt;((e) =&gt;</span><br><span class="line">                    ListTile(title: Text(e[<span class="string">"full_name"</span>]))</span><br><span class="line">                ).toList(),</span><br><span class="line">              );</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//请求未完成时弹出loading</span></span><br><span class="line">            <span class="keyword">return</span> CircularProgressIndicator();</span><br><span class="line">          &#125;</span><br><span class="line">      ),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="使用websockets">使用WebSockets</h4>
+<h5 id="步骤">步骤</h5>
+<ol>
+<li>连接到WebSocket服务器。</li>
+<li>监听来自服务器的消息。</li>
+<li>将数据发送到服务器。</li>
+<li>关闭WebSocket连接。</li>
+</ol>
+<p><strong>1. 连接到WebSocket服务器</strong></p>
+<p><a href="https://pub.dartlang.org/packages/web_socket_channel" target="_blank" rel="noopener">web_socket_channel</a> package 提供了我们需要连接到WebSocket服务器的工具。该package提供了一个<code>WebSocketChannel</code>允许我们既可以监听来自服务器的消息，又可以将消息发送到服务器的方法。</p>
+<p>在Flutter中，我们可以创建一个<code>WebSocketChannel</code>连接到一台服务器：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> channel = IOWebSocketChannel.connect(<span class="string">'ws://echo.websocket.org'</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>2. 监听来自服务器的消息</strong></p>
+<p>现在我们建立了连接，我们可以监听来自服务器的消息，在我们发送消息给测试服务器之后，它会返回相同的消息。</p>
+<p>我们如何收取消息并显示它们？在这个例子中，我们将使用一个<a href="https://docs.flutter.io/flutter/widgets/StreamBuilder-class.html" target="_blank" rel="noopener"><code>StreamBuilder</code></a> 来监听新消息， 并用一个Text来显示它们。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> StreamBuilder(</span><br><span class="line">  stream: widget.channel.stream,</span><br><span class="line">  builder: (context, snapshot) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Text(snapshot.hasData ? <span class="string">'<span class="subst">$&#123;snapshot.data&#125;</span>'</span> : <span class="string">''</span>);</span><br><span class="line">  &#125;,</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>工作原理</p>
+<p><code>WebSocketChannel</code>提供了一个来自服务器的消息<code>Stream</code> 。该<code>Stream</code>类是<code>dart:async</code>包中的一个基础类。它提供了一种方法来监听来自数据源的异步事件。与<code>Future</code>返回单个异步响应不同，<code>Stream</code>类可以随着时间推移传递很多事件。该<a href="https://docs.flutter.io/flutter/widgets/StreamBuilder-class.html" target="_blank" rel="noopener"><code>StreamBuilder</code></a> 组件将连接到一个<code>Stream</code>， 并在每次收到消息时通知Flutter重新构建界面。</p>
+<p><strong>3. 将数据发送到服务器</strong></p>
+<p>为了将数据发送到服务器，我们会<code>add</code>消息给<code>WebSocketChannel</code>提供的sink。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">channel.sink.add(<span class="string">'Hello!'</span>);</span><br></pre></td></tr></table></figure>
+<p>工作原理</p>
+<p><code>WebSocketChannel</code>提供了一个<a href="https://docs.flutter.io/flutter/dart-async/StreamSink-class.html" target="_blank" rel="noopener"><code>StreamSink</code></a>，它将消息发给服务器。</p>
+<p><code>StreamSink</code>类提供了给数据源同步或异步添加事件的一般方法。</p>
+<p><strong>4. 关闭WebSocket连接</strong></p>
+<p>在我们使用<code>WebSocket</code>后，要关闭连接：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">channel.sink.close();</span><br></pre></td></tr></table></figure>
+<p>举例：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">'package:web_socket_channel/io.dart'</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">WebSocketRoute</span> <span class="keyword">extends</span> <span class="title">StatefulWidget</span> </span>&#123;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  _WebSocketRouteState createState() =&gt; <span class="keyword">new</span> _WebSocketRouteState();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">_WebSocketRouteState</span> <span class="keyword">extends</span> <span class="title">State</span>&lt;<span class="title">WebSocketRoute</span>&gt; </span>&#123;</span><br><span class="line">  TextEditingController _controller = <span class="keyword">new</span> TextEditingController();</span><br><span class="line">  IOWebSocketChannel channel;</span><br><span class="line">  <span class="built_in">String</span> _text = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="keyword">void</span> initState() &#123;</span><br><span class="line">    <span class="comment">//创建websocket连接</span></span><br><span class="line">    channel = <span class="keyword">new</span> IOWebSocketChannel.connect(<span class="string">'ws://echo.websocket.org'</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Scaffold(</span><br><span class="line">      appBar: <span class="keyword">new</span> AppBar(</span><br><span class="line">        title: <span class="keyword">new</span> Text(<span class="string">"WebSocket(内容回显)"</span>),</span><br><span class="line">      ),</span><br><span class="line">      body: <span class="keyword">new</span> Padding(</span><br><span class="line">        padding: <span class="keyword">const</span> EdgeInsets.all(<span class="number">20.0</span>),</span><br><span class="line">        child: <span class="keyword">new</span> Column(</span><br><span class="line">          crossAxisAlignment: CrossAxisAlignment.start,</span><br><span class="line">          children: &lt;Widget&gt;[</span><br><span class="line">            <span class="keyword">new</span> Form(</span><br><span class="line">              child: <span class="keyword">new</span> TextFormField(</span><br><span class="line">                controller: _controller,</span><br><span class="line">                decoration: <span class="keyword">new</span> InputDecoration(labelText: <span class="string">'Send a message'</span>),</span><br><span class="line">              ),</span><br><span class="line">            ),</span><br><span class="line">            <span class="keyword">new</span> StreamBuilder(</span><br><span class="line">              stream: channel.stream,</span><br><span class="line">              builder: (context, snapshot) &#123;</span><br><span class="line">                <span class="comment">//网络不通会走到这</span></span><br><span class="line">                <span class="keyword">if</span> (snapshot.hasError) &#123;</span><br><span class="line">                  _text = <span class="string">"网络不通..."</span>;</span><br><span class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (snapshot.hasData) &#123;</span><br><span class="line">                  _text = <span class="string">"echo: "</span>+snapshot.data;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> Padding(</span><br><span class="line">                  padding: <span class="keyword">const</span> EdgeInsets.symmetric(vertical: <span class="number">24.0</span>),</span><br><span class="line">                  child: <span class="keyword">new</span> Text(_text),</span><br><span class="line">                );</span><br><span class="line">              &#125;,</span><br><span class="line">            )</span><br><span class="line">          ],</span><br><span class="line">        ),</span><br><span class="line">      ),</span><br><span class="line">      floatingActionButton: <span class="keyword">new</span> FloatingActionButton(</span><br><span class="line">        onPressed: _sendMessage,</span><br><span class="line">        tooltip: <span class="string">'Send message'</span>,</span><br><span class="line">        child: <span class="keyword">new</span> Icon(Icons.send),</span><br><span class="line">      ),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">void</span> _sendMessage() &#123;</span><br><span class="line">    <span class="keyword">if</span> (_controller.text.isNotEmpty) &#123;</span><br><span class="line">      channel.sink.add(_controller.text);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="keyword">void</span> dispose() &#123;</span><br><span class="line">    channel.sink.close();</span><br><span class="line">    <span class="keyword">super</span>.dispose();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="socket-api">Socket API</h4>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">_request() <span class="keyword">async</span>&#123;</span><br><span class="line">  <span class="comment">//建立连接</span></span><br><span class="line">  <span class="keyword">var</span> socket=<span class="keyword">await</span> Socket.connect(<span class="string">"baidu.com"</span>, <span class="number">80</span>);</span><br><span class="line">  <span class="comment">//根据http协议，发送请求头</span></span><br><span class="line">  socket.writeln(<span class="string">"GET / HTTP/1.1"</span>);</span><br><span class="line">  socket.writeln(<span class="string">"Host:baidu.com"</span>);</span><br><span class="line">  socket.writeln(<span class="string">"Connection:close"</span>);</span><br><span class="line">  socket.writeln();</span><br><span class="line">  <span class="keyword">await</span> socket.flush(); <span class="comment">//发送</span></span><br><span class="line">  <span class="comment">//读取返回内容</span></span><br><span class="line">  _response =<span class="keyword">await</span> socket.transform(utf8.decoder).join();</span><br><span class="line">  <span class="keyword">await</span> socket.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="json转dart-model类">Json转Dart Model类</h3>
+<p>这个可以通过<code>dart:convert</code>中内置的JSON解码器json.decode() 来实现json的解析</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//一个JSON格式的用户列表字符串</span></span><br><span class="line"><span class="built_in">String</span> jsonStr=<span class="string">'[&#123;"name":"Jack"&#125;,&#123;"name":"Rose"&#125;]'</span>;</span><br><span class="line"><span class="comment">//将JSON字符串转为Dart对象(此处是List)</span></span><br><span class="line"><span class="built_in">List</span> items=json.decode(jsonStr);</span><br><span class="line"><span class="comment">//输出第一个用户的姓名</span></span><br><span class="line"><span class="built_in">print</span>(items[<span class="number">0</span>][<span class="string">"name"</span>]);</span><br></pre></td></tr></table></figure>
+<h4 id="json-model化">Json Model化</h4>
+<p><strong>user.dart</strong></p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">  <span class="keyword">final</span> <span class="built_in">String</span> name;</span><br><span class="line">  <span class="keyword">final</span> <span class="built_in">String</span> email;</span><br><span class="line"></span><br><span class="line">  User(<span class="keyword">this</span>.name, <span class="keyword">this</span>.email);</span><br><span class="line"></span><br><span class="line">  User.fromJson(<span class="built_in">Map</span>&lt;<span class="built_in">String</span>, <span class="keyword">dynamic</span>&gt; json)</span><br><span class="line">      : name = json[<span class="string">'name'</span>],</span><br><span class="line">        email = json[<span class="string">'email'</span>];</span><br><span class="line"></span><br><span class="line">  <span class="built_in">Map</span>&lt;<span class="built_in">String</span>, <span class="keyword">dynamic</span>&gt; toJson() =&gt;</span><br><span class="line">    &lt;<span class="built_in">String</span>, <span class="keyword">dynamic</span>&gt;&#123;</span><br><span class="line">      <span class="string">'name'</span>: name,</span><br><span class="line">      <span class="string">'email'</span>: email,</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在，序列化逻辑移到了模型本身内部。采用这种新方法，我们可以非常容易地反序列化user.</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Map</span> userMap = json.decode(json);</span><br><span class="line"><span class="keyword">var</span> user = <span class="keyword">new</span> User.fromJson(userMap);</span><br></pre></td></tr></table></figure>
+<p>要序列化一个user，我们只是将该<code>User</code>对象传递给该<code>json.encode</code>方法。我们不需要手动调用<code>toJson</code>这个方法，因为`JSON.encode内部会自动调用。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">String</span> json = json.encode(user);</span><br></pre></td></tr></table></figure>
+<p>这样，调用代码就不用担心JSON序列化了，但是，Model类还是必须的。在实践中，<code>User.fromJson</code>和<code>User.toJson</code>方法都需要单元测试到位，以验证正确的行为。</p>
+<p>另外，实际场景中，JSON对象很少会这么简单，嵌套的JSON对象并不罕见，如果有什么能为我们自动处理JSON序列化，那将会非常好。幸运的是，有！</p>
+<h5 id="自动生成model">自动生成Model</h5>
+<p>尽管还有其他库可用，但在本书中，我们介绍一下官方推荐的<a href="https://pub.dartlang.org/packages/json_serializable" target="_blank" rel="noopener">json_serializable package</a>包。 它是一个自动化的源代码生成器，可以在开发阶段为我们生成JSON序列化模板，这样一来，由于序列化代码不再由我们手写和维护，我们将运行时产生JSON序列化异常的风险降至最低。</p>
+<p><strong>在项目中设置json_serializable</strong></p>
+<p>要包含<code>json_serializable</code>到我们的项目中，我们需要一个常规和两个<strong>开发依赖</strong>项。简而言之，<strong>开发依赖项</strong>是不包含在我们的应用程序源代码中的依赖项，它是开发过程中的一些辅助工具、脚本，和node中的开发依赖项相似。</p>
+<p><strong>pubspec.yaml</strong></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">dependencies:</span></span><br><span class="line">  <span class="comment"># Your other regular dependencies here</span></span><br><span class="line"><span class="attr">  json_annotation:</span> <span class="string">^2.0.0</span></span><br><span class="line"></span><br><span class="line"><span class="attr">dev_dependencies:</span></span><br><span class="line">  <span class="comment"># Your other dev_dependencies here</span></span><br><span class="line"><span class="attr">  build_runner:</span> <span class="string">^1.0.0</span></span><br><span class="line"><span class="attr">  json_serializable:</span> <span class="string">^2.0.0</span></span><br></pre></td></tr></table></figure>
+<p><strong>以json_serializable的方式创建model类</strong></p>
+<p>让我们看看如何将我们的<code>User</code>类转换为一个<code>json_serializable</code>。为了简单起见，我们使用前面示例中的简化JSON model。</p>
+<p><strong>user.dart</strong></p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'package:json_annotation/json_annotation.dart'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// user.g.dart 将在我们运行生成命令后自动生成</span></span><br><span class="line"><span class="keyword">part</span> <span class="string">'user.g.dart'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">///这个标注是告诉生成器，这个类是需要生成Model类的</span></span><br><span class="line"><span class="meta">@JsonSerializable</span>()</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span></span>&#123;</span><br><span class="line">  User(<span class="keyword">this</span>.name, <span class="keyword">this</span>.email);</span><br><span class="line"></span><br><span class="line">  <span class="built_in">String</span> name;</span><br><span class="line">  <span class="built_in">String</span> email;</span><br><span class="line">  <span class="comment">//不同的类使用不同的mixin即可</span></span><br><span class="line">  <span class="keyword">factory</span> User.fromJson(<span class="built_in">Map</span>&lt;<span class="built_in">String</span>, <span class="keyword">dynamic</span>&gt; json) =&gt; _$UserFromJson(json);</span><br><span class="line">  <span class="built_in">Map</span>&lt;<span class="built_in">String</span>, <span class="keyword">dynamic</span>&gt; toJson() =&gt; _$UserToJson(<span class="keyword">this</span>);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>有了上面的设置，源码生成器将生成用于序列化<code>name</code>和<code>email</code>字段的JSON代码。</p>
+<p>如果需要，自定义命名策略也很容易。例如，如果我们正在使用的API返回带有<em>snake_case</em>的对象，但我们想在我们的模型中使用<em>lowerCamelCase</em>， 那么我们可以使用@JsonKey标注：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//显式关联JSON字段名与Model属性的对应关系 </span></span><br><span class="line"><span class="meta">@JsonKey</span>(name: <span class="string">'registration_date_millis'</span>)</span><br><span class="line"><span class="keyword">final</span> <span class="built_in">int</span> registrationDateMillis;</span><br></pre></td></tr></table></figure>
+<p><strong>运行代码生成程序</strong></p>
+<p>第一次创建类时，会看到一些不存在的方法报错，这是正常的。为了解决这个问题，我们必须运行代码生成器来为我们成序列化模板</p>
+<p><strong>一次性生成：</strong></p>
+<p>通过在我们的项目根目录下运行:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flutter packages pub run build_runner build</span><br></pre></td></tr></table></figure>
+<p>这触发了一次性构建，我们可以在需要时为我们的Model生成json序列化代码，它通过我们的源文件，找出需要生成Model类的源文件（包含@JsonSerializable标注的）来生成对应的.g.dart文件。一个好的建议是将所有Model类放在一个单独的目录下，然后在该目录下执行命令。</p>
+<p>虽然这非常方便，但如果我们不需要每次在Model类中进行更改时都要手动运行构建命令的话会更好。</p>
+<p><strong>持续生成</strong></p>
+<p>使用<em>watcher</em>可以使我们的源代码生成的过程更加方便。它会监视我们项目中文件的变化，并在需要时自动构建必要的文件，我们可以通过<code>flutter packages pub run build_runner watch</code>在项目根目录下运行来启动<em>watcher</em>。只需启动一次观察器，然后它就会在后台运行，这是安全的。</p>
+<h4 id="自动化生成模板">自动化生成模板</h4>
+<p>上面的方法有一个最大的问题就是要为每一个json写模板，这是比较枯燥的。如果有一个工具可以直接根据JSON文本生成模板，那我们就能彻底解放双手了。笔者自己用dart实现了一个脚本，它可以自动生成模板，并直接将JSON转为Model类，下面我们看看怎么做：</p>
+<ol>
+<li>
+<p>定义一个&quot;模板的模板&quot;，名为&quot;template.dart&quot;：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'package:json_annotation/json_annotation.dart'</span>;</span><br><span class="line">%t</span><br><span class="line"><span class="keyword">part</span> <span class="string">'%s.g.dart'</span>;</span><br><span class="line"><span class="meta">@JsonSerializable</span>()</span><br><span class="line"><span class="class"><span class="keyword">class</span> %<span class="title">s</span> </span>&#123;</span><br><span class="line">    %s();</span><br><span class="line"></span><br><span class="line">    %s</span><br><span class="line">    <span class="keyword">factory</span> %s.fromJson(<span class="built_in">Map</span>&lt;<span class="built_in">String</span>,<span class="keyword">dynamic</span>&gt; json) =&gt; _$%sFromJson(json);</span><br><span class="line">    <span class="built_in">Map</span>&lt;<span class="built_in">String</span>, <span class="keyword">dynamic</span>&gt; toJson() =&gt; _$%sToJson(<span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>模板中的“%t”、“%s”为占位符，将在脚本运行时动态被替换为合适的导入头和类名。</p>
+</li>
+<li>
+<p>写一个自动生成模板的脚本(mo.dart)，它可以根据指定的JSON目录，遍历生成模板，在生成时我们定义一些规则：</p>
+<ul>
+<li>如果JSON文件名以下划线“_”开始，则忽略此JSON文件。</li>
+<li>复杂的JSON对象往往会出现嵌套，我们可以通过一个特殊标志来手动指定嵌套的对象（后面举例）。</li>
+</ul>
+<p>脚本我们通过Dart来写，源码如下：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'dart:convert'</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">'dart:io'</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">'package:path/path.dart'</span> <span class="keyword">as</span> path;</span><br><span class="line"><span class="keyword">const</span> TAG=<span class="string">"\$"</span>;</span><br><span class="line"><span class="keyword">const</span> SRC=<span class="string">"./json"</span>; <span class="comment">//JSON 目录</span></span><br><span class="line"><span class="keyword">const</span> DIST=<span class="string">"lib/models/"</span>; <span class="comment">//输出model目录</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> walk() &#123; <span class="comment">//遍历JSON目录生成模板</span></span><br><span class="line">  <span class="keyword">var</span> src = <span class="keyword">new</span> Directory(SRC);</span><br><span class="line">  <span class="keyword">var</span> list = src.listSync();</span><br><span class="line">  <span class="keyword">var</span> template=<span class="keyword">new</span> File(<span class="string">"./template.dart"</span>).readAsStringSync();</span><br><span class="line">  File file;</span><br><span class="line">  list.forEach((f) &#123;</span><br><span class="line">    <span class="keyword">if</span> (FileSystemEntity.isFileSync(f.path)) &#123;</span><br><span class="line">      file = <span class="keyword">new</span> File(f.path);</span><br><span class="line">      <span class="keyword">var</span> paths=path.basename(f.path).split(<span class="string">"."</span>);</span><br><span class="line">      <span class="built_in">String</span> name=paths.first;</span><br><span class="line">      <span class="keyword">if</span>(paths.last.toLowerCase()!=<span class="string">"json"</span>||name.startsWith(<span class="string">"_"</span>)) <span class="keyword">return</span> ;</span><br><span class="line">      <span class="keyword">if</span>(name.startsWith(<span class="string">"_"</span>)) <span class="keyword">return</span>;</span><br><span class="line">      <span class="comment">//下面生成模板</span></span><br><span class="line">      <span class="keyword">var</span> map = json.decode(file.readAsStringSync());</span><br><span class="line">      <span class="comment">//为了避免重复导入相同的包，我们用Set来保存生成的import语句。</span></span><br><span class="line">      <span class="keyword">var</span> <span class="keyword">set</span>= <span class="keyword">new</span> <span class="built_in">Set</span>&lt;<span class="built_in">String</span>&gt;();</span><br><span class="line">      <span class="built_in">StringBuffer</span> attrs= <span class="keyword">new</span> <span class="built_in">StringBuffer</span>();</span><br><span class="line">      (map <span class="keyword">as</span> <span class="built_in">Map</span>&lt;<span class="built_in">String</span>, <span class="keyword">dynamic</span>&gt;).forEach((key, v) &#123;</span><br><span class="line">          <span class="keyword">if</span>(key.startsWith(<span class="string">"_"</span>)) <span class="keyword">return</span> ;</span><br><span class="line">          attrs.write(getType(v,<span class="keyword">set</span>,name));</span><br><span class="line">          attrs.write(<span class="string">" "</span>);</span><br><span class="line">          attrs.write(key);</span><br><span class="line">          attrs.writeln(<span class="string">";"</span>);</span><br><span class="line">          attrs.write(<span class="string">"    "</span>);</span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="built_in">String</span>  className=name[<span class="number">0</span>].toUpperCase()+name.substring(<span class="number">1</span>);</span><br><span class="line">      <span class="keyword">var</span> dist=format(template,[name,className,className,attrs.toString(),</span><br><span class="line">                                className,className,className]);</span><br><span class="line">      <span class="keyword">var</span> _import=<span class="keyword">set</span>.join(<span class="string">";\r\n"</span>);</span><br><span class="line">      _import+=_import.isEmpty?<span class="string">""</span>:<span class="string">";"</span>;</span><br><span class="line">      dist=dist.replaceFirst(<span class="string">"%t"</span>,_import );</span><br><span class="line">      <span class="comment">//将生成的模板输出</span></span><br><span class="line">      <span class="keyword">new</span> File(<span class="string">"$DIST$name.dart"</span>).writeAsStringSync(dist);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">String</span> changeFirstChar(<span class="built_in">String</span> str, [<span class="built_in">bool</span> upper=<span class="keyword">true</span>] )&#123;</span><br><span class="line">  <span class="keyword">return</span> (upper?str[<span class="number">0</span>].toUpperCase():str[<span class="number">0</span>].toLowerCase())+str.substring(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//将JSON类型转为对应的dart类型</span></span><br><span class="line"> <span class="built_in">String</span> getType(v,<span class="built_in">Set</span>&lt;<span class="built_in">String</span>&gt; <span class="keyword">set</span>,<span class="built_in">String</span> current)&#123;</span><br><span class="line">  current=current.toLowerCase();</span><br><span class="line">  <span class="keyword">if</span>(v <span class="keyword">is</span> <span class="built_in">bool</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"bool"</span>;</span><br><span class="line">  &#125;<span class="keyword">else</span> <span class="keyword">if</span>(v <span class="keyword">is</span> <span class="built_in">num</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"num"</span>;</span><br><span class="line">  &#125;<span class="keyword">else</span> <span class="keyword">if</span>(v <span class="keyword">is</span> <span class="built_in">Map</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"Map&lt;String,dynamic&gt;"</span>;</span><br><span class="line">  &#125;<span class="keyword">else</span> <span class="keyword">if</span>(v <span class="keyword">is</span> <span class="built_in">List</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"List"</span>;</span><br><span class="line">  &#125;<span class="keyword">else</span> <span class="keyword">if</span>(v <span class="keyword">is</span> <span class="built_in">String</span>)&#123; <span class="comment">//处理特殊标志</span></span><br><span class="line">    <span class="keyword">if</span>(v.startsWith(<span class="string">"$TAG[]"</span>))&#123;</span><br><span class="line">      <span class="keyword">var</span> className=changeFirstChar(v.substring(<span class="number">3</span>),<span class="keyword">false</span>);</span><br><span class="line">      <span class="keyword">if</span>(className.toLowerCase()!=current) &#123;</span><br><span class="line">        <span class="keyword">set</span>.add(<span class="string">'import "$className.dart"'</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> <span class="string">"List&lt;<span class="subst">$&#123;changeFirstChar(className)&#125;</span>&gt;"</span>;</span><br><span class="line"></span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(v.startsWith(TAG))&#123;</span><br><span class="line">      <span class="keyword">var</span> fileName=changeFirstChar(v.substring(<span class="number">1</span>),<span class="keyword">false</span>);</span><br><span class="line">      <span class="keyword">if</span>(fileName.toLowerCase()!=current) &#123;</span><br><span class="line">        <span class="keyword">set</span>.add(<span class="string">'import "$fileName.dart"'</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> changeFirstChar(fileName);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"String"</span>;</span><br><span class="line">  &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"String"</span>;</span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//替换模板占位符</span></span><br><span class="line"><span class="built_in">String</span> format(<span class="built_in">String</span> fmt, <span class="built_in">List</span>&lt;<span class="built_in">Object</span>&gt; params) &#123;</span><br><span class="line">  <span class="built_in">int</span> matchIndex = <span class="number">0</span>;</span><br><span class="line">  <span class="built_in">String</span> replace(<span class="built_in">Match</span> m) &#123;</span><br><span class="line">    <span class="keyword">if</span> (matchIndex &lt; params.length) &#123;</span><br><span class="line">      <span class="keyword">switch</span> (m[<span class="number">0</span>]) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">"%s"</span>:</span><br><span class="line">          <span class="keyword">return</span> params[matchIndex++].toString();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> Exception(<span class="string">"Missing parameter for string format"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> Exception(<span class="string">"Invalid format string: "</span> + m[<span class="number">0</span>].toString());</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> fmt.replaceAllMapped(<span class="string">"%s"</span>, replace);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> main()&#123;</span><br><span class="line">  walk();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>写一个shell(<a href="http://mo.sh" target="_blank" rel="noopener">mo.sh</a>)，将生成模板和生成model串起来：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dart mo.dart</span><br><span class="line">flutter packages pub run build_runner build --delete-conflicting-outputs</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>至此，我们的脚本写好了，我们在根目录下新建一个json目录，然后把user.json移进去，然后在lib目录下创建一个models目录，用于保存最终生成的Model类。现在我们只需要一句命令即可生成Model类了:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./mo.sh</span><br></pre></td></tr></table></figure>
+<p>运行后，一切都将自动执行，现在好多了，不是吗？</p>
+<h5 id="嵌套json">嵌套JSON</h5>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'package:json_annotation/json_annotation.dart'</span>;</span><br><span class="line"><span class="keyword">part</span> <span class="string">'person.g.dart'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@JsonSerializable</span>()</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    Person();</span><br><span class="line"></span><br><span class="line">    <span class="built_in">String</span> name;</span><br><span class="line">    <span class="built_in">String</span> email;</span><br><span class="line">    Person mother;</span><br><span class="line">    <span class="built_in">List</span>&lt;Person&gt; friends;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">factory</span> Person.fromJson(<span class="built_in">Map</span>&lt;<span class="built_in">String</span>,<span class="keyword">dynamic</span>&gt; json) =&gt; _$PersonFromJson(json);</span><br><span class="line">    <span class="built_in">Map</span>&lt;<span class="built_in">String</span>, <span class="keyword">dynamic</span>&gt; toJson() =&gt; _$PersonToJson(<span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这时，我们只需要简单修改一下JSON，添加一些特殊标志，重新运行mo.sh即可：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"John Smith"</span>,</span><br><span class="line">  <span class="attr">"email"</span>: <span class="string">"john@example.com"</span>,</span><br><span class="line">  <span class="attr">"mother"</span>:<span class="string">"$person"</span>,</span><br><span class="line">  <span class="attr">"friends"</span>:<span class="string">"$[]person"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们使用美元符“$”作为特殊标志符(如果与内容冲突，可以修改mo.dart中的<code>TAG</code>常量，自定义标志符)，脚本在遇到特殊标志符后会先把相应字段转为相应的对象或对象数组，对象数组需要在标志符后面添加数组符“[]”，符号后面接具体的类型名，此例中是person。其它类型同理，加入我们给User添加一个Person类型的 <code>boss</code>字段：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"John Smith"</span>,</span><br><span class="line">  <span class="attr">"email"</span>: <span class="string">"john@example.com"</span>,</span><br><span class="line">  <span class="attr">"boss"</span>:<span class="string">"$person"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="http://xn--mo-mp7du97j33hh3c.sh" target="_blank" rel="noopener">重新运行mo.sh</a>，生成的user.dart如下：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'package:json_annotation/json_annotation.dart'</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">"person.dart"</span>;</span><br><span class="line"><span class="keyword">part</span> <span class="string">'user.g.dart'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@JsonSerializable</span>()</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    User();</span><br><span class="line"></span><br><span class="line">    <span class="built_in">String</span> name;</span><br><span class="line">    <span class="built_in">String</span> email;</span><br><span class="line">    Person boss;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">factory</span> User.fromJson(<span class="built_in">Map</span>&lt;<span class="built_in">String</span>,<span class="keyword">dynamic</span>&gt; json) =&gt; _$UserFromJson(json);</span><br><span class="line">    <span class="built_in">Map</span>&lt;<span class="built_in">String</span>, <span class="keyword">dynamic</span>&gt; toJson() =&gt; _$UserToJson(<span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="json_model-包">Json_model 包</h4>
+<p>如果每个项目都要构建一个上面这样的脚本显然很麻烦，为此，我们将上面脚本和生成模板封装了一个包,已经发布到了Pub上，包名为<a href="https://github.com/flutterchina/json_model" target="_blank" rel="noopener">Json_model</a>，开发者把该包加入开发依赖后，便可以用一条命令，根据Json文件生成Dart类。另外<a href="https://github.com/flutterchina/json_model" target="_blank" rel="noopener">Json_model</a> 处于迭代中，功能会逐渐完善，所以建议读者直接使用该包（而不是手动复制上面的代码）。</p>
+<h4 id="使用ide插件生成model">使用IDE插件生成model</h4>
+<p>目前Android Studio(或IntelliJ)有几个插件，可以将json文件转成Model类，但插件质量参差不齐，甚至还有一些沾染上了抄袭风波，故笔者在此不做优先推荐，读者有兴趣可以自行了解。但是，我们还是要了解一下IDE插件和<a href="https://link.juejin.im/?target=https%3A%2F%2Fgithub.com%2Fflutterchina%2Fjson_model" target="_blank" rel="noopener">Json_model</a>的优劣：</p>
+<ol>
+<li><a href="https://link.juejin.im/?target=https%3A%2F%2Fgithub.com%2Fflutterchina%2Fjson_model" target="_blank" rel="noopener">Json_model</a>需要单独维护一个存放Json文件的文件夹，如果有改动，只需修改Json文件便可重新生成Model类；而IDE插件一般需要用户手动将Json内容拷贝复制到一个输入框中，这样生成之后Json文件没有存档的化，之后要改动就需要手动。</li>
+<li><a href="https://link.juejin.im/?target=https%3A%2F%2Fgithub.com%2Fflutterchina%2Fjson_model" target="_blank" rel="noopener">Json_model</a>可以手动指定某个字段引用的其它Model类，可以避免生成重复的类；而IDE插件一般会为每一个Json文件中所有嵌套对象都单独生成一个Model类，即使这些嵌套对象可能在其它Model类中已经生成过。</li>
+<li><a href="https://link.juejin.im/?target=https%3A%2F%2Fgithub.com%2Fflutterchina%2Fjson_model" target="_blank" rel="noopener">Json_model</a> 提供了命令行转化方式，可以方便集成到CI等非UI环境的场景。</li>
+</ol>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/Flutter/Flutter入门：自定义组件和事件/" data-toggle="tooltip" data-placement="top" title="Flutter入门：自定义组件和事件">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#文件操作"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x6587;&#x4EF6;&#x64CD;&#x4F5C;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#app目录"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">APP&#x76EE;&#x5F55;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#示例"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">&#x793A;&#x4F8B;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#网络请求"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x7F51;&#x7EDC;&#x8BF7;&#x6C42;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#httpclient"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">HttpClient</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#httpclient配置"><span class="toc-nav-number">2.1.1.</span> <span class="toc-nav-text">HttpClient&#x914D;&#x7F6E;</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#http请求认证"><span class="toc-nav-number">2.1.2.</span> <span class="toc-nav-text">HTTP&#x8BF7;&#x6C42;&#x8BA4;&#x8BC1;</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#代理"><span class="toc-nav-number">2.1.3.</span> <span class="toc-nav-text">&#x4EE3;&#x7406;</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#证书校验"><span class="toc-nav-number">2.1.4.</span> <span class="toc-nav-text">&#x8BC1;&#x4E66;&#x6821;&#x9A8C;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#dio-http库"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">Dio http&#x5E93;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#引入"><span class="toc-nav-number">2.2.1.</span> <span class="toc-nav-text">&#x5F15;&#x5165;</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#示例"><span class="toc-nav-number">2.2.2.</span> <span class="toc-nav-text">&#x793A;&#x4F8B;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#使用websockets"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text">&#x4F7F;&#x7528;WebSockets</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#步骤"><span class="toc-nav-number">2.3.1.</span> <span class="toc-nav-text">&#x6B65;&#x9AA4;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#socket-api"><span class="toc-nav-number">2.4.</span> <span class="toc-nav-text">Socket API</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#json转dart-model类"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Json&#x8F6C;Dart Model&#x7C7B;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#json-model化"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">Json Model&#x5316;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#自动生成model"><span class="toc-nav-number">3.1.1.</span> <span class="toc-nav-text">&#x81EA;&#x52A8;&#x751F;&#x6210;Model</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#自动化生成模板"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text">&#x81EA;&#x52A8;&#x5316;&#x751F;&#x6210;&#x6A21;&#x677F;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#嵌套json"><span class="toc-nav-number">3.2.1.</span> <span class="toc-nav-text">&#x5D4C;&#x5957;JSON</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#json_model-包"><span class="toc-nav-number">3.3.</span> <span class="toc-nav-text">Json_model &#x5305;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#使用ide插件生成model"><span class="toc-nav-number">3.4.</span> <span class="toc-nav-text">&#x4F7F;&#x7528;IDE&#x63D2;&#x4EF6;&#x751F;&#x6210;model</span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Flutter" title="Flutter">Flutter</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/earthwo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; alonealice 2021 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://www.huweihuang.com">胡伟煌</a> |
+                    <br> 
+                    <a href="http://www.beian.miit.gov.cn">浙ICP备17033688号</a>   
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://alonealice.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://alonealice.com/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

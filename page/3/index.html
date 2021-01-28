@@ -71,7 +71,7 @@
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('http://blog.alonealice.com/blog_bg.jpg') 
+            background-image: url('/img/header_img/blog_bg.jpg') 
             /*config*/
         
     }
@@ -141,14 +141,14 @@
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
@@ -208,6 +208,202 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/音视频/Android Media 实战二：音视频的录制2/">
+        <h2 class="post-title">
+                                 
+            Android Media 实战二：音视频的录制(二)
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            预览
+在页面中添加SurfaceView，同时添加SurfaceHolder.Callback：
+123mSurfaceView = (SurfaceView) findViewById(R.id.surface_view);mSurfaceHolder = mSurfaceView.getHolder();mSurfaceHolder.addCallback(mSurfaceCallbac......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by alonealice on
+            2020-11-01
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#音视频" title="音视频">音视频</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/音视频/Android Media 实战一：音视频的录制/">
+        <h2 class="post-title">
+                                 
+            Android Media 实战一：音视频的录制(一)
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            相机预览
+创建一个CameraGLSurfaceView并继承自GLSurfaceView，同时在构造方法中初始化openGl环境。
+123456789101112131415161718192021public CameraGLSurfaceView(Context context) &#123;    super(context);    init(context);&#125;publ......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by alonealice on
+            2020-11-01
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#音视频" title="音视频">音视频</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/音视频/音频管理AudioManager使用/">
+        <h2 class="post-title">
+                                 
+            音频管理AudioManager使用
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            AudioManager主要是用来控制声音的音量和响铃模式。
+获取音量
+获取AudioManager：
+12//获取系统的Audio管理者AudioManager mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+可以调节音量的声音分类：
+
+STREAM_VOICE_CALL：通话声音
+STREAM......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by alonealice on
+            2020-10-31
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#音视频" title="音视频">音视频</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/音视频/Android Media API 的介绍（2）/">
+        <h2 class="post-title">
+                                 
+            Android Media API 的介绍（2）
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            MediaFormat
+封装描述媒体数据格式的信息，无论是音频还是视频。媒体数据的格式被指定为字符串/值对。
+KEY_MIME：格式的类型
+KEY_MAX_INPUT_SIZE：可选，输入数据缓冲区的最大大小
+KEY_BIT_RATE：仅编码器，所需比特率（以比特/秒为单位）
+视频格式具有以下键：
+KEY_WIDTH：描述视频格式的内容的宽度的键。
+KEY_HEIGHT：描述视频格式的内容的......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by alonealice on
+            2020-10-30
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#音视频" title="音视频">音视频</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/音视频/Android Media API 的介绍（1）/">
+        <h2 class="post-title">
+                                 
+            Android Media API 的介绍（1）
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            Android系统已经提供了对视音频的强大支持，这边先介绍几个和视音频相关的类，通过这几个类的组合使用，可以实现很多音视频处理的相关功能，下面就对这几个类进行简单介绍。
+12345678MediaMetadataRetriever:：用来获取视频的相关信息，例如视频宽高、时长、旋转角度、码率等等。MediaExtractor:：视音频分离器，将一些格式的视频分离出视频轨道和音频轨道。Medi......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by alonealice on
+            2020-10-27
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#音视频" title="音视频">音视频</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/音视频/MediaCodec基础/">
+        <h2 class="post-title">
+                                 
+            MediaCodec基础
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            MediaCodec是一个Codec，通过硬件加速解码和编码。
+MediaCodec 的作用是处理输入的数据生成输出数据。首先生成一个输入数据缓冲区，将数据填入缓冲区提供给 codec，codec 会采用异步的方式处理这些输入的数据，然后将填满输出缓冲区提供给消费者，消费者消费完后将缓冲区返还给 codec。
+MediaCodec的数据
+MediaCodec 接受三种数据格式：压缩数据，原始......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by alonealice on
+            2020-10-26
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#音视频" title="音视频">音视频</a>
+            
+        </div>
+    
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -336,194 +532,6 @@ H264主要采用了几下几种方法对视频数据进行的压缩：帧内预�
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/Android-Jetpack/Navigation的使用/">
-        <h2 class="post-title">
-                                 
-            Navigation的使用
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            Google官方的描述：
-
-今天，我们宣布推出Navigation组件，作为构建您的应用内界面的框架，重点是让单 Activity 应用成为首选架构。利用Navigation组件对 Fragment 的原生支持，您可以获得架构组件的所有好处（例如生命周期和 ViewModel），同时让此组件为您处理 FragmentTransaction 的复杂性。此外，Navigation组件还可以让您声......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by alonealice on
-            2020-05-24
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#Android Jetpack" title="Android Jetpack">Android Jetpack</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/Android-Jetpack/Lifecycle使用/">
-        <h2 class="post-title">
-                                 
-            Lifecycle使用和原理
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            Lifecycle 是官方提供的架构组件之一，是具有生命周期感知能力的组件。也就是说，我们能在 Activity 或者 Fragment 的生命周期发生变化的时候得到通知
-依赖
-12implementation "android.arch.lifecycle:livedata:1.1.1"annotationProcessor "android.arch.lifecycle:compiler......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by alonealice on
-            2020-05-22
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#Android Jetpack" title="Android Jetpack">Android Jetpack</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/Android-Jetpack/CameraX简单使用/">
-        <h2 class="post-title">
-                                 
-            CameraX简单使用
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            CameraX实际上还是用的Camera2的代码，但是它对调用API进行了很好的封装，使用起来对比直接Camera2更加的方便。同时使用需要绑定lifecircle，能够自动管理生命周期。
-添加依赖
-1234implementation "androidx.camera:camera-core:1.0.0-rc01"implementation "androidx.camera:camera......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by alonealice on
-            2020-05-20
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#Android Jetpack" title="Android Jetpack">Android Jetpack</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/Android-Jetpack/ViewModel的使用和原理/">
-        <h2 class="post-title">
-                                 
-            ViewModel的使用和原理
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            ViewModel 是一种用来存储和管理UI相关数据的类。同时在配合LiveData 情况下还支持在系统配置发生改变的时候自动对数据进行保存。它可以用来管理Activity和Fragment中的数据，也可以拿来处理Fragment与Fragment之间的通信等。
-ViewModel的使用
-添加依赖
-12implementation 'androidx.appcompat:appcompat:......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by alonealice on
-            2020-05-17
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#Android Jetpack" title="Android Jetpack">Android Jetpack</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/Android-Jetpack/Room的介绍和使用/">
-        <h2 class="post-title">
-                                 
-            Room数据库的介绍和使用
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            介绍
-Room数据库是Google提供的一个ORM库，提供了SQLite的抽象层，以便在充分利用SQLite的同时允许流畅的数据库访问。
-其主要有三个组件：
-@Database：@Database用来注解类，并且注解的类必须是继承自RoomDatabase的抽象类。该类主要作用是创建数据库和创建Daos（data access objects，数据访问对象）。
-@Entity：@Entity......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by alonealice on
-            2020-05-16
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#Android Jetpack" title="Android Jetpack">Android Jetpack</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/Android-Jetpack/LiveData使用和原理/">
-        <h2 class="post-title">
-                                 
-            LiveData使用和原理
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            LiveData是什么
-LiveData 是一个可以保存数据和观察数据变化的组件，主要是被设计用来在ViewModel中保存数据。LiveData是一个可被观察的数据持有者类，这个跟RxJava的Observable有点类似。但与Observable不同，LiveData能够感知到应用程序组件的生命周期变化。因此它能遵守Activity、Fragment、Service等组件的生命周期，这样......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by alonealice on
-            2020-05-13
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#Android Jetpack" title="Android Jetpack">Android Jetpack</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -569,10 +577,6 @@ LiveData 是一个可以保存数据和观察数据变化的组件，主要是�
     <div class="tags">
         
             
-            <a href="/tags/#andfix" title="andfix" rel="1">andfix</a>
-            
-        
-            
             <a href="/tags/#AIDL" title="AIDL" rel="1">AIDL</a>
             
         
@@ -581,7 +585,7 @@ LiveData 是一个可以保存数据和观察数据变化的组件，主要是�
             
         
             
-            <a href="/tags/#OpenGL" title="OpenGL" rel="8">OpenGL</a>
+            <a href="/tags/#andfix" title="andfix" rel="1">andfix</a>
             
         
             
@@ -589,7 +593,19 @@ LiveData 是一个可以保存数据和观察数据变化的组件，主要是�
             
         
             
+            <a href="/tags/#OpenGL" title="OpenGL" rel="8">OpenGL</a>
+            
+        
+            
             <a href="/tags/#Android8.0" title="Android8.0" rel="1">Android8.0</a>
+            
+        
+            
+            <a href="/tags/#Android Jetpack" title="Android Jetpack" rel="7">Android Jetpack</a>
+            
+        
+            
+            <a href="/tags/#C语言" title="C语言" rel="4">C语言</a>
             
         
             
@@ -597,7 +613,7 @@ LiveData 是一个可以保存数据和观察数据变化的组件，主要是�
             
         
             
-            <a href="/tags/#C语言" title="C语言" rel="4">C语言</a>
+            <a href="/tags/#http" title="http" rel="2">http</a>
             
         
             
@@ -609,27 +625,19 @@ LiveData 是一个可以保存数据和观察数据变化的组件，主要是�
             
         
             
-            <a href="/tags/#Flutter" title="Flutter" rel="1">Flutter</a>
-            
-        
-            
-            <a href="/tags/#Android Jetpack" title="Android Jetpack" rel="7">Android Jetpack</a>
-            
-        
-            
-            <a href="/tags/#http" title="http" rel="2">http</a>
-            
-        
-            
-            <a href="/tags/#源码阅读" title="源码阅读" rel="8">源码阅读</a>
-            
-        
-            
             <a href="/tags/#Executors" title="Executors" rel="1">Executors</a>
             
         
             
             <a href="/tags/#线程池" title="线程池" rel="1">线程池</a>
+            
+        
+            
+            <a href="/tags/#Flutter" title="Flutter" rel="7">Flutter</a>
+            
+        
+            
+            <a href="/tags/#源码阅读" title="源码阅读" rel="8">源码阅读</a>
             
         
             
@@ -642,6 +650,10 @@ LiveData 是一个可以保存数据和观察数据变化的组件，主要是�
         
             
             <a href="/tags/#Retrofit" title="Retrofit" rel="2">Retrofit</a>
+            
+        
+            
+            <a href="/tags/#WebRtc" title="WebRtc" rel="2">WebRtc</a>
             
         
             
@@ -669,11 +681,11 @@ LiveData 是一个可以保存数据和观察数据变化的组件，主要是�
             
         
             
-            <a href="/tags/#动态代理" title="动态代理" rel="1">动态代理</a>
+            <a href="/tags/#java反射" title="java反射" rel="1">java反射</a>
             
         
             
-            <a href="/tags/#java反射" title="java反射" rel="1">java反射</a>
+            <a href="/tags/#动态代理" title="动态代理" rel="1">动态代理</a>
             
         
             
@@ -682,10 +694,6 @@ LiveData 是一个可以保存数据和观察数据变化的组件，主要是�
         
             
             <a href="/tags/#java注解" title="java注解" rel="1">java注解</a>
-            
-        
-            
-            <a href="/tags/#WebRtc" title="WebRtc" rel="2">WebRtc</a>
             
         
             
@@ -701,11 +709,11 @@ LiveData 是一个可以保存数据和观察数据变化的组件，主要是�
             
         
             
-            <a href="/tags/#tips和坑" title="tips和坑" rel="3">tips和坑</a>
+            <a href="/tags/#NDK" title="NDK" rel="1">NDK</a>
             
         
             
-            <a href="/tags/#NDK" title="NDK" rel="1">NDK</a>
+            <a href="/tags/#tips和坑" title="tips和坑" rel="3">tips和坑</a>
             
         
             
@@ -717,11 +725,11 @@ LiveData 是一个可以保存数据和观察数据变化的组件，主要是�
             
         
             
-            <a href="/tags/#Preference" title="Preference" rel="1">Preference</a>
+            <a href="/tags/#okhttp" title="okhttp" rel="1">okhttp</a>
             
         
             
-            <a href="/tags/#okhttp" title="okhttp" rel="1">okhttp</a>
+            <a href="/tags/#Preference" title="Preference" rel="1">Preference</a>
             
         
             
@@ -781,23 +789,23 @@ LiveData 是一个可以保存数据和观察数据变化的组件，主要是�
     <ul>
       
         <li>
-          <a href="/Flutter/Flutter入门：第一个Flutter程序/">Flutter入门：第一个Flutter应用</a>
+          <a href="/Flutter/Flutter入门：文件和网络/">Flutter入门：文件和网络</a>
         </li>
       
         <li>
-          <a href="/音视频/WebRtc/WebRtc连接过程/">WebRtc 建联过程</a>
+          <a href="/Flutter/Flutter入门：自定义组件和事件/">Flutter入门：自定义组件和事件</a>
         </li>
       
         <li>
-          <a href="/音视频/OpenGL/Android OpenGL的简单使用（9）：纹理/">Android OpenGL的简单使用（9）：纹理</a>
+          <a href="/Flutter/Flutter入门：功能组件和动画/">Flutter入门：功能组件和动画</a>
         </li>
       
         <li>
-          <a href="/音视频/OpenGL/Android OpenGL的简单使用（8）：材质和光照/">Android OpenGL的简单使用（8）：材质和光照</a>
+          <a href="/Flutter/Flutter入门：路由、包和资源/">Flutter入门：路由、包和资源</a>
         </li>
       
         <li>
-          <a href="/音视频/OpenGL/Android OpenGL的简单使用（7）：添加颜色/">Android OpenGL的简单使用（7）：添加颜色</a>
+          <a href="/Flutter/Flutter入门：Flutter 的常用Widget/">Flutter入门：Flutter 的常用Widget</a>
         </li>
       
     </ul>
@@ -812,7 +820,7 @@ LiveData 是一个可以保存数据和观察数据变化的组件，主要是�
         
     <h5>ARCHIVES</h5>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">3</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">3</span></li></ul>
     </div>
 
         <hr>
