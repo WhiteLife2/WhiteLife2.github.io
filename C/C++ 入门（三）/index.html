@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="不懂要会问，打脸要立正">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          C++入门（三） - alonealice | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://alonealice.com/C/C++ 入门（三）/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/article_bg.jpeg')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#C++" title="C++">C++</a>
+                            
+                        </div>
+                        <h1>C++入门（三）</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by alonealice on
+                            2021-02-24
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">alonealice</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h3 id="继承">继承</h3>
+<p>继承的一般语法为：</p>
+<p>class 派生类名:［继承方式］ 基类名{<br>
+派生类新增加的成员<br>
+};</p>
+<p>继承方式包括 public（公有的）、private（私有的）和 protected（受保护的），此项是可选的，如果不写，那么默认为 private。</p>
+<p><strong>1) public继承方式</strong></p>
+<ul>
+<li>基类中所有 public 成员在派生类中为 public 属性；</li>
+<li>基类中所有 protected 成员在派生类中为 protected 属性；</li>
+<li>基类中所有 private 成员在派生类中不能使用。</li>
+</ul>
+<p><strong>2) protected继承方式</strong></p>
+<ul>
+<li>基类中的所有 public 成员在派生类中为 protected 属性；</li>
+<li>基类中的所有 protected 成员在派生类中为 protected 属性；</li>
+<li>基类中的所有 private 成员在派生类中不能使用。</li>
+</ul>
+<p><strong>3) private继承方式</strong></p>
+<ul>
+<li>基类中的所有 public 成员在派生类中均为 private 属性；</li>
+<li>基类中的所有 protected 成员在派生类中均为 private 属性；</li>
+<li>基类中的所有 private 成员在派生类中不能使用。</li>
+</ul>
+<p><strong>基类成员在派生类中的访问权限不得高于继承方式中指定的权限。</strong></p>
+<h3 id="改变访问权限">改变访问权限</h3>
+<p>使用 using 关键字可以改变基类成员在派生类中的访问权限，例如将 public 改为 private、将 protected 改为 public</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//基类People</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">People</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span>;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="keyword">char</span> *m_name;</span><br><span class="line">    <span class="keyword">int</span> m_age;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">void</span> People::show()&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;m_name&lt;&lt;<span class="string">"的年龄是"</span>&lt;&lt;m_age&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//派生类Student</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span>:</span> <span class="keyword">public</span> People&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">learning</span><span class="params">()</span></span>;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">using</span> People::m_name;  <span class="comment">//将private改为public</span></span><br><span class="line">    <span class="keyword">using</span> People::m_age;  <span class="comment">//将private改为public</span></span><br><span class="line">    <span class="keyword">float</span> m_score;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">using</span> People::show;  <span class="comment">//将public改为private</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="方法遮蔽">方法遮蔽</h3>
+<p>基类成员和派生类成员的名字一样时会造成遮蔽，对于成员函数要引起注意，不管函数的参数如何，只要名字一样就会造成遮蔽。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//基类Base</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">func</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">func</span><span class="params">(<span class="keyword">int</span>)</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">void</span> Base::func()&#123; <span class="built_in">cout</span>&lt;&lt;<span class="string">"Base::func()"</span>&lt;&lt;<span class="built_in">endl</span>; &#125;</span><br><span class="line"><span class="keyword">void</span> Base::func(<span class="keyword">int</span> a)&#123; <span class="built_in">cout</span>&lt;&lt;<span class="string">"Base::func(int)"</span>&lt;&lt;<span class="built_in">endl</span>; &#125;</span><br><span class="line"><span class="comment">//派生类Derived</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Derived</span>:</span> <span class="keyword">public</span> Base&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">func</span><span class="params">(<span class="keyword">char</span> *)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">func</span><span class="params">(<span class="keyword">bool</span>)</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">void</span> Derived::func(<span class="keyword">char</span> *str)&#123; <span class="built_in">cout</span>&lt;&lt;<span class="string">"Derived::func(char *)"</span>&lt;&lt;<span class="built_in">endl</span>; &#125;</span><br><span class="line"><span class="keyword">void</span> Derived::func(<span class="keyword">bool</span> is)&#123; <span class="built_in">cout</span>&lt;&lt;<span class="string">"Derived::func(bool)"</span>&lt;&lt;<span class="built_in">endl</span>; &#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    Derived d;</span><br><span class="line">    d.func(<span class="string">"c.biancheng.net"</span>);</span><br><span class="line">    d.func(<span class="literal">true</span>);</span><br><span class="line">    d.func();  <span class="comment">//compile error</span></span><br><span class="line">    d.func(<span class="number">10</span>);  <span class="comment">//compile error</span></span><br><span class="line">    d.Base::func();</span><br><span class="line">    d.Base::func(<span class="number">100</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="构造方法和析构方法">构造方法和析构方法</h3>
+<p>在派生类的构造方法中调用基类的构造方法：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Student::Student(<span class="keyword">char</span> *name, <span class="keyword">int</span> age, <span class="keyword">float</span> score): People(name, age), m_score(score)&#123; &#125; <span class="comment">//顺序可以交换</span></span><br><span class="line">相当于</span><br><span class="line">Student::Student(<span class="keyword">char</span> *name, <span class="keyword">int</span> age, <span class="keyword">float</span> score)&#123;</span><br><span class="line">    People(name, age);</span><br><span class="line">    m_score = score;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>析构函数的执行顺序和构造函数的执行顺序刚好相反。</strong></p>
+<h3 id="多继承">多继承</h3>
+<p>多继承的语法也很简单，将多个基类用逗号隔开即可。例如已声明了类A、类B和类C，那么可以这样来声明派生类D：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">D</span>:</span> <span class="keyword">public</span> A, <span class="keyword">private</span> B, <span class="keyword">protected</span> C&#123;</span><br><span class="line">  <span class="comment">//类D新增加的成员</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的 A、B、C、D 类为例，D 类构造函数的写法为：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">D(形参列表): A(实参列表), B(实参列表), C(实参列表)&#123;</span><br><span class="line">    <span class="comment">//其他操作</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当两个或多个基类中有同名的成员时，如果直接访问该成员，就会产生命名冲突，编译器不知道使用哪个基类的成员。这个时候需要在成员名字前面加上类名和域解析符<code>::</code>，以显式地指明到底使用哪个类的成员，消除二义性。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">BaseA::show();  <span class="comment">//调用BaseA类的show()函数</span></span><br><span class="line">BaseB::show();  <span class="comment">//调用BaseB类的show()函数</span></span><br></pre></td></tr></table></figure>
+<h3 id="虚继承和虚基类">虚继承和虚基类</h3>
+<p>在继承方式前面加上 virtual 关键字就是虚继承</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//直接基类B</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span>:</span> <span class="keyword">virtual</span> <span class="keyword">public</span> A&#123;  <span class="comment">//虚继承</span></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="keyword">int</span> m_b;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>虚继承的目的是让某个类做出声明，承诺愿意共享它的基类。其中，这个被共享的基类就称为虚基类（Virtual Base Class），本例中的 A 就是一个虚基类。在这种机制下，不论虚基类在继承体系中出现了多少次，在派生类中都只包含一份虚基类的成员。</p>
+<p>在最终派生类的构造函数调用列表中，不管各个构造函数出现的顺序如何，编译器总是先调用虚基类的构造函数，再按照出现的顺序调用其他的构造函数；而对于普通继承，就是按照构造函数出现的顺序依次调用的。</p>
+<h3 id="向上转型将派生类赋值给基类">向上转型（将派生类赋值给基类）</h3>
+<p><strong>赋值的本质是将现有的数据写入已分配好的内存中，对象的内存只包含了成员变量，所以对象之间的赋值是成员变量的赋值，成员函数不存在赋值问题</strong></p>
+<p>可以用派生类对象给基类对象赋值，而不能用基类对象给派生类对象赋值。赋值后方法调用仍然是原来的。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">A <span class="title">a</span><span class="params">(<span class="number">10</span>)</span></span>;</span><br><span class="line">    <span class="function">B <span class="title">b</span><span class="params">(<span class="number">66</span>, <span class="number">99</span>)</span></span>;</span><br><span class="line">    <span class="comment">//赋值前</span></span><br><span class="line">    a.display(); <span class="comment">// a</span></span><br><span class="line">    b.display(); <span class="comment">//b</span></span><br><span class="line">    <span class="comment">//赋值后</span></span><br><span class="line">    a = b;</span><br><span class="line">    a.display(); <span class="comment">//a</span></span><br><span class="line">    b.display(); <span class="comment">//b</span></span><br></pre></td></tr></table></figure>
+<p>除了可以将派生类对象赋值给基类对象（对象变量之间的赋值），还可以将派生类指针赋值给基类指针</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">A *pa = <span class="keyword">new</span> A(<span class="number">1</span>);</span><br><span class="line">B *pb = <span class="keyword">new</span> B(<span class="number">2</span>, <span class="number">20</span>);</span><br><span class="line">C *pc = <span class="keyword">new</span> C(<span class="number">3</span>);</span><br><span class="line">D *pd = <span class="keyword">new</span> D(<span class="number">4</span>, <span class="number">40</span>, <span class="number">400</span>, <span class="number">4000</span>);</span><br><span class="line">pa = pd;</span><br><span class="line">pb = pd;</span><br><span class="line">pc = pd;</span><br></pre></td></tr></table></figure>
+<h3 id="虚函数">虚函数</h3>
+<p>虚函数对于多态具有决定性的作用，有虚函数才能构成多态。</p>
+<ol>
+<li>
+<p>只需要在虚函数的声明处加上 virtual 关键字，函数定义处可以加也可以不加。</p>
+</li>
+<li>
+<p>为了方便，你可以只将基类中的函数声明为虚函数，这样所有派生类中具有遮蔽（覆盖）关系的同名函数都将自动成为虚函数。</p>
+</li>
+<li>
+<p>当在基类中定义了虚函数时，如果派生类没有定义新的函数来遮蔽此函数，那么将使用基类的虚函数。</p>
+</li>
+<li>
+<p>只有派生类的虚函数遮蔽基类的虚函数（函数原型相同）才能构成多态（通过基类指针访问派生类函数）</p>
+</li>
+<li>
+<p>构造函数不能是虚函数。</p>
+</li>
+<li>
+<p>析构函数可以声明为虚函数，而且有时候必须要声明为虚函数，</p>
+</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//基类Base</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">func</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">func</span><span class="params">(<span class="keyword">int</span>)</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">void</span> Base::func()&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"void Base::func()"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">void</span> Base::func(<span class="keyword">int</span> n)&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"void Base::func(int)"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//派生类Derived</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Derived</span>:</span> <span class="keyword">public</span> Base&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">func</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">func</span><span class="params">(<span class="keyword">char</span> *)</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">void</span> Derived::func()&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"void Derived::func()"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">void</span> Derived::func(<span class="keyword">char</span> *str)&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"void Derived::func(char *)"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    Base *p = <span class="keyword">new</span> Derived();</span><br><span class="line">    p -&gt; func();  <span class="comment">//输出void Derived::func()</span></span><br><span class="line">    p -&gt; func(<span class="number">10</span>);  <span class="comment">//输出void Base::func(int)</span></span><br><span class="line">    p -&gt; func(<span class="string">"http://c.biancheng.net"</span>);  <span class="comment">//compile error</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>基类的方便不会被覆盖了</p>
+<h3 id="纯虚函数和抽象类">纯虚函数和抽象类</h3>
+<p>在C++中，可以将虚函数声明为纯虚函数，语法格式为：</p>
+<p>virtual 返回值类型 函数名 (函数参数) = 0;</p>
+<p>纯虚函数没有函数体，只有函数声明，在虚函数声明的结尾加上<code>=0</code>，表明此函数为纯虚函数。它只起形式上的作用，告诉编译系统“这是纯虚函数”。</p>
+<p><strong>包含纯虚函数的类称为抽象类。</strong></p>
+<h3 id="typeid运算符">typeid运算符</h3>
+<p>typeid 运算符用来获取一个表达式的类型信息。类型信息对于编程语言非常重要，它描述了数据的各种属性：</p>
+<ul>
+<li>对于基本类型（int、float 等C++内置类型）的数据，类型信息所包含的内容比较简单，主要是指数据的类型。</li>
+<li>对于类类型的数据（也就是对象），类型信息是指对象所属的类、所包含的成员、所在的继承关系等。</li>
+</ul>
+<p>typeid 的操作对象既可以是表达式，也可以是数据类型，下面是它的两种使用方法：</p>
+<p>typeid( dataType )<br>
+typeid( expression )</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span>&#123;</span> &#125;;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">STU</span>&#123;</span> &#125;;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//获取一个普通变量的类型信息</span></span><br><span class="line">    <span class="keyword">int</span> n = <span class="number">100</span>;</span><br><span class="line">    <span class="keyword">const</span> type_info &amp;nInfo = <span class="keyword">typeid</span>(n);</span><br><span class="line">  	<span class="comment">// int | .H | 529034928 </span></span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;nInfo.name()&lt;&lt;<span class="string">" | "</span>&lt;&lt;nInfo.raw_name()&lt;&lt;<span class="string">" | "</span>&lt;&lt;nInfo.hash_code()&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="comment">//获取一个字面量的类型信息</span></span><br><span class="line">  	<span class="comment">// double | .N | 667332678</span></span><br><span class="line">    <span class="keyword">const</span> type_info &amp;dInfo = <span class="keyword">typeid</span>(<span class="number">25.65</span>);</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;dInfo.name()&lt;&lt;<span class="string">" | "</span>&lt;&lt;dInfo.raw_name()&lt;&lt;<span class="string">" | "</span>&lt;&lt;dInfo.hash_code()&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="comment">//获取一个对象的类型信息</span></span><br><span class="line">  	<span class="comment">// class Base | .?AVBase@@ | 1035034353</span></span><br><span class="line">    Base obj;</span><br><span class="line">    <span class="keyword">const</span> type_info &amp;objInfo = <span class="keyword">typeid</span>(obj);</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;objInfo.name()&lt;&lt;<span class="string">" | "</span>&lt;&lt;objInfo.raw_name()&lt;&lt;<span class="string">" | "</span>&lt;&lt;objInfo.hash_code()&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="comment">//获取一个类的类型信息</span></span><br><span class="line">  	<span class="comment">// class Base | .?AVBase@@ | 1035034353</span></span><br><span class="line">    <span class="keyword">const</span> type_info &amp;baseInfo = <span class="keyword">typeid</span>(Base);</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;baseInfo.name()&lt;&lt;<span class="string">" | "</span>&lt;&lt;baseInfo.raw_name()&lt;&lt;<span class="string">" | "</span>&lt;&lt;baseInfo.hash_code()&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="comment">//获取一个结构体的类型信息</span></span><br><span class="line">  	<span class="comment">// struct STU | .?AUSTU@@ | 734635517</span></span><br><span class="line">    <span class="keyword">const</span> type_info &amp;stuInfo = <span class="keyword">typeid</span>(struct STU);</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;stuInfo.name()&lt;&lt;<span class="string">" | "</span>&lt;&lt;stuInfo.raw_name()&lt;&lt;<span class="string">" | "</span>&lt;&lt;stuInfo.hash_code()&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="comment">//获取一个普通类型的类型信息</span></span><br><span class="line">  	<span class="comment">// char | .D | 4140304029</span></span><br><span class="line">    <span class="keyword">const</span> type_info &amp;charInfo = <span class="keyword">typeid</span>(<span class="keyword">char</span>);</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;charInfo.name()&lt;&lt;<span class="string">" | "</span>&lt;&lt;charInfo.raw_name()&lt;&lt;<span class="string">" | "</span>&lt;&lt;charInfo.hash_code()&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="comment">//获取一个表达式的类型信息</span></span><br><span class="line">  	<span class="comment">// double | .N | 667332678</span></span><br><span class="line">    <span class="keyword">const</span> type_info &amp;expInfo = <span class="keyword">typeid</span>(<span class="number">20</span> * <span class="number">45</span> / <span class="number">4.5</span>);</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;expInfo.name()&lt;&lt;<span class="string">" | "</span>&lt;&lt;expInfo.raw_name()&lt;&lt;<span class="string">" | "</span>&lt;&lt;expInfo.hash_code()&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>type_info 类的几个成员函数，下面是对它们的介绍：</p>
+<ul>
+<li>name() 用来返回类型的名称。</li>
+<li>raw_name() 用来返回名字编码（Name Mangling）算法产生的新名称。关于名字编码的概念，我们已在《<a href="http://c.biancheng.net/cpp/biancheng/view/2996.html" target="_blank" rel="noopener">C++函数编译原理和成员函数的实现</a>》中讲到。</li>
+<li>hash_code() 用来返回当前类型对应的 hash 值</li>
+</ul>
+<p>typeid 运算符经常被用来判断两个类型是否相等</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> *str;</span><br><span class="line"><span class="keyword">int</span> a = <span class="number">2</span>;</span><br><span class="line"><span class="keyword">int</span> b = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">float</span> f;</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>类型比较</th>
+<th>结果</th>
+<th>类型比较</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>typeid(int) == typeid(int)</td>
+<td>true</td>
+<td>typeid(int) == typeid(char)</td>
+<td>false</td>
+</tr>
+<tr>
+<td>typeid(char*) == typeid(char)</td>
+<td>false</td>
+<td>typeid(str) == typeid(char*)</td>
+<td>true</td>
+</tr>
+<tr>
+<td>typeid(a) == typeid(int)</td>
+<td>true</td>
+<td>typeid(b) == typeid(int)</td>
+<td>true</td>
+</tr>
+<tr>
+<td>typeid(a) == typeid(a)</td>
+<td>true</td>
+<td>typeid(a) == typeid(b)</td>
+<td>true</td>
+</tr>
+<tr>
+<td>typeid(a) == typeid(f)</td>
+<td>false</td>
+<td>typeid(a/b) == typeid(int)</td>
+<td>true</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span>&#123;</span>&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Derived</span>:</span> </span><br><span class="line"><span class="keyword">public</span> Base&#123;&#125;;</span><br><span class="line">Base obj1;Base *p1;</span><br><span class="line">Derived obj2;Derived *p2 = <span class="keyword">new</span> Derived;p1 = p2;</span><br></pre></td></tr></table></figure>
+<p>类型判断结果为：</p>
+<table>
+<thead>
+<tr>
+<th>类型比较</th>
+<th>结果</th>
+<th>类型比较</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>typeid(obj1) == typeid(p1)</td>
+<td>false</td>
+<td>typeid(obj1) == typeid(*p1)</td>
+<td>true</td>
+</tr>
+<tr>
+<td>typeid(&amp;obj1) == typeid(p1)</td>
+<td>true</td>
+<td>typeid(obj1) == typeid(obj2)</td>
+<td>false</td>
+</tr>
+<tr>
+<td>typeid(obj1) == typeid(Base)</td>
+<td>true</td>
+<td>typeid(*p1) == typeid(Base)</td>
+<td>true</td>
+</tr>
+<tr>
+<td>typeid(p1) == typeid(Base*)</td>
+<td>true</td>
+<td>typeid(p1) == typeid(Derived*)</td>
+<td>false</td>
+</tr>
+</tbody>
+</table>
+<h3 id="运算符重载">运算符重载</h3>
+<p>运算符重载是通过函数实现的，它本质上是函数重载。</p>
+<p>运算符重载的格式为：</p>
+<p>返回值类型 operator 运算符名称 (形参表列){<br>
+//TODO:<br>
+}</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">complex</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">complex</span>();</span><br><span class="line">    <span class="keyword">complex</span>(<span class="keyword">double</span> real, <span class="keyword">double</span> imag);</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">//声明运算符重载</span></span><br><span class="line">    <span class="keyword">complex</span> <span class="keyword">operator</span>+(<span class="keyword">const</span> <span class="keyword">complex</span> &amp;A) <span class="keyword">const</span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">display</span><span class="params">()</span> <span class="keyword">const</span></span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">double</span> m_real;  <span class="comment">//实部</span></span><br><span class="line">    <span class="keyword">double</span> m_imag;  <span class="comment">//虚部</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">complex</span>::<span class="keyword">complex</span>(): m_real(<span class="number">0.0</span>), m_imag(<span class="number">0.0</span>)&#123; &#125;</span><br><span class="line"><span class="keyword">complex</span>::<span class="keyword">complex</span>(<span class="keyword">double</span> real, <span class="keyword">double</span> imag): m_real(real), m_imag(imag)&#123; &#125;</span><br><span class="line"><span class="comment">//实现运算符重载</span></span><br><span class="line"><span class="keyword">complex</span> <span class="keyword">complex</span>::<span class="keyword">operator</span>+(<span class="keyword">const</span> <span class="keyword">complex</span> &amp;A) <span class="keyword">const</span>&#123;</span><br><span class="line">    <span class="keyword">complex</span> B;</span><br><span class="line">    B.m_real = <span class="keyword">this</span>-&gt;m_real + A.m_real;</span><br><span class="line">    B.m_imag = <span class="keyword">this</span>-&gt;m_imag + A.m_imag;</span><br><span class="line">    <span class="keyword">return</span> B;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">void</span> <span class="keyword">complex</span>::display() <span class="keyword">const</span>&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;m_real&lt;&lt;<span class="string">" + "</span>&lt;&lt;m_imag&lt;&lt;<span class="string">"i"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">complex</span> <span class="title">c1</span><span class="params">(<span class="number">4.3</span>, <span class="number">5.8</span>)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">complex</span> <span class="title">c2</span><span class="params">(<span class="number">2.4</span>, <span class="number">3.7</span>)</span></span>;</span><br><span class="line">    <span class="keyword">complex</span> c3;</span><br><span class="line">    c3 = c1 + c2;</span><br><span class="line">    c3.display();</span><br><span class="line">  	<span class="comment">// 6.7 + 9.5i</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="在全局范围内重载运算符">在全局范围内重载运算符</h4>
+<p>在上面基础上</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"> //声明为友元函数</span><br><span class="line"> friend complex operator+(const complex &amp;A, const complex &amp;B);</span><br><span class="line"></span><br><span class="line">//在全局范围内重载+</span><br><span class="line">complex operator+(const complex &amp;A, const complex &amp;B)&#123;</span><br><span class="line">    complex C;</span><br><span class="line">    C.m_real = A.m_real + B.m_real;</span><br><span class="line">    C.m_imag = A.m_imag + B.m_imag;</span><br><span class="line">    return C;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="运算符重载的规则">运算符重载的规则</h3>
+<ol>
+<li>并不是所有的运算符都可以重载。能够重载的运算符包括：<br>
++ - * / % ^ &amp; | ~ ! = &lt; &gt; += -= <em>= /= %= ^= &amp;= |=  &lt;&lt; &gt;&gt; &lt;&lt;= &gt;&gt;= == != &lt;= &gt;= &amp;&amp; || ++ – , -&gt;</em> -&gt; () []  new new[] delete delete[]</li>
+</ol>
+<p><strong>长度运算符<code>sizeof</code>、条件运算符<code>: ?</code>、成员选择符<code>.</code>和域解析运算符<code>::</code>不能被重载。</strong></p>
+<ol start="2">
+<li>重载不能改变运算符的优先级和结合性。假设上一节的 complex 类中重载了<code>+</code>号和<code>*</code>号，并且 c1、c2、c3、c4 都是 complex 类的对象，那么下面的语句：</li>
+</ol>
+<p>c4 = c1 + c2 * c3;</p>
+<p>等价于：</p>
+<p>c4 = c1 + ( c2 * c3 );</p>
+<ol start="3">
+<li>
+<p>重载不会改变运算符的用法，原有有几个操作数、操作数在左边还是在右边，这些都不会改变。</p>
+</li>
+<li>
+<p>运算符重载函数不能有默认的参数，否则就改变了运算符操作数的个数，这显然是错误的。</p>
+</li>
+<li>
+<p>运算符重载函数既可以作为类的成员函数，也可以作为全局函数。</p>
+</li>
+<li>
+<p>箭头运算符<code>-&gt;</code>、下标运算符<code>[ ]</code>、函数调用运算符<code>( )</code>、赋值运算符<code>=</code>只能以成员函数的形式重载。</p>
+</li>
+</ol>
+<h3 id="函数模板">函数模板</h3>
+<p>所谓函数模板，实际上是建立一个通用函数，它所用到的数据的类型（包括返回值类型、形参类型、局部变量类型）可以不具体指定，而是用一个虚拟的类型来代替（实际上是用一个标识符来占位），等发生函数调用时再根据传入的实参来逆推出真正的类型。这个通用函数就称为函数模板（Function Template）。</p>
+<p>定义模板函数的语法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">template &lt;typename 类型参数1 , typename 类型参数2 , ...&gt; 返回值类型  函数名(形参列表)&#123;</span><br><span class="line">    //在函数体中可以使用类型参数</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>typename</code>关键字也可以使用<code>class</code>关键字替代，它们没有任何区别。</p>
+<p>举例：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt; <span class="function"><span class="keyword">void</span> <span class="title">Swap</span><span class="params">(T *a, T *b)</span></span>&#123;</span><br><span class="line">    T temp = *a;</span><br><span class="line">    *a = *b;</span><br><span class="line">    *b = temp;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt; <span class="function"><span class="keyword">void</span> <span class="title">Swap</span><span class="params">(T &amp;a, T &amp;b)</span></span>&#123;</span><br><span class="line">    T temp = a;</span><br><span class="line">    a = b;</span><br><span class="line">    b = temp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>函数模板也可以提前声明，不过声明时需要带上模板头，并且模板头和函数定义（声明）是一个不可分割的整体，它们可以换行，但中间不能有分号。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//声明函数模板</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt; <span class="function">T <span class="title">max</span><span class="params">(T a, T b, T c)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义函数模板</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;  <span class="comment">//模板头，这里不能有分号</span></span><br><span class="line"><span class="function">T <span class="title">max</span><span class="params">(T a, T b, T c)</span></span>&#123; <span class="comment">//函数头</span></span><br><span class="line">    T max_num = a;</span><br><span class="line">    <span class="keyword">if</span>(b &gt; max_num) max_num = b;</span><br><span class="line">    <span class="keyword">if</span>(c &gt; max_num) max_num = c;</span><br><span class="line">    <span class="keyword">return</span> max_num;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="类模板">类模板</h3>
+<p>声明类模板的语法为：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> 类型参数<span class="number">1</span> , <span class="keyword">typename</span> 类型参数<span class="number">2</span> , …&gt; <span class="class"><span class="keyword">class</span> 类名&#123;</span></span><br><span class="line">  <span class="comment">//<span class="doctag">TODO:</span></span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T1, <span class="keyword">typename</span> T2&gt;  <span class="comment">//这里不能有分号</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Point(T1 x, T2 y): m_x(x), m_y(y)&#123; &#125;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">T1 <span class="title">getX</span><span class="params">()</span> <span class="keyword">const</span></span>;  <span class="comment">//获取x坐标</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setX</span><span class="params">(T1 x)</span></span>;  <span class="comment">//设置x坐标</span></span><br><span class="line">    <span class="function">T2 <span class="title">getY</span><span class="params">()</span> <span class="keyword">const</span></span>;  <span class="comment">//获取y坐标</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setY</span><span class="params">(T2 y)</span></span>;  <span class="comment">//设置y坐标</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    T1 m_x;  <span class="comment">//x坐标</span></span><br><span class="line">    T2 m_y;  <span class="comment">//y坐标</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/C/C++ 入门（四）/" data-toggle="tooltip" data-placement="top" title="C++入门（四）">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/C/C++ 入门（二）/" data-toggle="tooltip" data-placement="top" title="C++入门（二）">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#继承"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x7EE7;&#x627F;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#改变访问权限"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x6539;&#x53D8;&#x8BBF;&#x95EE;&#x6743;&#x9650;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#方法遮蔽"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">&#x65B9;&#x6CD5;&#x906E;&#x853D;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#构造方法和析构方法"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">&#x6784;&#x9020;&#x65B9;&#x6CD5;&#x548C;&#x6790;&#x6784;&#x65B9;&#x6CD5;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#多继承"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">&#x591A;&#x7EE7;&#x627F;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#虚继承和虚基类"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">&#x865A;&#x7EE7;&#x627F;&#x548C;&#x865A;&#x57FA;&#x7C7B;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#向上转型将派生类赋值给基类"><span class="toc-nav-number">7.</span> <span class="toc-nav-text">&#x5411;&#x4E0A;&#x8F6C;&#x578B;&#xFF08;&#x5C06;&#x6D3E;&#x751F;&#x7C7B;&#x8D4B;&#x503C;&#x7ED9;&#x57FA;&#x7C7B;&#xFF09;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#虚函数"><span class="toc-nav-number">8.</span> <span class="toc-nav-text">&#x865A;&#x51FD;&#x6570;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#纯虚函数和抽象类"><span class="toc-nav-number">9.</span> <span class="toc-nav-text">&#x7EAF;&#x865A;&#x51FD;&#x6570;&#x548C;&#x62BD;&#x8C61;&#x7C7B;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#typeid运算符"><span class="toc-nav-number">10.</span> <span class="toc-nav-text">typeid&#x8FD0;&#x7B97;&#x7B26;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#运算符重载"><span class="toc-nav-number">11.</span> <span class="toc-nav-text">&#x8FD0;&#x7B97;&#x7B26;&#x91CD;&#x8F7D;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#在全局范围内重载运算符"><span class="toc-nav-number">11.1.</span> <span class="toc-nav-text">&#x5728;&#x5168;&#x5C40;&#x8303;&#x56F4;&#x5185;&#x91CD;&#x8F7D;&#x8FD0;&#x7B97;&#x7B26;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#运算符重载的规则"><span class="toc-nav-number">12.</span> <span class="toc-nav-text">&#x8FD0;&#x7B97;&#x7B26;&#x91CD;&#x8F7D;&#x7684;&#x89C4;&#x5219;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#函数模板"><span class="toc-nav-number">13.</span> <span class="toc-nav-text">&#x51FD;&#x6570;&#x6A21;&#x677F;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#类模板"><span class="toc-nav-number">14.</span> <span class="toc-nav-text">&#x7C7B;&#x6A21;&#x677F;</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#C++" title="C++">C++</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/earthwo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; alonealice 2021 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://www.huweihuang.com">胡伟煌</a>
+                    <br> 
+                        <a target="_blank" href="http://www.beian.miit.gov.cn" >浙ICP备17033688号-2</a> |
+                        <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33010602011270">浙公网安备 33010602011270号</a>     
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://alonealice.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://alonealice.com/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

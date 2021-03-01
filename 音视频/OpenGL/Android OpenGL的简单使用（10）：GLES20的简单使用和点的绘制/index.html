@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="不懂要会问，打脸要立正">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Android OpenGL的简单使用（10）：GLES20的简单使用和点的绘制 - alonealice | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://alonealice.com/音视频/OpenGL/Android OpenGL的简单使用（10）：GLES20的简单使用和点的绘制/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/article_bg.jpeg')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#音视频" title="音视频">音视频</a>
+                            
+                              <a class="tag" href="/tags/#OpenGL" title="OpenGL">OpenGL</a>
+                            
+                        </div>
+                        <h1>Android OpenGL的简单使用（10）：GLES20的简单使用和点的绘制</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by alonealice on
+                            2021-01-09
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">alonealice</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h3 id="先上示例">先上示例</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (isSupported()) &#123;</span><br><span class="line">    <span class="comment">//使用EGLS20</span></span><br><span class="line">    surfaceView.setEGLContextClientVersion(<span class="number">2</span>);</span><br><span class="line">    surfaceView.setEGLConfigChooser(<span class="number">8</span>, <span class="number">8</span>, <span class="number">8</span>, <span class="number">8</span>, <span class="number">16</span>, <span class="number">0</span>);</span><br><span class="line">    surfaceView.setRenderer(getRenderer());</span><br><span class="line">    surfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">protected</span> GLSurfaceView.<span class="function">Renderer <span class="title">getRenderer</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> PointRenderer();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PointRenderer</span> <span class="keyword">implements</span> <span class="title">GLSurfaceView</span>.<span class="title">Renderer</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String VERTEX_SHADER =</span><br><span class="line">            <span class="string">"attribute vec4 vPosition;\n"</span></span><br><span class="line">                    + <span class="string">"void main() &#123;\n"</span></span><br><span class="line">                    + <span class="string">" gl_Position = vPosition;\n"</span></span><br><span class="line">                    + <span class="string">"&#125;"</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String FRAGMENT_SHADER =</span><br><span class="line">            <span class="string">"precision mediump float;\n"</span></span><br><span class="line">                    + <span class="string">"void main() &#123;\n"</span></span><br><span class="line">                    + <span class="string">" gl_FragColor = vec4(1, 1, 1, 1);\n"</span>  <span class="comment">//设置颜色</span></span><br><span class="line">                    + <span class="string">"&#125;"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//顶点数组</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">float</span>[] VERTEX = &#123;   <span class="comment">// in counterclockwise order:</span></span><br><span class="line">            <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 缓冲区</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> FloatBuffer mBuffer;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">PointRenderer</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        mBuffer = Util.getFloatBuffer(VERTEX);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSurfaceCreated</span><span class="params">(GL10 gl, EGLConfig config)</span> </span>&#123;</span><br><span class="line">        GLES20.glClearColor(<span class="number">0f</span>, <span class="number">0</span>, <span class="number">0f</span>, <span class="number">0f</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> mProgram = GLES20.glCreateProgram();</span><br><span class="line">        <span class="keyword">int</span> vertexShader = loadShader(GLES20.GL_VERTEX_SHADER, VERTEX_SHADER);</span><br><span class="line">        <span class="keyword">int</span> fragmentShader = loadShader(GLES20.GL_FRAGMENT_SHADER, FRAGMENT_SHADER);</span><br><span class="line"></span><br><span class="line">        GLES20.glAttachShader(mProgram, vertexShader);</span><br><span class="line">        GLES20.glAttachShader(mProgram, fragmentShader);</span><br><span class="line">        GLES20.glLinkProgram(mProgram);</span><br><span class="line">        GLES20.glUseProgram(mProgram);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> mPositionHandle = GLES20.glGetAttribLocation(mProgram, <span class="string">"vPosition"</span>);</span><br><span class="line">        GLES20.glEnableVertexAttribArray(mPositionHandle);</span><br><span class="line"></span><br><span class="line">        GLES20.glVertexAttribPointer(mPositionHandle, <span class="number">1</span>, GLES20.GL_FLOAT, <span class="keyword">false</span>,</span><br><span class="line">                <span class="number">4</span>, mBuffer);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">loadShader</span><span class="params">(<span class="keyword">int</span> type, String shaderCode)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> shader = GLES20.glCreateShader(type);</span><br><span class="line">        GLES20.glShaderSource(shader, shaderCode);</span><br><span class="line">        GLES20.glCompileShader(shader);</span><br><span class="line">        <span class="keyword">return</span> shader;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSurfaceChanged</span><span class="params">(GL10 gl, <span class="keyword">int</span> width, <span class="keyword">int</span> height)</span> </span>&#123;</span><br><span class="line">        GLES20.glViewport(<span class="number">0</span>, <span class="number">0</span>, width, height);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDrawFrame</span><span class="params">(GL10 gl)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 清除屏幕</span></span><br><span class="line">        GLES20.glClear(GL10.GL_COLOR_BUFFER_BIT);</span><br><span class="line">				<span class="comment">//绘制顶点</span></span><br><span class="line">        GLES20.glDrawArrays(GLES20.GL_POINTS, <span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="代码解释">代码解释</h3>
+<h4 id="初始化">初始化</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setEGLContextClientVersion(2);  //使用OpenGL ES 2.0</span><br></pre></td></tr></table></figure>
+<h4 id="选择egl配置">选择EGL配置</h4>
+<p>Android设备往往支持多种EGL配置，可以使用不同数目的通道(channel)，也可以指定每个通道具有不同数目的位(bits)深度。因此， 在渲染器工作之前就应该指定EGL的配置。GLSurfaceView默认EGL配置的像素格式为RGB_656，16位的深度缓存(depth buffer)，默认不开启遮罩缓存(stencil buffer)。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">surfaceView.setEGLConfigChooser(<span class="number">8</span>, <span class="number">8</span>, <span class="number">8</span>, <span class="number">8</span>, <span class="number">16</span>, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="设置渲染模式">设置渲染模式</h4>
+<p>RenderMode 有两种，<code>RENDERMODE_WHEN_DIRTY</code> 和 <code>RENDERMODE_CONTINUOUSLY</code>，前者是懒惰渲染，需要手动调用 <code>glSurfaceView.requestRender()</code> 才会进行更新，而后者则是不停渲染。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">surfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);</span><br></pre></td></tr></table></figure>
+<h4 id="glsl-程序">GLSL 程序</h4>
+<p>和普通的 view 利用 canvas 来绘制不一样，OpenGL 需要加载 GLSL 程序，让 GPU 进行绘制。所以我们需要定义 shader 代码，并在初始化时（也就是 <code>onSurfaceCreated</code> 回调中）加载。</p>
+<ul>
+<li>创建 GLSL 程序：<code>glCreateProgram</code></li>
+</ul>
+<p>在连接shader之前，首先要创建一个容纳程序的容器，称为着色器程序容器。</p>
+<ul>
+<li>加载 shader 代码</li>
+</ul>
+<p><code>glCreateShader</code>：创建一个着色器对象，指定要创建的着色器的类型。 只能是 <strong>GL_VERTEX_SHADER</strong> 或 <strong>GL_FRAGMENT_SHADER</strong>。**GL_VERTEX_SHADER **类型的着色器是一个用于在可编程顶点处理器上运行的着色器。 <strong>GL_FRAGMENT_SHADER</strong> 类型的着色器是一个着色器</p>
+<p><code>glShaderSource</code>：替换着色器对象中的源代码，<strong>glShaderSource</strong> 将着色器中的源代码设置为<em>string</em>指定的字符串数组中的源代码。先前存储在着色器对象中的任何源代码都将被完全替换。</p>
+<p><code>glCompileShader</code>：编译一个着色器对象，**glCompileShader <em><em>编译已存储在</em>shader</em>指定的着色器对象中的源代码字符串。</p>
+<ul>
+<li>attatchshader 代码：<code>glAttachShader</code></li>
+</ul>
+<p>将着色器对象附加到program对象。</p>
+<ul>
+<li>链接 GLSL 程序：<code>glLinkProgram</code></li>
+</ul>
+<p>连接一个program对象。**glLinkProgram <em><em>链接</em>program</em>指定的program对象。附加到program的类型为GL_VERTEX_SHADER的着色器对象用于创建将在可编程顶点处理器上运行的可执行文件。 附加到program的类型为GL_FRAGMENT_SHADER的着色器对象用于创建将在可编程片段处理器上运行的可执行文件。</p>
+<ul>
+<li>使用 GLSL 程序：<code>glUseProgram</code></li>
+</ul>
+<p>使用程序对象作为当前渲染状态的一部分。通过使用 glAttachShader 成功将着色器对象附加到程序对象，使用 glCompileShader 成功编译着色器对象，并成功链接程序对象与 glLinkProgram，之后就可以在程序对象中创建每个阶段的可执行文件。</p>
+<ul>
+<li>获取 shader 代码中的变量索引：<code>glGetAttribLocation</code></li>
+</ul>
+<p>返回属性变量的位置。<strong>glGetAttribLocation</strong> 查询由<em>program</em>指定的先前链接的程序对象，用于<em>name</em>指定的属性变量，并返回绑定到该属性变量的通用顶点属性的索引。 如果<em>name</em>是矩阵属性变量，则返回矩阵的第一列的索引。 如果指定的属性变量不是指定程序对象中的活动属性，或者名称以保留前缀“gl_”开头，则返回-1。</p>
+<ul>
+<li>启用 vertex：<code>glEnableVertexAttribArray</code></li>
+</ul>
+<p>启用或禁用通用顶点属性数组。将访问通用顶点属性数组中的值，并在调用顶点数组命令（ 如 glDrawArrays 或 glDrawElements ）时用于呈现。</p>
+<ul>
+<li>绑定 vertex 坐标值：<code>glVertexAttribPointer</code></li>
+</ul>
+<p><strong>glVertexAttribPointer</strong> 指定索引<em>index</em>处的通用顶点属性数组的位置和数据格式，以便在渲染时使用。</p>
+<p><em>ndex</em>：指定要<strong>修改</strong>的通用顶点属性的索引。</p>
+<p><em>size</em>：指定每个通用顶点属性的组件数。 必须为1,2,3或4.初始值为4。</p>
+<p><em>type</em>：指定数组中每个组件的数据类型。 接受符号常量<strong>GL_BYTE</strong>，<strong>GL_UNSIGNED_BYTE</strong>，<strong>GL_SHORT</strong>，<strong>GL_UNSIGNED_SHORT</strong>，<strong>GL_FIXED <strong>或 <strong>GL_FLOAT</strong>。 初始值为</strong>GL_FLOAT</strong>。</p>
+<p><em>normalized</em>：指定在访问定点数据值时是应将其标准化（<strong>GL_TRUE</strong>）还是直接转换为定点值（<strong>GL_FALSE</strong>）。</p>
+<p><em>stride</em>：指定连续通用顶点属性之间的字节偏移量。 如果<em>stride</em>为0，则通用顶点属性被理解为紧密打包在数组中的。 初始值为0。</p>
+<p><em>pointer</em>：指定指向数组中第一个通用顶点属性的第一个组件的指针。 初始值为0。</p>
+<h4 id="绘制">绘制</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//绘制顶点</span></span><br><span class="line">GLES20.glDrawArrays(GLES20.GL_POINTS, <span class="number">0</span>, <span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="投影变换">投影变换</h3>
+<p>OpenGL 坐标系和安卓手机坐标系不是线性对应的，因为手机的宽高比几乎都不是 1。因此我们绘制的形状是变形的。要解决这个问题就可以使用投影变换。</p>
+<p>使用较多的是正投影和透视投影，这里我们使用透视投影：<code>Matrix.perspectiveM</code>。通常坐标系的变换都是对顶点坐标进行矩阵左乘运算，因此我们需要修改我们的 vertex shader ：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String VERTEX_SHADER = </span><br><span class="line">        <span class="string">"attribute vec4 vPosition;\n"</span></span><br><span class="line">        + <span class="string">"uniform mat4 uMVPMatrix;\n"</span></span><br><span class="line">        + <span class="string">"void main() &#123;\n"</span></span><br><span class="line">        + <span class="string">"  gl_Position = uMVPMatrix * vPosition;\n"</span></span><br><span class="line">        + <span class="string">"&#125;"</span>;</span><br></pre></td></tr></table></figure>
+<p>在 <code>onSurfaceCreated</code> 中获取 <code>uMVPMatrix</code> 的索引:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSurfaceCreated</span><span class="params">(GL10 unused, EGLConfig config)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">    mPositionHandle = GLES20.glGetAttribLocation(mProgram, <span class="string">"vPosition"</span>);</span><br><span class="line">    mMatrixHandle = GLES20.glGetUniformLocation(mProgram, <span class="string">"uMVPMatrix"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 <code>onSurfaceChanged</code> 中计算变换矩阵：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">private</span> <span class="keyword">float</span>[] mMVPMatrix = <span class="keyword">new</span> <span class="keyword">float</span>[<span class="number">16</span>];</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSurfaceChanged</span><span class="params">(GL10 unused, <span class="keyword">int</span> width, <span class="keyword">int</span> height)</span> </span>&#123;</span><br><span class="line">    GLES20.glViewport(<span class="number">0</span>, <span class="number">0</span>, width, height);</span><br><span class="line"></span><br><span class="line">    Matrix.perspectiveM(mMVPMatrix, <span class="number">0</span>, <span class="number">45</span>, (<span class="keyword">float</span>) width / height, <span class="number">0.1f</span>, <span class="number">100f</span>);</span><br><span class="line">    Matrix.translateM(mMVPMatrix, <span class="number">0</span>, <span class="number">0f</span>, <span class="number">0f</span>, -<span class="number">2.5f</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后我们在绘制时为 <code>uMVPMatrix</code> 赋值：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDrawFrame</span><span class="params">(GL10 unused)</span> </span>&#123;</span><br><span class="line">    GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);</span><br><span class="line"></span><br><span class="line">    GLES20.glUniformMatrix4fv(mMatrixHandle, <span class="number">1</span>, <span class="keyword">false</span>, mMVPMatrix, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    GLES20.glDrawArrays(GLES20.GL_TRIANGLES, <span class="number">0</span>, <span class="number">3</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用的顶点数据：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//顶点数组</span></span><br><span class="line">       <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">float</span>[] VERTEX = &#123;   <span class="comment">// in counterclockwise order:</span></span><br><span class="line">               <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>,</span><br><span class="line">               <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>,</span><br><span class="line">               <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span></span><br><span class="line">       &#125;;</span><br></pre></td></tr></table></figure>
+<p>未变换前，（1，0，0）在屏幕中间最右边，（1，1，0）在右上角。变换后，（1，1，0）在右边，与</p>
+<p>（1，0，0）的距离跟（1，0，0）到（0，0，0）一样，即坐标系跟手机实际尺寸比例相等。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">perspectiveM</span><span class="params">(<span class="keyword">float</span>[] m, <span class="keyword">int</span> offset,</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">float</span> fovy, <span class="keyword">float</span> aspect, <span class="keyword">float</span> zNear, <span class="keyword">float</span> zFar)</span></span></span><br><span class="line"><span class="function">        </span></span><br><span class="line"><span class="function">Matrix.<span class="title">perspectiveM</span><span class="params">(mMVPMatrix, <span class="number">0</span>, <span class="number">45</span>, (<span class="keyword">float</span>)</span> width / height, 0.1f, 100f)</span>;</span><br></pre></td></tr></table></figure>
+<p><code>m</code> 是保存变换矩阵的数组，<code>offset</code> 是开始保存的下标偏移量。fovy 是 y 轴的 field of view 值，也就是视角大小，视角越大，我们看到的范围就越广，例如 90° 和 45°， 90° 整个图像就会比45°小一点。<code>aspect</code> 是 Screen space 的宽高比。<code>zNear</code> 和 <code>zFar</code> 则是视锥体近平面和远平面的 z 轴坐标了。</p>
+<p>由于历史原因，<code>Matrix.perspectiveM</code> 会让 z 轴方向倒置，所以左乘投影矩阵之后，顶点 z 坐标需要在 <code>-zNear~-zFar</code> 范围内才会可见。</p>
+<p>前面我们顶点的 z 坐标都是 0，我们可以把它修改为 <code>-0.1f~-100f</code> 之间的值，也可以通过一个位移变换来达到此目的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Matrix.translateM(mMVPMatrix, <span class="number">0</span>, <span class="number">0f</span>, <span class="number">0f</span>, -<span class="number">2.5f</span>);</span><br></pre></td></tr></table></figure>
+<p>我们沿着 z 轴的反方向移动 2.5，这样就能把 z 坐标移到 <code>-0.1f~-100f</code> 了。</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/音视频/OpenGL/Android OpenGL的简单使用（11）：GLES20线和图形的绘制/" data-toggle="tooltip" data-placement="top" title="Android OpenGL的简单使用（11）：GLES20线和图形的绘制">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/Flutter/Flutter入门：文件和网络/" data-toggle="tooltip" data-placement="top" title="Flutter入门：文件和网络">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#先上示例"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x5148;&#x4E0A;&#x793A;&#x4F8B;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#代码解释"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x4EE3;&#x7801;&#x89E3;&#x91CA;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#初始化"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">&#x521D;&#x59CB;&#x5316;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#选择egl配置"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">&#x9009;&#x62E9;EGL&#x914D;&#x7F6E;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#设置渲染模式"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text">&#x8BBE;&#x7F6E;&#x6E32;&#x67D3;&#x6A21;&#x5F0F;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#glsl-程序"><span class="toc-nav-number">2.4.</span> <span class="toc-nav-text">GLSL &#x7A0B;&#x5E8F;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#绘制"><span class="toc-nav-number">2.5.</span> <span class="toc-nav-text">&#x7ED8;&#x5236;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#投影变换"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">&#x6295;&#x5F71;&#x53D8;&#x6362;</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#音视频" title="音视频">音视频</a>
+                        
+                          <a class="tag" href="/tags/#OpenGL" title="OpenGL">OpenGL</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/earthwo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; alonealice 2021 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://www.huweihuang.com">胡伟煌</a>
+                    <br> 
+                        <a target="_blank" href="http://www.beian.miit.gov.cn" >浙ICP备17033688号-2</a> |
+                        <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33010602011270">浙公网安备 33010602011270号</a>     
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://alonealice.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://alonealice.com/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

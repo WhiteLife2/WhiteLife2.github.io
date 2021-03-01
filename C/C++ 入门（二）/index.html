@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="不懂要会问，打脸要立正">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          C++入门（二） - alonealice | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://alonealice.com/C/C++ 入门（二）/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/article_bg.jpeg')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#C++" title="C++">C++</a>
+                            
+                        </div>
+                        <h1>C++入门（二）</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by alonealice on
+                            2021-02-22
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">alonealice</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h3 id="类的创建">类的创建</h3>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Student liLei;  <span class="comment">//创建对象</span></span><br></pre></td></tr></table></figure>
+<p>除了创建单个对象，还可以创建对象数组：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Student allStu[<span class="number">100</span>];</span><br></pre></td></tr></table></figure>
+<p>在类体中声明函数，而将函数定义放在类体外面：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">//成员变量</span></span><br><span class="line">    <span class="keyword">char</span> *name;</span><br><span class="line">    <span class="keyword">int</span> age;</span><br><span class="line">    <span class="keyword">float</span> score;</span><br><span class="line">    <span class="comment">//成员函数</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">say</span><span class="params">()</span></span>;  <span class="comment">//函数声明</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//函数定义</span></span><br><span class="line"><span class="keyword">void</span> Student::say()&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;name&lt;&lt;<span class="string">"的年龄是"</span>&lt;&lt;age&lt;&lt;<span class="string">"，成绩是"</span>&lt;&lt;score&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="使用对象指针">使用对象指针</h4>
+<p>上面代码中创建的对象 stu 在栈上分配内存，需要使用<code>&amp;</code>获取它的地址，例如：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Student stu;</span><br><span class="line">Student *pStu = &amp;stu;</span><br></pre></td></tr></table></figure>
+<p>也可以在堆上创建对象，这个时候就需要使用前面讲到的<code>new</code>关键字，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Student *pStu = new Student;</span><br></pre></td></tr></table></figure>
+<p>栈内存是程序自动管理的，不能使用 delete 删除在栈上创建的对象；堆内存由程序员管理，对象使用完毕后可以通过 delete 删除。</p>
+<p>有了对象指针后，可以通过箭头<code>-&gt;</code>来访问对象的成员变量和成员函数，这和通过结构体指针来访问它的成员类似，请看下面的示例：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pStu -&gt; name = <span class="string">"小明"</span>;</span><br><span class="line">pStu -&gt; age = <span class="number">15</span>;</span><br><span class="line">pStu -&gt; score = <span class="number">92.5f</span>;</span><br><span class="line">pStu -&gt; say();</span><br></pre></td></tr></table></figure>
+<h3 id="类对象的内存模型">类对象的内存模型</h3>
+<ul>
+<li>全局数据区(data area) 静态数据和常量</li>
+<li>代码区(code area) 所有类成员函数和非成员函数代码</li>
+<li>栈区(stack area)</li>
+<li>堆区(heap area)(即自由存储区) 对于非静态成员变量，我们是在类的实例化过程中(构造对象)才在栈区或者堆区为其分配内存，是为每个对象生成一个拷贝，所以它是属于对象的。</li>
+</ul>
+<h3 id="构造函数的参数初始化表">构造函数的参数初始化表</h3>
+<p>构造函数的一项重要功能是对成员变量进行初始化，为了达到这个目的，可以在构造函数的函数体中对成员变量一一赋值，还可以采用参数初始化表。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//采用参数初始化表</span></span><br><span class="line">Student::Student(<span class="keyword">char</span> *name, <span class="keyword">int</span> age, <span class="keyword">float</span> score): m_name(name), m_age(age), m_score(score)&#123;</span><br><span class="line">    <span class="comment">//<span class="doctag">TODO:</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>m_name(name), m_age(age), m_score(score)</code>语句，这个语句的意思相当于函数体内部的<code>m_name = name; m_age = age; m_score = score;</code>语句，也是赋值的意思。</p>
+<p>使用参数初始化表并没有效率上的优势，仅仅是书写方便，尤其是成员变量较多时，这种写法非常简明明了。</p>
+<p>参数初始化表可以用于全部成员变量，也可以只用于部分成员变量。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Student::Student(<span class="keyword">char</span> *name, <span class="keyword">int</span> age, <span class="keyword">float</span> score): m_name(name)&#123;</span><br><span class="line">    m_age = age;</span><br><span class="line">    m_score = score;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>参数初始化表还有一个很重要的作用，那就是初始化 const 成员变量。初始化 const 成员变量的唯一方法就是使用参数初始化表</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">VLA</span>&#123;</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">int</span> m_len;</span><br><span class="line">    <span class="keyword">int</span> *m_arr;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    VLA(<span class="keyword">int</span> len);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//必须使用参数初始化表来初始化 m_len</span></span><br><span class="line">VLA::VLA(<span class="keyword">int</span> len): m_len(len)&#123;</span><br><span class="line">    m_arr = <span class="keyword">new</span> <span class="keyword">int</span>[len];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="析构函数">析构函数</h3>
+<p>析构函数（Destructor）也是一种特殊的成员函数，没有返回值，不需要程序员显式调用（程序员也没法显式调用），而是在销毁对象时自动执行。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Demo::Demo(<span class="built_in">string</span> s): m_s(s)&#123; &#125;</span><br><span class="line">Demo::~Demo()&#123; <span class="built_in">cout</span>&lt;&lt;m_s&lt;&lt;<span class="built_in">endl</span>; &#125;</span><br></pre></td></tr></table></figure>
+<p>在函数内部创建的对象是局部对象，它和局部变量类似，位于栈区，函数执行结束时会调用这些对象的析构函数。</p>
+<p>new 创建的对象位于堆区，通过 delete 删除时才会调用析构函数；如果没有 delete，析构函数就不会被执行。</p>
+<h3 id="this指针">this指针</h3>
+<p>this 是 C++ 中的一个关键字，也是一个 const 指针，它指向当前对象，通过它可以访问当前对象的所有成员。</p>
+<p>this 只能用在类的内部，通过 this 可以访问类的所有成员，包括 private、protected、public 属性的。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setname</span><span class="params">(<span class="keyword">char</span> *name)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setage</span><span class="params">(<span class="keyword">int</span> age)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setscore</span><span class="params">(<span class="keyword">float</span> score)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">char</span> *name;</span><br><span class="line">    <span class="keyword">int</span> age;</span><br><span class="line">    <span class="keyword">float</span> score;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">void</span> Student::setname(<span class="keyword">char</span> *name)&#123;</span><br><span class="line">    <span class="keyword">this</span>-&gt;name = name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意，this 是一个指针，要用<code>-&gt;</code>来访问成员变量或成员函数。</strong></p>
+<h3 id="static静态成员变量和函数">static静态成员变量和函数</h3>
+<p>static 成员变量必须在类声明的外部初始化，具体形式为：</p>
+<p>type class::name = value;</p>
+<p>如：int Student::m_total = 0;</p>
+<p>**static 成员变量的内存既不是在声明类时分配，也不是在创建对象时分配，而是在（类外）初始化时分配。反过来说，没有在类外初始化的 static 成员变量不能使用。**即便是在main方法或者其他方法中使用时，都必须要是在类外初始化过的变量。</p>
+<p>static 成员变量既可以通过对象来访问，也可以通过类来访问。请看下面的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//通过类类访问 static 成员变量</span><br><span class="line">Student::m_total = 10;</span><br><span class="line">//通过对象来访问 static 成员变量</span><br><span class="line">Student stu(&quot;小明&quot;, 15, 92.5f);</span><br><span class="line">stu.m_total = 20;</span><br><span class="line">//通过对象指针来访问 static 成员变量</span><br><span class="line">Student *pstu = new Student(&quot;李华&quot;, 16, 96);</span><br><span class="line">pstu -&gt; m_total = 20;</span><br></pre></td></tr></table></figure>
+<p>这三种方式是等效的。</p>
+<p>和静态成员变量类似，静态成员函数在声明时要加 static，在定义时不能加 static。</p>
+<h3 id="友元函数和友元类">友元函数和友元类</h3>
+<h4 id="将非成员函数声明为友元函数">将非成员函数声明为友元函数</h4>
+<p>借助友元（friend），可以使得其他类中的成员函数以及全局范围内的函数访问当前类的 private 成员。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Student(<span class="keyword">char</span> *name, <span class="keyword">int</span> age, <span class="keyword">float</span> score);</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">friend</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">(Student *pstu)</span></span>;  <span class="comment">//将show()声明为友元函数</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">char</span> *m_name;</span><br><span class="line">    <span class="keyword">int</span> m_age;</span><br><span class="line">    <span class="keyword">float</span> m_score;</span><br><span class="line">&#125;;</span><br><span class="line">Student::Student(<span class="keyword">char</span> *name, <span class="keyword">int</span> age, <span class="keyword">float</span> score): m_name(name), m_age(age), m_score(score)&#123; &#125;</span><br><span class="line"><span class="comment">//非成员函数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">(Student *pstu)</span></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;pstu-&gt;m_name&lt;&lt;<span class="string">"的年龄是 "</span>&lt;&lt;pstu-&gt;m_age&lt;&lt;<span class="string">"，成绩是 "</span>&lt;&lt;pstu-&gt;m_score&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="function">Student <span class="title">stu</span><span class="params">(<span class="string">"小明"</span>, <span class="number">15</span>, <span class="number">90.6</span>)</span></span>;</span><br><span class="line">    show(&amp;stu);  <span class="comment">//调用友元函数</span></span><br><span class="line">    Student *pstu = <span class="keyword">new</span> Student(<span class="string">"李磊"</span>, <span class="number">16</span>, <span class="number">80.5</span>);</span><br><span class="line">    show(pstu);  <span class="comment">//调用友元函数</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="将其他类的成员函数声明为友元函数">将其他类的成员函数声明为友元函数</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Address</span>;</span>  <span class="comment">//提前声明Address类</span></span><br><span class="line"><span class="comment">//声明Student类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Student(<span class="keyword">char</span> *name, <span class="keyword">int</span> age, <span class="keyword">float</span> score);</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">(Address *addr)</span></span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">char</span> *m_name;</span><br><span class="line">    <span class="keyword">int</span> m_age;</span><br><span class="line">    <span class="keyword">float</span> m_score;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//声明Address类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Address</span>&#123;</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">char</span> *m_province;  <span class="comment">//省份</span></span><br><span class="line">    <span class="keyword">char</span> *m_city;  <span class="comment">//城市</span></span><br><span class="line">    <span class="keyword">char</span> *m_district;  <span class="comment">//区（市区）</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Address(<span class="keyword">char</span> *province, <span class="keyword">char</span> *city, <span class="keyword">char</span> *district);</span><br><span class="line">    <span class="comment">//将Student类中的成员函数show()声明为友元函数</span></span><br><span class="line">    <span class="keyword">friend</span> <span class="keyword">void</span> Student::show(Address *addr);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//实现Student类</span></span><br><span class="line">Student::Student(<span class="keyword">char</span> *name, <span class="keyword">int</span> age, <span class="keyword">float</span> score): m_name(name), m_age(age), m_score(score)&#123; &#125;</span><br><span class="line"><span class="keyword">void</span> Student::show(Address *addr)&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;m_name&lt;&lt;<span class="string">"的年龄是 "</span>&lt;&lt;m_age&lt;&lt;<span class="string">"，成绩是 "</span>&lt;&lt;m_score&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"家庭住址："</span>&lt;&lt;addr-&gt;m_province&lt;&lt;<span class="string">"省"</span>&lt;&lt;addr-&gt;m_city&lt;&lt;<span class="string">"市"</span>&lt;&lt;addr-&gt;m_district&lt;&lt;<span class="string">"区"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//实现Address类</span></span><br><span class="line">Address::Address(<span class="keyword">char</span> *province, <span class="keyword">char</span> *city, <span class="keyword">char</span> *district)&#123;</span><br><span class="line">    m_province = province;</span><br><span class="line">    m_city = city;</span><br><span class="line">    m_district = district;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以将其他类的成员函数申明为友元函数，那么这个函数可以使用自己类的成员变量。</p>
+<h4 id="友元类">友元类</h4>
+<p>不仅可以将一个函数声明为一个类的“朋友”，还可以将整个类声明为另一个类的“朋友”，这就是友元类。友元类中的所有成员函数都是另外一个类的友元函数。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//声明Student类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Student(<span class="keyword">char</span> *name, <span class="keyword">int</span> age, <span class="keyword">float</span> score);</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">(Address *addr)</span></span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">char</span> *m_name;</span><br><span class="line">    <span class="keyword">int</span> m_age;</span><br><span class="line">    <span class="keyword">float</span> m_score;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//声明Address类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Address</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Address(<span class="keyword">char</span> *province, <span class="keyword">char</span> *city, <span class="keyword">char</span> *district);</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">//将Student类声明为Address类的友元类</span></span><br><span class="line">    <span class="keyword">friend</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span>;</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">char</span> *m_province;  <span class="comment">//省份</span></span><br><span class="line">    <span class="keyword">char</span> *m_city;  <span class="comment">//城市</span></span><br><span class="line">    <span class="keyword">char</span> *m_district;  <span class="comment">//区（市区）</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//实现Student类</span></span><br><span class="line">Student::Student(<span class="keyword">char</span> *name, <span class="keyword">int</span> age, <span class="keyword">float</span> score): m_name(name), m_age(age), m_score(score)&#123; &#125;</span><br><span class="line"><span class="keyword">void</span> Student::show(Address *addr)&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;m_name&lt;&lt;<span class="string">"的年龄是 "</span>&lt;&lt;m_age&lt;&lt;<span class="string">"，成绩是 "</span>&lt;&lt;m_score&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"家庭住址："</span>&lt;&lt;addr-&gt;m_province&lt;&lt;<span class="string">"省"</span>&lt;&lt;addr-&gt;m_city&lt;&lt;<span class="string">"市"</span>&lt;&lt;addr-&gt;m_district&lt;&lt;<span class="string">"区"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//实现Address类</span></span><br><span class="line">Address::Address(<span class="keyword">char</span> *province, <span class="keyword">char</span> *city, <span class="keyword">char</span> *district)&#123;</span><br><span class="line">    m_province = province;</span><br><span class="line">    m_city = city;</span><br><span class="line">    m_district = district;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="function">Student <span class="title">stu</span><span class="params">(<span class="string">"小明"</span>, <span class="number">16</span>, <span class="number">95.5f</span>)</span></span>;</span><br><span class="line">    <span class="function">Address <span class="title">addr</span><span class="params">(<span class="string">"陕西"</span>, <span class="string">"西安"</span>, <span class="string">"雁塔"</span>)</span></span>;</span><br><span class="line">    stu.show(&amp;addr);</span><br><span class="line">   </span><br><span class="line">    Student *pstu = <span class="keyword">new</span> Student(<span class="string">"李磊"</span>, <span class="number">16</span>, <span class="number">80.5</span>);</span><br><span class="line">    Address *paddr = <span class="keyword">new</span> Address(<span class="string">"河北"</span>, <span class="string">"衡水"</span>, <span class="string">"桃城"</span>);</span><br><span class="line">    pstu -&gt; show(paddr);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="class和struct的区别">class和struct的区别</h3>
+<p>C++中的 struct 和 class 基本是通用的，唯有几个细节不同：</p>
+<ul>
+<li>使用 class 时，类中的成员默认都是 private 属性的；而使用 struct 时，结构体中的成员默认都是 public 属性的。</li>
+<li>class 继承默认是 private 继承，而 struct 继承默认是 public 继承（《<a href="http://c.biancheng.net/cpp/biancheng/cpp/rumen_11/" target="_blank" rel="noopener">C++继承与派生</a>》一章会讲解继承）。</li>
+<li>class 可以使用模板，而 struct 不能</li>
+</ul>
+<p><strong>强烈建议使用 class 来定义类，而使用 struct 来定义结构体，这样做语义更加明确</strong></p>
+<h3 id="string类">string类</h3>
+<p>string 是 C++ 中常用的一个类，使用 string 类需要包含头文件<code>&lt;string&gt;</code>。</p>
+<p>初始化方式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">string s1;  //默认为&quot;&quot;</span><br><span class="line">string s2 = &quot;c plus plus&quot;;</span><br><span class="line">string s3 = s2;</span><br><span class="line">string s4 (5, &apos;s&apos;); //&quot;sssss&quot;</span><br></pre></td></tr></table></figure>
+<p>访问字符串中的某个字符，可以使用s[i]这种方式</p>
+<p>转换函数 c_str()，该函数能够将 string 字符串转换为C风格的字符串（const char*），c语言的字符串的真实长度，是长度 +1，而c++下不是。</p>
+<p>有了 string 类，我们可以使用<code>+</code>或<code>+=</code>运算符来直接拼接字符串</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> s1 = <span class="string">"first "</span>;</span><br><span class="line"><span class="built_in">string</span> s2 = <span class="string">"second "</span>;</span><br><span class="line"><span class="keyword">char</span> *s3 = <span class="string">"third "</span>;</span><br><span class="line"><span class="keyword">char</span> s4[] = <span class="string">"fourth "</span>;</span><br><span class="line"><span class="keyword">char</span> ch = <span class="string">'@'</span>;</span><br><span class="line"><span class="built_in">string</span> s5 = s1 + s2;</span><br><span class="line"><span class="built_in">string</span> s6 = s1 + s3;</span><br><span class="line"><span class="built_in">string</span> s7 = s1 + s4;</span><br><span class="line"><span class="built_in">string</span> s8 = s1 + ch;</span><br></pre></td></tr></table></figure>
+<h4 id="其他方法">其他方法</h4>
+<p>插入字符串：string&amp; insert (size_t pos, const string&amp; str);</p>
+<p>删除字符串：string&amp; erase (size_t pos = 0, size_t len = npos);</p>
+<p>提取子字符串：string substr (size_t pos = 0, size_t len = npos) const;</p>
+<p>字符串查找：</p>
+<p>size_t find (const string&amp; str, size_t pos = 0) const;<br>
+size_t find (const char* s, size_t pos = 0) const;</p>
+<p>第一个参数为待查找的子字符串，它可以是 string 字符串，也可以是C风格的字符串。第二个参数为开始查找的位置（下标）；如果不指明，则从第0个字符开始查找。</p>
+<p>rfind() 函数：</p>
+<p>rfind() 和 find() 很类似，同样是在字符串中查找子字符串，不同的是 find() 函数从第二个参数开始往后查找，而 rfind() 函数则最多查找到第二个参数处，如果到了第二个参数所指定的下标还没有找到子字符串，则返回一个无穷大值4294967295。</p>
+<p>find_first_of() 函数：find_first_of() 函数用于查找子字符串和字符串共同具有的字符在字符串中首次出现的位置</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> s1 = <span class="string">"first second second third"</span>;</span><br><span class="line"><span class="built_in">string</span> s2 = <span class="string">"asecond"</span>;</span><br><span class="line"><span class="keyword">int</span> index = s1.find_first_of(s2);  <span class="comment">// index = 3,共同字符为s</span></span><br></pre></td></tr></table></figure>
+<h3 id="引用的概念与使用">引用的概念与使用</h3>
+<p>引用的定义方式类似于指针，只是用<code>&amp;</code>取代了<code>*</code>，语法格式为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">type &amp;name = data;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">int main()&#123;</span><br><span class="line">    int a = 99;</span><br><span class="line">    int &amp;b = a;</span><br><span class="line">    cout&lt;&lt;a&lt;&lt;&quot;, &quot;&lt;&lt;b&lt;&lt;endl;  //输出99, 99</span><br><span class="line">    cout&lt;&lt;&amp;a&lt;&lt;&quot;, &quot;&lt;&lt;&amp;b&lt;&lt;endl; //输出 0x28ff44, 0x28ff44</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意，引用在定义时需要添加<code>&amp;</code>，在使用时不能添加<code>&amp;</code>，使用时添加<code>&amp;</code>表示取地址。</strong></p>
+<p>引用作为参数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">//直接传递参数内容</span><br><span class="line">void swap1(int a, int b)&#123;</span><br><span class="line">    int temp = a;</span><br><span class="line">    a = b;</span><br><span class="line">    b = temp;</span><br><span class="line">&#125;</span><br><span class="line">//传递指针</span><br><span class="line">void swap2(int *p1, int *p2)&#123;</span><br><span class="line">    int temp = *p1;</span><br><span class="line">    *p1 = *p2;</span><br><span class="line">    *p2 = temp;</span><br><span class="line">&#125;</span><br><span class="line">//按引用传参</span><br><span class="line">void swap3(int &amp;a, int &amp;b)&#123;</span><br><span class="line">    int temp = a;</span><br><span class="line">    a = b;</span><br><span class="line">    b = temp;</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">    int num1 = 10, num2 = 20; </span><br><span class="line">    swap1(num1, num2);</span><br><span class="line">    swap2(&amp;num1, &amp;num2);</span><br><span class="line">    swap3(num1, num2);</span><br><span class="line">    //结果一样</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>引用作为函数返回值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">int &amp;plus10(int &amp;n)&#123;</span><br><span class="line">    n = n + 10;</span><br><span class="line">    return n;</span><br><span class="line">&#125;</span><br><span class="line">int main()&#123;</span><br><span class="line">    int num1 = 10;</span><br><span class="line">    int num2 = plus10(num1); // num2 = 20</span><br><span class="line">    int &amp;num3 = plus10(num1); //不同编译器下结果不同</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/C/C++ 入门（三）/" data-toggle="tooltip" data-placement="top" title="C++入门（三）">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/C/C++ 入门（一）/" data-toggle="tooltip" data-placement="top" title="C++入门（一）">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#类的创建"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x7C7B;&#x7684;&#x521B;&#x5EFA;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#使用对象指针"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">&#x4F7F;&#x7528;&#x5BF9;&#x8C61;&#x6307;&#x9488;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#类对象的内存模型"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x7C7B;&#x5BF9;&#x8C61;&#x7684;&#x5185;&#x5B58;&#x6A21;&#x578B;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#构造函数的参数初始化表"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">&#x6784;&#x9020;&#x51FD;&#x6570;&#x7684;&#x53C2;&#x6570;&#x521D;&#x59CB;&#x5316;&#x8868;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#析构函数"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">&#x6790;&#x6784;&#x51FD;&#x6570;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#this指针"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">this&#x6307;&#x9488;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#static静态成员变量和函数"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">static&#x9759;&#x6001;&#x6210;&#x5458;&#x53D8;&#x91CF;&#x548C;&#x51FD;&#x6570;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#友元函数和友元类"><span class="toc-nav-number">7.</span> <span class="toc-nav-text">&#x53CB;&#x5143;&#x51FD;&#x6570;&#x548C;&#x53CB;&#x5143;&#x7C7B;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#将非成员函数声明为友元函数"><span class="toc-nav-number">7.1.</span> <span class="toc-nav-text">&#x5C06;&#x975E;&#x6210;&#x5458;&#x51FD;&#x6570;&#x58F0;&#x660E;&#x4E3A;&#x53CB;&#x5143;&#x51FD;&#x6570;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#将其他类的成员函数声明为友元函数"><span class="toc-nav-number">7.2.</span> <span class="toc-nav-text">&#x5C06;&#x5176;&#x4ED6;&#x7C7B;&#x7684;&#x6210;&#x5458;&#x51FD;&#x6570;&#x58F0;&#x660E;&#x4E3A;&#x53CB;&#x5143;&#x51FD;&#x6570;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#友元类"><span class="toc-nav-number">7.3.</span> <span class="toc-nav-text">&#x53CB;&#x5143;&#x7C7B;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#class和struct的区别"><span class="toc-nav-number">8.</span> <span class="toc-nav-text">class&#x548C;struct&#x7684;&#x533A;&#x522B;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#string类"><span class="toc-nav-number">9.</span> <span class="toc-nav-text">string&#x7C7B;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#其他方法"><span class="toc-nav-number">9.1.</span> <span class="toc-nav-text">&#x5176;&#x4ED6;&#x65B9;&#x6CD5;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#引用的概念与使用"><span class="toc-nav-number">10.</span> <span class="toc-nav-text">&#x5F15;&#x7528;&#x7684;&#x6982;&#x5FF5;&#x4E0E;&#x4F7F;&#x7528;</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#C++" title="C++">C++</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/earthwo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; alonealice 2021 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://www.huweihuang.com">胡伟煌</a>
+                    <br> 
+                        <a target="_blank" href="http://www.beian.miit.gov.cn" >浙ICP备17033688号-2</a> |
+                        <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33010602011270">浙公网安备 33010602011270号</a>     
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://alonealice.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://alonealice.com/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

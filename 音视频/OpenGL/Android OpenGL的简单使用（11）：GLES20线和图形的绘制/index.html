@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="不懂要会问，打脸要立正">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Android OpenGL的简单使用（11）：GLES20线和图形的绘制 - alonealice | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://alonealice.com/音视频/OpenGL/Android OpenGL的简单使用（11）：GLES20线和图形的绘制/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/article_bg.jpeg')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#音视频" title="音视频">音视频</a>
+                            
+                              <a class="tag" href="/tags/#OpenGL" title="OpenGL">OpenGL</a>
+                            
+                        </div>
+                        <h1>Android OpenGL的简单使用（11）：GLES20线和图形的绘制</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by alonealice on
+                            2021-01-11
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">alonealice</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h4 id="绘制线">绘制线</h4>
+<p>线段的绘制很简单，在之前点绘制的基础上，首先需要多增加几个顶点的数据：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//顶点数组</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">float</span>[] VERTEX = &#123;   <span class="comment">// in counterclockwise order:</span></span><br><span class="line">        <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>,</span><br><span class="line">        <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>,</span><br><span class="line">        <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>修改glVertexAttribPointer方法对应数据的数量：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">GLES20.glVertexAttribPointer(mPositionHandle, <span class="number">3</span>, GLES20.GL_FLOAT, <span class="keyword">false</span>,</span><br><span class="line">        <span class="number">12</span>, mBuffer);</span><br></pre></td></tr></table></figure>
+<p>最后在绘制时指定绘制方式为线段：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDrawFrame</span><span class="params">(GL10 gl)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 清除屏幕</span></span><br><span class="line">    GLES20.glClear(GL10.GL_COLOR_BUFFER_BIT);</span><br><span class="line"></span><br><span class="line">    GLES20.glUniformMatrix4fv(mMatrixHandle, <span class="number">1</span>, <span class="keyword">false</span>, mMVPMatrix, <span class="number">0</span>);</span><br><span class="line">    GLES20.glDrawArrays(GLES20.GL_LINE_STRIP, <span class="number">0</span>, <span class="number">3</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>GL_LINES</strong>：独立的线段，1和2连，3和4连等；</p>
+<p><strong>GL_LINE_STRIP</strong>：连续的线段，1和2连，2和3连等；</p>
+<p><strong>GL_LINE_LOOP</strong>：收尾相连，1和2连，2和3连，3和1连；</p>
+<h3 id="绘制矩形">绘制矩形</h3>
+<p>利用三角形我们可以“拼出”矩形。</p>
+<p>创建顶点索引数据：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">short</span>[] VERTEX_INDEX = &#123; <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">3</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> ShortBuffer mVertexIndexBuffer;</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">mVertexIndexBuffer = ByteBuffer.allocateDirect(VERTEX_INDEX.length * <span class="number">2</span>)</span><br><span class="line">                    .order(ByteOrder.nativeOrder())</span><br><span class="line">                    .asShortBuffer()</span><br><span class="line">                    .put(VERTEX_INDEX);</span><br><span class="line">            mVertexIndexBuffer.position(<span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+<p>在onDrawFrame中绘制：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GLES20.glDrawElements(GLES20.GL_TRIANGLES, VERTEX_INDEX.length, GLES20.GL_UNSIGNED_SHORT, mVertexIndexBuffer);</span><br></pre></td></tr></table></figure>
+<p><strong>glDrawElements</strong>：它使用来自启用数组的计数顺序元素，从索引开始构造几何图元序列。mode指定构造什么类型的图元以及数组元素如何构造这些图元。</p>
+<p><em>mode</em>：指定要渲染的图元类型。 接受符号常量<strong>GL_POINTS</strong>，<strong>GL_LINE_STRIP</strong>，<strong>GL_LINE_LOOP</strong>，<strong>GL_LINES</strong>，<strong>GL_TRIANGLE_STRIP</strong>，<strong>GL_TRIANGLE_FAN</strong>和<strong>GL_TRIANGLES</strong>。</p>
+<p><em>count</em>：指定要渲染的元素数。</p>
+<p><em>type</em>：指定<em>indices</em>中值的类型。 必须是<strong>GL_UNSIGNED_BYTE</strong>或<strong>GL_UNSIGNED_SHORT</strong>。</p>
+<p><em>indices</em>：指定指向存储索引的位置的指针。</p>
+<h3 id="绘制纹理">绘制纹理</h3>
+<h4 id="图片的纹理">图片的纹理</h4>
+<p>在原先绘制矩形的基础上，先添加图片的纹理</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">int</span>[] texNames = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">1</span>];</span><br><span class="line"> GLES20.glGenTextures(<span class="number">1</span>, texNames, <span class="number">0</span>);</span><br><span class="line"><span class="keyword">int</span> mTexName = texNames[<span class="number">0</span>];</span><br><span class="line"> Bitmap bitmap = BitmapFactory.decodeResource(OpenGlTextureActivity.<span class="keyword">this</span>.getResources(),</span><br><span class="line">         R.drawable.bg2);</span><br><span class="line"> GLES20.glActiveTexture(GLES20.GL_TEXTURE0);</span><br><span class="line"> GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTexName);</span><br><span class="line"> GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER,</span><br><span class="line">         GLES20.GL_LINEAR);</span><br><span class="line"> GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER,</span><br><span class="line">         GLES20.GL_LINEAR);</span><br><span class="line"> GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S,</span><br><span class="line">         GLES20.GL_REPEAT);</span><br><span class="line"> GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T,</span><br><span class="line">         GLES20.GL_REPEAT);</span><br><span class="line"> GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, <span class="number">0</span>, bitmap, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>glGenTextures</strong>：创建纹理，产生<em>ｎ</em>个纹理ID存储在<em>textures</em>数组中。</p>
+<p><strong>glActiveTexture</strong>：激活纹理单元。<em>texture</em>必须是GL_TEXTUREi之一，其中i的范围从0到（GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS - 1）。初始值是GL_TEXTURE0</p>
+<p><strong>glBindTexture</strong>：将一个指定的纹理ID绑定到一个纹理目标上。</p>
+<p><strong>glTexParameteri</strong>：确定如何把纹理象素映射成像素。</p>
+<p><strong>glTexParameteri（<strong>GLenum <em>target</em>,GLenum <em>pname</em>,GLint <em>param</em></strong>）</strong></p>
+<p><em>target</em>：指定之前激活了的纹理要绑定到的一个目标。必须是<code>GL_TEXTURE_2D</code> 或GL_TEXTURE_CUBE_MAP。</p>
+<p><em>pname</em>：指定一个单值纹理参数的符号名，pname可以是下列值之一：GL_TEXTURE_MIN_FILTER（放大过滤） GL_TEXTURE_MAG_FILTER（缩小过滤）GL_TEXTURE_WRAP_S （S方向）GL_TEXTURE_WRAP_T（T方向）。</p>
+<p><em>param</em>：指定<em>pname</em>的值。</p>
+<p><em>params</em>提供的缩小采样功能，可选参数如下：</p>
+<p>GL_NEAREST</p>
+<p>临近采样，返回与纹理像素的中心最接近（在曼哈顿距离内）的纹理元素的值。</p>
+<p>GL_LINEAR</p>
+<p>线性采样，返回最接近被纹理像素中心的四个纹理元素的加权平均值。</p>
+<p>GL_NEAREST_MIPMAP_NEAREST</p>
+<p>选择最接近匹配纹理像素大小的mipmap，并使用GL_NEAREST标准（最接近像素中心的纹理元素）来生成纹理值。</p>
+<p>GL_LINEAR_MIPMAP_NEAREST</p>
+<p>选择最接近匹配纹理像素大小的mipmap，并使用GL_LINEAR标准（最接近像素中心的四个纹理元素的加权平均值）来生成纹理值。</p>
+<p>GL_NEAREST_MIPMAP_LINEAR</p>
+<p>选择与纹理像素大小最匹配的两个mipmap，并使用GL_NEAREST标准（最接近像素中心的纹理元素）从每个mipmap生成纹理值。 最终纹理值是这两个值的加权平均值。</p>
+<p>GL_LINEAR_MIPMAP_LINEAR</p>
+<p>选择与纹理像素大小最匹配的两个mipmap，并使用GL_LINEAR标准（最接近像素中心的四个纹理元素的加权平均值）从每个mipmap生成纹理值。 最终纹理值是这两个值的加权平均值。</p>
+<h4 id="shader-代码">shader 代码</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String VERTEX_SHADER =</span><br><span class="line">        <span class="string">"uniform mat4 uMVPMatrix;"</span> +</span><br><span class="line">        <span class="string">"attribute vec4 vPosition;"</span> +</span><br><span class="line">        <span class="string">"attribute vec2 a_texCoord;"</span> +</span><br><span class="line">        <span class="string">"varying vec2 v_texCoord;"</span> +</span><br><span class="line">        <span class="string">"void main() &#123;"</span> +</span><br><span class="line">        <span class="string">"  gl_Position = uMVPMatrix * vPosition;"</span> +</span><br><span class="line">        <span class="string">"  v_texCoord = a_texCoord;"</span> +</span><br><span class="line">        <span class="string">"&#125;"</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String FRAGMENT_SHADER =</span><br><span class="line">        <span class="string">"precision mediump float;"</span> +</span><br><span class="line">        <span class="string">"varying vec2 v_texCoord;"</span> +</span><br><span class="line">        <span class="string">"uniform sampler2D s_texture;"</span> +</span><br><span class="line">        <span class="string">"void main() &#123;"</span> +</span><br><span class="line">        <span class="string">"  gl_FragColor = texture2D(s_texture, v_texCoord);"</span> +</span><br><span class="line">        <span class="string">"&#125;"</span>;</span><br></pre></td></tr></table></figure>
+<p><code>uniform</code> <em>由外部程序传递给 shader，就像是C语言里面的常量，shader 只能用，不能改；</em><code>attribute</code> <em>是只能在 vertex shader 中使用的变量；</em><code>varying</code> <em>变量是 vertex 和 fragment shader 之间做数据传递用的。</em></p>
+<h4 id="绘制">绘制</h4>
+<p>首先我们需要指定截取纹理的哪一部分绘制到图形上：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">float</span>[] TEX_VERTEX = &#123;   <span class="comment">// in clockwise order:</span></span><br><span class="line">        <span class="number">1</span>, <span class="number">0</span>,  <span class="comment">// bottom right</span></span><br><span class="line">        <span class="number">0</span>, <span class="number">0</span>,  <span class="comment">// bottom left</span></span><br><span class="line">        <span class="number">0</span>, <span class="number">1</span>,  <span class="comment">// top left</span></span><br><span class="line">        <span class="number">1</span>, <span class="number">1</span>,  <span class="comment">// top right</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">mTexVertexBuffer = Util.getFloatBuffer(TEX_VERTEX);</span><br></pre></td></tr></table></figure>
+<p>修改初始化和绘制的代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSurfaceCreated</span><span class="params">(GL10 unused, EGLConfig config)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">    mPositionHandle = GLES20.glGetAttribLocation(mProgram, <span class="string">"vPosition"</span>);</span><br><span class="line">    mTexCoordHandle = GLES20.glGetAttribLocation(mProgram, <span class="string">"a_texCoord"</span>);</span><br><span class="line">    mMatrixHandle = GLES20.glGetUniformLocation(mProgram, <span class="string">"uMVPMatrix"</span>);</span><br><span class="line">    mTexSamplerHandle = GLES20.glGetUniformLocation(mProgram, <span class="string">"s_texture"</span>);</span><br><span class="line"></span><br><span class="line">    GLES20.glEnableVertexAttribArray(mPositionHandle);</span><br><span class="line">    GLES20.glVertexAttribPointer(mPositionHandle, <span class="number">3</span>, GLES20.GL_FLOAT, <span class="keyword">false</span>,</span><br><span class="line">            <span class="number">12</span>, mVertexBuffer);</span><br><span class="line"></span><br><span class="line">    GLES20.glEnableVertexAttribArray(mTexCoordHandle);</span><br><span class="line">    GLES20.glVertexAttribPointer(mTexCoordHandle, <span class="number">2</span>, GLES20.GL_FLOAT, <span class="keyword">false</span>, <span class="number">0</span>,</span><br><span class="line">            mTexVertexBuffer);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDrawFrame</span><span class="params">(GL10 unused)</span> </span>&#123;</span><br><span class="line">    GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);</span><br><span class="line"></span><br><span class="line">    GLES20.glUniformMatrix4fv(mMatrixHandle, <span class="number">1</span>, <span class="keyword">false</span>, mMVPMatrix, <span class="number">0</span>);</span><br><span class="line">    GLES20.glUniform1i(mTexSamplerHandle, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 用 glDrawElements 来绘制，mVertexIndexBuffer 指定了顶点绘制顺序</span></span><br><span class="line">    GLES20.glDrawElements(GLES20.GL_TRIANGLES, VERTEX_INDEX.length,</span><br><span class="line">            GLES20.GL_UNSIGNED_SHORT, mVertexIndexBuffer);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 activity 销毁时，我们需要销毁 OpenGL 纹理：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GLES20.glDeleteTextures(<span class="number">1</span>, <span class="keyword">new</span> <span class="keyword">int</span>[] &#123; mTexName &#125;, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="读取显存">读取显存</h3>
+<p>在 <code>onDrawFrame</code> 方法执行完毕之后（实际上是 <code>glDrawElements</code> 执行完毕之后），我们就可以从显存中读取帧数据了。这里我们利用 <code>glReadPixels</code> 方法读取数据：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">captureBitmap = getImage(surfaceView.getWidth(), surfaceView.getHeight());</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> Bitmap <span class="title">getImage</span><span class="params">(<span class="keyword">int</span> width, <span class="keyword">int</span> height)</span> </span>&#123;</span><br><span class="line">	ByteBuffer rgbaBuf = ByteBuffer.allocateDirect(width * height * <span class="number">4</span>);</span><br><span class="line">	rgbaBuf.position(<span class="number">0</span>);</span><br><span class="line">	GLES20.glReadPixels(<span class="number">0</span>, <span class="number">0</span>, width, height, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE,rgbaBuf);</span><br><span class="line">	Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);</span><br><span class="line">	bmp.copyPixelsFromBuffer(rgbaBuf);</span><br><span class="line">	<span class="keyword">return</span> bmp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意：glReadPixels方法必须在onDrawFrame中，在glDrawElements之后，在onDrawFrame以外调用可能会拿到空的bitmap。</strong></p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/音视频/OpenGL/Android OpenGL的简单使用（12）：GLES20纹理的裁剪旋转和缩放/" data-toggle="tooltip" data-placement="top" title="Android OpenGL的简单使用（12）：GLES20纹理的裁剪旋转和缩放">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/音视频/OpenGL/Android OpenGL的简单使用（10）：GLES20的简单使用和点的绘制/" data-toggle="tooltip" data-placement="top" title="Android OpenGL的简单使用（10）：GLES20的简单使用和点的绘制">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#绘制线"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x7ED8;&#x5236;&#x7EBF;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#绘制矩形"><span class="toc-nav-number"></span> <span class="toc-nav-text">&#x7ED8;&#x5236;&#x77E9;&#x5F62;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#绘制纹理"><span class="toc-nav-number"></span> <span class="toc-nav-text">&#x7ED8;&#x5236;&#x7EB9;&#x7406;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#图片的纹理"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x56FE;&#x7247;&#x7684;&#x7EB9;&#x7406;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#shader-代码"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">shader &#x4EE3;&#x7801;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#绘制"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">&#x7ED8;&#x5236;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#读取显存"><span class="toc-nav-number"></span> <span class="toc-nav-text">&#x8BFB;&#x53D6;&#x663E;&#x5B58;</span></a>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#音视频" title="音视频">音视频</a>
+                        
+                          <a class="tag" href="/tags/#OpenGL" title="OpenGL">OpenGL</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/earthwo">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; alonealice 2021 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://www.huweihuang.com">胡伟煌</a>
+                    <br> 
+                        <a target="_blank" href="http://www.beian.miit.gov.cn" >浙ICP备17033688号-2</a> |
+                        <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33010602011270">浙公网安备 33010602011270号</a>     
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://alonealice.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://alonealice.com/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
